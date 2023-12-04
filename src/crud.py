@@ -32,7 +32,7 @@ def create_user(login,password):
         session.rollback()
         raise
     finally:
-        session.close()
+        session.close() #закрыли сессию
 
 if __name__=='__main__':
     create_user('TestCrud','123pass')
