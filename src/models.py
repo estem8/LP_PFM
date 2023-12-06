@@ -1,11 +1,8 @@
-"""
-manual
-https://docs.sqlalchemy.org/en/13/orm/extensions/declarative/basic_use.html
-
-"""
 from sqlalchemy import Column, Integer, String
-from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import declarative_base
+
 from db import engine
+
 
 Base = declarative_base()
 
@@ -20,5 +17,13 @@ class User(Base):
     def __repr__(self):
         return f"User {self.id}, {self.name}"
 
-if __name__ == "__main__":
+
+def init_db():
+    """
+    Создаем таблицы из метаданных Base - declarative_base
+    Вызывается только один раз при пустой базе
+    """
     Base.metadata.create_all(engine)
+    
+if __name__ == "__main__":
+    init_db()
