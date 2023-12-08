@@ -1,5 +1,5 @@
 from sqlalchemy.orm import Session
-from db import engine, Session
+from db import Session
 from models import User
 
 
@@ -9,9 +9,15 @@ def create_user(login,password):
         session.add(user)
         session.commit()
 
-        get_user = session.query(User).all()
-        print(get_user)
+def user_list():
+    with Session() as session:
+        user_list = session.query(User).all() #Возврат __repr__
+        return user_list
 
+def last_news():
+    with Session() as session:
+        data = session.query(User).order_by(User.id.desc()).limit(10).all()
+        return data
 
 
 """
@@ -30,3 +36,6 @@ def create_user(login,password):
         session.close() #закрыли сессию
 
 """
+
+if __name__=='__main__':
+    user_list()
