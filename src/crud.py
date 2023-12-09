@@ -1,6 +1,6 @@
 from sqlalchemy.orm import Session
 from db import Session
-from models import User
+from models import User, News
 
 
 def create_user(login,password):
@@ -16,9 +16,14 @@ def user_list():
 
 def last_news():
     with Session() as session:
-        data = session.query(User).order_by(User.id.desc()).limit(10).all()
+        data = session.query(News).order_by(News.id.desc()).limit(10).all()
         return data
 
+def create_news(title, text):
+    with Session() as session:
+        news = News(title=title, text=text)
+        session.add(news)
+        session.commit()
 
 """
 # Способ прямого управления сессией. DANGER.

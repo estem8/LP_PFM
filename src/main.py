@@ -1,5 +1,5 @@
 from flask import Flask, abort, render_template, session, redirect, url_for, request
-from crud import create_user, user_list, last_news
+from crud import create_user, user_list, last_news, create_news
 import os
 
 app = Flask(__name__)
@@ -34,9 +34,13 @@ def register():
         create_user(login=username,password=password)
     return render_template('registration.html')
 
-@app.route('/admin')
-def show_user_list():
-    return render_template('admin_panel.html',data=user_list())
+@app.route('/admin', methods=['GET', 'POST'])
+def create_news_text():
+    if request.method == 'POST':
+        title = request.form['title']
+        text = request.form['text']
+        create_news(title=title,text=text)
+    return render_template('admin_panel.html', data = last_news())
 
 if __name__=='__main__':
     app.run(debug=True) 
