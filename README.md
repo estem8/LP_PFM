@@ -1,2 +1,4 @@
-# learn-homework-3-1
-Flask, PostgresSQL, Docker
+### Running manually using command line
+'''
+docker-compose up
+'''
