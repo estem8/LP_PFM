@@ -22,5 +22,5 @@ services:
     ports:
       - "8888:80"
     environment:
-      - PGADMIN_DEFAULT_EMAIL=user
+      - PGADMIN_DEFAULT_EMAIL=user-name@domain-name.com
       - PGADMIN_DEFAULT_PASSWORD=password
