@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String
+from sqlalchemy import Column, Integer, String, Date
 from sqlalchemy.orm import declarative_base
 
 from db import engine
@@ -10,7 +10,7 @@ class User(Base):
     """Пользователи"""
     __tablename__ = "users"
     id = Column(Integer, primary_key=True)
-    name = Column(String)
+    first_name = Column(String)
     login = Column(String)
     password = Column(String)
     email = Column(String(120), unique=True)
@@ -23,7 +23,7 @@ class News(Base):
     id = Column(Integer, primary_key=True)
     title = Column(String)
     text = Column(String)
-
+    date = Column(Date)
 
 def init_db():
     """
