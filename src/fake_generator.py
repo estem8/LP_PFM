@@ -2,9 +2,12 @@
 Генератор Fake данных
 """
 from random import randrange
-from db import Session
+from db import Session, engine
 from faker import Faker
 from models import User, News, Outcome, Income
+from sqlalchemy import func, select
+
+
 fake = Faker()
 
 
@@ -60,8 +63,28 @@ def generate_outcome_2(num):
                 session.commit()
 
 
+"""
+SELECT product_name, COUNT(*) as product_count
+FROM outcome
+GROUP BY product_name
+ORDER BY product_count DESC
+LIMIT 10
+"""
+def most_popular():
+    with Session() as session:
+        result = select(Outcome.product_name, func.count().label('product_count')).group_by(Outcome.product_name).order_by(func.count().desc()).limit(10)
+        smt = session.execute(result)
+        print([i[0] for i in smt])
+
+# def generate_image(most_popular):
+#     plt.pie([total_quantity for product_name, total_quantity in top_products], labels=[product_name for product_name, total_quantity in top_products], autopct="%1.1f%%")
+#     plt.title("Top 5 Products by Quantity")
+#     plt.axis("equal")
+#     plt.show()
+
 if __name__=='__main__':
-    create_user_in_db(10) #Тут создаем 10 пользователей
-    generate_outcome_2(50) # Проходимся по каждому пользователю и добавляем 50 записей в таблицу покупок
-    create_news(10) #10 записей в таблицу новости   
+    # create_user_in_db(10) #Тут создаем 10 пользователей
+    # generate_outcome_2(50) # Проходимся по каждому пользователю и добавляем 50 записей в таблицу покупок
+    # create_news(10) #10 записей в таблицу новости   
+    most_popular()
     
