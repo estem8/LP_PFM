@@ -1,5 +1,5 @@
-from sqlalchemy import Column, Integer, String, Date
-from sqlalchemy.orm import declarative_base
+from sqlalchemy import Column, Integer, String, Date, DateTime, ForeignKey
+from sqlalchemy.orm import declarative_base,mapped_column,Mapped
 
 from db import engine
 
@@ -17,6 +17,23 @@ class User(Base):
 
     def __repr__(self):
         return f'id: {self.id}, name: {self.name}'
+    
+class Outcome(Base):
+  __tablename__ = 'outcome'
+  id = Column(Integer, primary_key=True)
+  user_id = Column(Integer, ForeignKey("users.id"))
+  product_name = Column(String(255))
+  price = Column(Integer)
+  quantity = Column(Integer)
+  purchase_date = Column(DateTime)
+
+class Income(Base):
+  __tablename__ = 'income'
+  id = Column(Integer, primary_key=True)
+  name = Column(String(255))
+  quantity = Column(Integer)
+  date = Column(DateTime)
+  
     
 class News(Base):
     __tablename__='news'
