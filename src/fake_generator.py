@@ -6,6 +6,8 @@ from db import Session, engine
 from faker import Faker
 from models import User, News, Outcome, Income
 from sqlalchemy import func, select
+import matplotlib.pyplot as plt
+
 
 
 fake = Faker()
@@ -62,29 +64,36 @@ def generate_outcome_2(num):
                 session.add(out)
                 session.commit()
 
-
 """
 SELECT product_name, COUNT(*) as product_count
 FROM outcome
 GROUP BY product_name
 ORDER BY product_count DESC
 LIMIT 10
+^^^^^^
+RAW SQL
 """
+quant = []
+label = []
 def most_popular():
     with Session() as session:
         result = select(Outcome.product_name, func.count().label('product_count')).group_by(Outcome.product_name).order_by(func.count().desc()).limit(10)
         smt = session.execute(result)
-        print([i[0] for i in smt])
+        # print([i for i in smt])
+        for product in smt:
+            quant.append(product[1])
+            label.append(product[0])
+            
+def generate_image():
+    plt.pie(quant, labels=label, autopct="%1.1f%%")
+    plt.show()
 
-# def generate_image(most_popular):
-#     plt.pie([total_quantity for product_name, total_quantity in top_products], labels=[product_name for product_name, total_quantity in top_products], autopct="%1.1f%%")
-#     plt.title("Top 5 Products by Quantity")
-#     plt.axis("equal")
-#     plt.show()
+
 
 if __name__=='__main__':
     # create_user_in_db(10) #Тут создаем 10 пользователей
     # generate_outcome_2(50) # Проходимся по каждому пользователю и добавляем 50 записей в таблицу покупок
-    # create_news(10) #10 записей в таблицу новости   
-    most_popular()
+    # create_news(10) #10 записей в таблицу новости  
+    most_popular() 
+    generate_image()
     
