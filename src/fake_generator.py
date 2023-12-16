@@ -2,12 +2,11 @@
 Генератор Fake данных
 """
 from random import randrange
-from db import Session, engine
+from db import Session
 from faker import Faker
 from models import User, News, Outcome, Income
 from sqlalchemy import func, select
 import matplotlib.pyplot as plt
-
 
 
 fake = Faker()
@@ -91,9 +90,9 @@ def generate_image():
 
 
 if __name__=='__main__':
-    # create_user_in_db(10) #Тут создаем 10 пользователей
-    # generate_outcome_2(50) # Проходимся по каждому пользователю и добавляем 50 записей в таблицу покупок
-    # create_news(10) #10 записей в таблицу новости  
-    most_popular() 
-    generate_image()
+    create_user_in_db(10) #Тут создаем 10 пользователей
+    generate_outcome_2(50) # Проходимся по каждому пользователю и добавляем 50 записей в таблицу покупок
+    create_news(10) #10 записей в таблицу новости  
+    # most_popular() 
+    # generate_image()
     

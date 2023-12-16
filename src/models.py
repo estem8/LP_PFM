@@ -1,46 +1,50 @@
-from sqlalchemy import Column, Integer, String, Date, DateTime, ForeignKey
+from sqlalchemy import Column, Integer, String, ForeignKey, func
 from sqlalchemy.orm import declarative_base,mapped_column,Mapped
-
+import datetime
+from typing import Annotated
 from db import engine
 
 
 Base = declarative_base()
 
+intpk = Annotated[int, mapped_column(primary_key=True)]
+
+
 class User(Base):
     """Пользователи"""
-    __tablename__ = "users"
-    id = Column(Integer, primary_key=True)
-    first_name = Column(String)
-    login = Column(String)
-    password = Column(String)
-    email = Column(String(120), unique=True)
+    __tablename__ = 'users'
+    id: Mapped[intpk] #Для повторяемости кода используется Annotated из typing
+    first_name: Mapped[str]
+    login: Mapped[str]
+    password: Mapped[str]
+    email: Mapped[str] = mapped_column(unique=True)
 
-    def __repr__(self):
-        return f'id: {self.id}, name: {self.name}'
+    # def __repr__(self):
+    #     return f'id: {self.id}, name: {self.name}'
     
 class Outcome(Base):
   __tablename__ = 'outcome'
-  id = Column(Integer, primary_key=True)
-  user_id = Column(Integer, ForeignKey("users.id"))
-  product_name = Column(String(255))
-  price = Column(Integer)
-  quantity = Column(Integer)
-  purchase_date = Column(DateTime)
+  id: Mapped[int] = mapped_column(primary_key=True)
+  user_id:Mapped[int] = mapped_column(ForeignKey('users.id'))
+  product_name: Mapped[str]
+  price: Mapped[int]
+  quantity: Mapped[int]
+  purchase_date: Mapped[datetime.datetime]
 
 class Income(Base):
   __tablename__ = 'income'
-  id = Column(Integer, primary_key=True)
-  name = Column(String(255))
-  quantity = Column(Integer)
-  date = Column(DateTime)
+  id: Mapped[int] = mapped_column(primary_key=True)
+  name:Mapped[str]
+  quantity: Mapped[int]
+  date: Mapped[datetime.datetime]
   
     
 class News(Base):
-    __tablename__='news'
-    id = Column(Integer, primary_key=True)
-    title = Column(String)
-    text = Column(String)
-    date = Column(Date)
+    __tablename__ = 'news'
+    id: Mapped[int] = mapped_column(primary_key=True)
+    title: Mapped[str]
+    text: Mapped[str]
+    date: Mapped[datetime.datetime] = mapped_column(server_default=func.now())
 
 def init_db():
     """
