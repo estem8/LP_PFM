@@ -9,6 +9,6 @@ python3 models.py
 ```
 ### Flask main app
 ```
-python main.py
+python __init__.py
 ```
 

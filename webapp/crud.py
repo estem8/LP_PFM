@@ -1,5 +1,5 @@
-from db import Session
-from models import User, News
+from webapp.db import Session
+from webapp.models import User, News
 
 
 
