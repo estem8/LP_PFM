@@ -2,7 +2,6 @@ from sqlalchemy import Column, Integer, String, Date, DateTime, ForeignKey
 from sqlalchemy.orm import declarative_base, mapped_column, Mapped
 from webapp.db import engine
 
-
 Base = declarative_base()
 
 

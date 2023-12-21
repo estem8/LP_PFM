@@ -2,7 +2,6 @@ from webapp.db import Session
 from webapp.models import User, News
 
 
-
 def create_user(login,password):
     with Session() as session:
         user = User(name=login,password=password)
