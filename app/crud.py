@@ -1,5 +1,5 @@
-from webapp.db import Session
-from webapp.models import User, News
+from app.db import Session
+from app.models import User, News
 
 
 def create_user(login,password):
