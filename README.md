@@ -1,16 +1,16 @@
 ### Запуск сервера FLASK
 ```
-Linux и Mac: export FLASK_APP=webapp && export FLASK_ENV=development && flask run
+Linux и Mac: flask run --debug
 
-Windows: set FLASK_APP=webapp && set FLASK_ENV=development && set FLASK_DEBUG=1 && flask run
+Windows: flask run --debug
 ```
 
-### Запуск postgres и adminer контейнеров
+~~### Запуск postgres и adminer контейнеров~~
 ```
 docker-compose up
 ```
-### Создаем таблицы из метаданных Base.metadata.create_all(engine)
-Вызывается только один раз при пустой базе
+~~### Создаем таблицы из метаданных Base.metadata.create_all(engine)~~
+~~Вызывается только один раз при пустой базе~~
 ```
 python3 models.py
 ```

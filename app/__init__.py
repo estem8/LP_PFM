@@ -1,5 +1,5 @@
 from flask import Flask, abort, render_template, session, redirect, url_for, request
-from webapp.crud import create_user, user_list, last_news, create_news
+from app.crud import create_user, user_list, last_news, create_news
 import os
 
 
@@ -10,7 +10,7 @@ def create_app():
 
     @app.route("/")
     def index():
-        return render_template("index.html", data=last_news())
+        return render_template("home.html")
 
     @app.route("/login", methods=["GET", "POST"])
     def login():
@@ -35,7 +35,7 @@ def create_app():
 
         return f"Профиль {username}"
 
-    @app.route("/register", methods=["GET", "POST"])
+    @app.route("/signup", methods=["GET", "POST"])
     def register():
         if request.method == "POST":
             username = request.form["login"]
