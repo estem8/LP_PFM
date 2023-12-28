@@ -5,12 +5,12 @@ import pytest
 from sqlalchemy import Engine, create_engine, select
 from sqlalchemy.orm import sessionmaker
 from app.models import *
-from app.crud import create_user
+from app.crud import create_user, edit_transaction, edit_account
 
 @pytest.fixture()
 def engine():
     # Пока нету .env или в память как сейчас sqlite или PostgresSQL и очистка Base.metadata.drop_all(engine)
-    # engine = create_engine('postgresql://user:password@localhost:5432/db', echo=True)
+    # engine = create_engine('postgresql://user:password@localhost:5432/db', echo=False)
     engine = create_engine('sqlite:///', echo=True)
     Base.metadata.create_all(engine)
     try:
@@ -34,14 +34,14 @@ def test_database_connection(engine: Engine):
         connection = engine.connect()
         connection.close()
     except OperationalError as e:
-        pytest.fail(f"Failed to connect to the database: {e}")
+        pytest.fail(f"Failed to connect database: {e}")
 
 
 def test_create_user(db_session: Session):
     '''Тест на запись в бд'''
-    login = "testuser1"
-    password = "testpassword1"
-    email = "test@mail1"
+    login = "testuser"
+    password = "testpassword"
+    email = "test@mail"
 
     create_user(db_session, login, password, email)
 
@@ -53,16 +53,27 @@ def test_create_user(db_session: Session):
     assert user.password == password, "Неправильный пароль пользователя"
     assert user.email == email, "Неправильный email пользователя"
 
-
 def test_duplicate_email(db_session: Session):
     '''Тестирование создания пользователя с дублирующимся email'''
-    login = "testuser2"
+    login = "testuser"
     password = "testpassword2"
-    email = "test@mail2"
-    create_user(db_session, login, password, email)
-
-    login = "testuser3"
-    password = "testpassword4"
-    email = "test@mail2"
+    email = "test@mail"
     with pytest.raises(ValueError, match=f'Пользователь с email {email} уже существует'):
         create_user(db_session, login, password, email)
+
+
+def test_account(db_session):
+    user_id=1
+    name='New Account'
+    currency='USD'
+    symbol='$'
+    edit_account(db_session, user_id, name, currency, symbol)
+
+
+def test_transaction(db_session):
+    account_id = '1'
+    transaction_type = 'OUT'
+    amount = 100
+    date = '12-12-12'
+    comment = 'ЖКХ'
+    edit_transaction(db_session, account_id, transaction_type, amount, date, comment)

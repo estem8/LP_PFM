@@ -31,7 +31,7 @@ class Transaction(Base):
     account_id: Mapped[int] = mapped_column(ForeignKey('accounts.id'))
     transaction_type: Mapped[str]
     amount: Mapped[int]
-    date: Mapped[datetime] = mapped_column(default=func.now())
+    date: Mapped[datetime]
     comment: Mapped[str]
 
 

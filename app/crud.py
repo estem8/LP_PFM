@@ -1,15 +1,27 @@
-from app.db import Session
-from app.models import User
+import datetime
 
+from psycopg2 import IntegrityError
+from app.db import Session
+from app.models import *
 
 def create_user(session, login, password, email):
     existing_user = session.query(User).filter_by(email=email).first()
     if existing_user:
         raise ValueError(f'Пользователь с email {email} уже существует')
-    user = User(login=login, password=password, email=email)
-    session.add(user)
+    else:
+        user = User(login=login, password=password, email=email)
+        session.add(user)
+        session.commit()
+
+def edit_account(session, user_id, name, currency, symbol):
+    account = Account(user_id=user_id, name=name, currency=currency, symbol=symbol)
+    session.add(account)
     session.commit()
 
+def edit_transaction(session, account_id, transaction_type, amount, date, comment):
+    item = Transaction(account_id=account_id, transaction_type=transaction_type, amount=amount, date=date, comment=comment)
+    session.add(item)
+    session.commit()
 
 def user_list():
     with Session() as session:
