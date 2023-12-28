@@ -1,12 +1,15 @@
 from app.db import Session
-from app.models import User, News
+from app.models import User
 
 
-def create_user(login,password):
-    with Session() as session:
-        user = User(name=login,password=password)
-        session.add(user)
-        session.commit()
+def create_user(session, login, password, email):
+    existing_user = session.query(User).filter_by(email=email).first()
+    if existing_user:
+        raise ValueError(f'Пользователь с email {email} уже существует')
+    user = User(login=login, password=password, email=email)
+    session.add(user)
+    session.commit()
+
 
 def user_list():
     with Session() as session:
