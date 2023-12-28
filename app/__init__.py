@@ -1,4 +1,5 @@
 from datetime import datetime
+from app.forms import Account_Detail, Account_Select, Transaction_Detail
 from flask import Flask, abort, render_template, session, redirect, url_for, request
 from app.crud import create_user, user_list, edit_transaction, create_news
 import os
@@ -46,13 +47,7 @@ def create_app():
 
     @app.route("/edit", methods=["GET", "POST"])
     def edit():
-        if request.method == "POST":
-            account_id = request.form['account_id']
-            transaction_type = request.form['transaction_type']
-            amount = request.form['amount']
-            date = request.form['date']
-            comment = request.form['comment']
-            edit_transaction()
-        return render_template('edit.html')
+        form = Account_Detail()
+        return render_template('edit.html', form=form)
  
     return app

@@ -3,17 +3,143 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Edit</title>
+    <title>Modal with Form</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
-    <h2>Edit Form</h2>
-    <form method="POST" action="">
-        <p>account_id<br><input type="account_id" name="account_id" required></p>
-        <p>transaction_type<br><input type="transaction_type" name="transaction_type" required></p>
-        <p>amount<br><input type="amount" name="amount" required></p>
-        <p>date<br><input type="date" name="date" required></p>
-        <p>comment<br><input type="comment" name="comment" required></p>
-        <p><input type="submit" value="Sign Up"></p>
-    </form>
+
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#add_account">
+Add account form
+</button>
+
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#account_select">
+Open select account form   
+</button>
+
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#transaction">
+Open add transaction form
+</button>
+
+
+<!-- ФОРМА ЧЕРЕЗ WTForm -->
+<div class="modal fade" id="add_account" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Enter Account Details</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+
+            <form method="POST">
+  
+            <div class="mb-3">
+                <label class="form-label">{{form.account_name.label}}</label>
+                {{ form.account_name(class="form-control") }}
+            </div>
+  
+  
+            <div class="mb-3">
+              <label class="form-label">{{form.currency.label}}</label>
+              {{ form.currency(class="form-control") }}
+            </div>
+  
+  
+            <div class="mb-3">
+              <label class="form-label">{{form.symbol.label}}</label>
+              {{ form.symbol(class="form-control") }}
+            </div>
+            {{form.submit(class="btn btn-primary")}}
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+
+<div class="modal fade" id="account_select" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Enter Transaction Details</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+
+          <form>
+            <div class="mb-3">
+                <label>select account</label>
+                <select class="form-control">
+                    <option>Bank</option>
+                    <option>Cash</option>
+                    <option>Заначка</option>
+                </select>
+              </div>
+
+
+            <div class="mb-3">
+                <label for="exampleFormControlSelect1">transaction type</label>
+                <select class="form-control">
+                <option>Rub</option>
+                <option>Dollar</option>
+                <option>BTC</option>
+                </select>
+              </div>
+
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+<div class="modal fade" id="transaction" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Enter Transaction Details</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+
+          <form>
+            <div class="mb-3">
+                <label>select account</label>
+                <select class="form-control">
+                    <option>Bank</option>
+                    <option>Cash</option>
+                    <option>Заначка</option>
+                </select>
+              </div>
+            <div class="mb-3">
+                <label>transaction type</label>
+                <select class="form-control">
+                <option>OUT</option>
+                <option>IN</option>
+                </select>
+              </div>
+            <div class="mb-3">
+                <label class="form-label">amount</label>
+                <input type="text" class="form-control" required>
+            </div>
+            <div class="mb-3">
+              <label for="accountName" class="form-label">comment</label>
+              <input type="text" class="form-control" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+
+
+    </div>
+      </div>
+    </div>
+  </div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+
 </body>
 </html>
