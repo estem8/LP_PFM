@@ -1,7 +1,6 @@
-from datetime import datetime
-from app.forms import Account_Detail, Account_Select, Transaction_Detail
+from app.edit.edit import edit
 from flask import Flask, abort, render_template, session, redirect, url_for, request
-from app.crud import create_user, user_list, edit_transaction, create_news
+from app.crud import create_user
 import os
 
 
@@ -9,6 +8,7 @@ def create_app():
     app = Flask(__name__)
     app.config.from_pyfile('config.py')
     app.secret_key = os.urandom(32)
+    app.register_blueprint(edit, url_prefix='/edit')
 
     @app.route("/")
     def index():
@@ -45,9 +45,8 @@ def create_app():
             create_user(login=username, password=password)
         return render_template("registration.html")
 
-    @app.route("/edit", methods=["GET", "POST"])
-    def edit():
-        form = Account_Detail()
-        return render_template('edit.html', form=form)
+    
+
+    
  
     return app

@@ -1,4 +1,4 @@
-from wtforms import Form, BooleanField, StringField, validators, SubmitField
+from wtforms import Form, StringField, validators, SubmitField
 
 class Account_Detail(Form):
     account_name = StringField('account name', [validators.Length(min=4, max=25)])
@@ -13,7 +13,6 @@ class Transaction_Detail(Form):
     amount = StringField('amount', [validators.Length(min=4, max=25)])
     comment = StringField('comment', [validators.Length(min=4, max=25)])
     submit = SubmitField('Submit')
-
 
 class Account_Select(Form):
     select_account = StringField('select account', [validators.Length(min=4, max=25)])
