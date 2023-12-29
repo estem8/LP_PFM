@@ -1,10 +1,61 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>LP_PFM</title>
-</head>
-<body>
-<a href="login">Login</a> or <a href="signup">Signup</a>
-</body>
-</html>
+{% extends 'base.html' %}
+
+{% block title %}
+Hone page
+{% endblock %}
+
+{% block content_title %}
+<section>
+    <div class="row">
+        <div class="col-lg-auto text-center">
+            <h1>LP_PFM - онлайн сервис для учета расходов и управления вашими финансами</h1>
+        </div>
+    </div>
+</section>
+<div class="container">
+{% endblock %}
+
+{% block content %}
+    <section>
+        <hr>
+        <div class="container">
+            <div class="row text-md-start">
+                <div class="col-lg-6">
+                    <p>Войдите в систему для начала работы </p>
+                    <h4>
+                        <p><a href="login">Авторизация</a> / <a href="signup">Регистрация</a></p>
+                    </h4>
+                </div>
+
+                <div class="col-lg-6">
+                    <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
+                        <div class="carousel-inner">
+                            <div class="carousel-item active">
+                                <img src="https://cdn.lifehacker.ru/wp-content/uploads/2022/11/9_1673337778-630x315.jpg"
+                                    class="d-block w-100" alt="first">
+                            </div>
+                            <div class="carousel-item">
+                                <img src="https://cdn.lifehacker.ru/wp-content/uploads/2022/11/2_1673336022-630x315.jpg"
+                                    class="d-block w-100" alt="Second">
+                            </div>
+                            <div class="carousel-item">
+                                <img src="https://cdn.lifehacker.ru/wp-content/uploads/2022/11/3_1673336065-630x315.jpg"
+                                    class="d-block w-100" alt="Third">
+                            </div>
+                        </div>
+                        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls"
+                            data-bs-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Предыдущий</span>
+                        </button>
+                        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls"
+                            data-bs-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Следующий</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}
