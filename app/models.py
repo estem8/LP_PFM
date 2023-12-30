@@ -3,7 +3,6 @@ from datetime import datetime
 from sqlalchemy import Column, create_engine, func, ForeignKey, select, Table
 from sqlalchemy.orm import declarative_base, mapped_column, Mapped, relationship
 
-from sqlalchemy.orm import sessionmaker
 from app.db import engine
 
 Base = declarative_base()

@@ -10,7 +10,7 @@ import os
 
 @pytest.fixture()
 def engine():
-    engine = create_engine(os.getenv('DB_SQLITE_URL'), echo=True)
+    engine = create_engine(os.getenv('DB_POSTGRES_URL'), echo=True)
     Base.metadata.create_all(engine)
     try:
         yield engine
@@ -32,8 +32,8 @@ def test_database_connection(engine: Engine):
     try:
         connection = engine.connect()
         connection.close()
-    except OperationalError as e:
-        pytest.fail(f"Failed to connect database: {e}")
+    except Exception as e:
+        pytest.fail(f"Unexpected error to connect database: {e}")
 
 
 def test_create_user(db_session: Session):
