@@ -1,6 +1,5 @@
 import datetime
 
-from psycopg2 import IntegrityError
 from app.db import Session
 from app.models import *
 

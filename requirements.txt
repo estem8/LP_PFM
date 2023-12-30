@@ -1,5 +1,6 @@
 Flask
-psycopg2-binary
-pytest
 SQLAlchemy
 WTForms
+psycopg2-binary
+pytest
+python-dotenv

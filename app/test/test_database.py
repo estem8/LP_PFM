@@ -6,18 +6,17 @@ from sqlalchemy import Engine, create_engine, select
 from sqlalchemy.orm import sessionmaker
 from app.models import *
 from app.crud import create_user, edit_transaction, edit_account
+import os
 
 @pytest.fixture()
 def engine():
-    # Пока нету .env или в память как сейчас sqlite или PostgresSQL и очистка Base.metadata.drop_all(engine)
-    # engine = create_engine('postgresql://user:password@localhost:5432/db', echo=False)
-    engine = create_engine('sqlite:///', echo=True)
+    engine = create_engine(os.getenv('DB_SQLITE_URL'), echo=True)
     Base.metadata.create_all(engine)
     try:
         yield engine
     finally:
-        pass
-        # Base.metadata.drop_all(engine)
+        # pass
+        Base.metadata.drop_all(engine)
 
 @pytest.fixture()
 def db_session(engine: Engine):
@@ -55,12 +54,16 @@ def test_create_user(db_session: Session):
 
 def test_duplicate_email(db_session: Session):
     '''Тестирование создания пользователя с дублирующимся email'''
-    login = "testuser"
-    password = "testpassword2"
-    email = "test@mail"
+    login = "UserName_1"
+    password = "User_Password_1"
+    email = "test_unique@mail.com"
+    create_user(db_session, login, password, email)
+
+    login = "UserName_2"
+    password = "User_Password_2"
+    email = "test_unique@mail.com"
     with pytest.raises(ValueError, match=f'Пользователь с email {email} уже существует'):
         create_user(db_session, login, password, email)
-
 
 def test_account(db_session):
     user_id=1
