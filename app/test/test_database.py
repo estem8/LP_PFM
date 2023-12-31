@@ -1,12 +1,12 @@
-from psycopg2 import OperationalError
 from sqlalchemy.orm.session import Session
-from app.config import DB_URL
 import pytest
 from sqlalchemy import Engine, create_engine, select
 from sqlalchemy.orm import sessionmaker
-from app.models import *
 from app.crud import create_user, edit_transaction, edit_account
 import os
+
+from app.models import Base
+
 
 @pytest.fixture()
 def engine():
@@ -18,6 +18,7 @@ def engine():
         # pass
         Base.metadata.drop_all(engine)
 
+
 @pytest.fixture()
 def db_session(engine: Engine):
     Session = sessionmaker(bind=engine)
@@ -26,6 +27,7 @@ def db_session(engine: Engine):
         yield session
     finally:
         session.close()
+
 
 def test_database_connection(engine: Engine):
     '''Тест на доступность базы'''
@@ -44,13 +46,14 @@ def test_create_user(db_session: Session):
 
     create_user(db_session, login, password, email)
 
-    #из документации устаревший вариант, наверное не стоит использовать
-    # user = db_session.query(User).filter_by(login=login).first()
+#из документации устаревший вариант, наверное не стоит использовать
+# user = db_session.query(User).filter_by(login=login).first()
     user = db_session.execute(select(User).filter(User.login == login)).scalar()
     assert user is not None, "Пользователь не был создан"
     assert user.login == login, "Неправильный логин пользователя"
     assert user.password == password, "Неправильный пароль пользователя"
     assert user.email == email, "Неправильный email пользователя"
+
 
 def test_duplicate_email(db_session: Session):
     '''Тестирование создания пользователя с дублирующимся email'''
@@ -65,6 +68,7 @@ def test_duplicate_email(db_session: Session):
     
     with pytest.raises(ValueError, match=f'Пользователь с email {email} уже существует'):
         create_user(db_session, login, password, email)
+
 
 def test_account(db_session):
     user_id=1
