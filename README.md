@@ -1,21 +1,26 @@
 ### Запуск сервера FLASK
 ```
-Linux и Mac: flask run --debug
-
-Windows: flask run --debug
+Linux, Mac и Windows: flask run --debug
 ```
 
-~~### Запуск postgres и adminer контейнеров~~
-```
-docker-compose up
-```
-~~### Создаем таблицы из метаданных Base.metadata.create_all(engine)~~
-~~Вызывается только один раз при пустой базе~~
+### Создаем таблицы из метаданных Base.metadata.create_all(engine)
+Вызывается только один раз при пустой базе
 ```
 python3 models.py
 ```
-### Flask main app
-```
-python __init__.py
-```
 
+### Линтеры
+#### black
+`black -v --check --diff --color --config black.cfg app` - для проверки, не будет автоматом исправлять - выведет в 
+консоль замечания.
+
+`black --config black.cfg app` - для автоматического исправления
+
+#### isort
+`isort -v --check-only --diff --color  app` - для проверки, не будет автоматом исправлять - выведет в 
+консоль замечания.
+
+`isort app` - для автоматического исправления
+
+#### flake8
+`flake8 app` - проверит код на ошибки
