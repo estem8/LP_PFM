@@ -1,6 +1,7 @@
-from flask import Flask, abort, render_template, session, request
-from app.crud import last_news, create_news
 from app.user.views import blueprint as user_blueprint
+from app.edit.edit import edit
+from flask import Flask, abort, render_template
+from flask import session
 import os
 
 
@@ -9,6 +10,7 @@ def create_app():
     app.config.from_pyfile("config.py")
     app.secret_key = os.urandom(32)
     app.register_blueprint(user_blueprint)
+    app.register_blueprint(edit, url_prefix='/edit')
 
     @app.route("/")
     def index():
@@ -20,13 +22,5 @@ def create_app():
         if "userLogged" not in session or session["userLogged"] != username:
             abort(401)
         return f"Профиль {username}"
-
-    @app.route("/admin", methods=["GET", "POST"])
-    def create_news_text():
-        if request.method == "POST":
-            title = request.form["title"]
-            text = request.form["text"]
-            create_news(title=title, text=text)
-        return render_template("admin_panel.html", data=last_news())
 
     return app

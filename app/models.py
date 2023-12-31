@@ -1,5 +1,7 @@
-from sqlalchemy import Column, Integer, String, Date, DateTime, ForeignKey
+from datetime import datetime
+from sqlalchemy import ForeignKey
 from sqlalchemy.orm import declarative_base, mapped_column, Mapped
+
 from app.db import engine
 
 Base = declarative_base()
@@ -7,42 +9,30 @@ Base = declarative_base()
 
 class User(Base):
     """Пользователи"""
-
     __tablename__ = "users"
-    id = Column(Integer, primary_key=True)
-    first_name = Column(String)
-    login = Column(String)
-    password = Column(String)
-    email = Column(String(120), unique=True)
-
-    def __repr__(self):
-        return f"id: {self.id}, name: {self.name}"
+    id: Mapped[int] = mapped_column(primary_key=True)
+    login: Mapped[str]
+    password: Mapped[str]
+    email: Mapped[str] = mapped_column(unique=True)
 
 
-class Outcome(Base):
-    __tablename__ = "outcome"
-    id = Column(Integer, primary_key=True)
-    user_id = Column(Integer, ForeignKey("users.id"))
-    product_name = Column(String(255))
-    price = Column(Integer)
-    quantity = Column(Integer)
-    purchase_date = Column(DateTime)
+class Account(Base):
+    __tablename__ = 'accounts'
+    id: Mapped[int] = mapped_column(primary_key=True)
+    user_id: Mapped[int] = mapped_column(ForeignKey('users.id'))
+    name: Mapped[str]
+    currency: Mapped[str]
+    symbol: Mapped[str]
 
 
-class Income(Base):
-    __tablename__ = "income"
-    id = Column(Integer, primary_key=True)
-    name = Column(String(255))
-    quantity = Column(Integer)
-    date = Column(DateTime)
-
-
-class News(Base):
-    __tablename__ = "news"
-    id = Column(Integer, primary_key=True)
-    title = Column(String)
-    text = Column(String)
-    date = Column(Date)
+class Transaction(Base):
+    __tablename__ = 'transactions'
+    id: Mapped[int] = mapped_column(primary_key=True)
+    account_id: Mapped[int] = mapped_column(ForeignKey('accounts.id'))
+    transaction_type: Mapped[str]
+    amount: Mapped[int]
+    date: Mapped[datetime]
+    comment: Mapped[str]
 
 
 def init_db():
