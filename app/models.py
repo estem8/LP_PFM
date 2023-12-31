@@ -1,11 +1,11 @@
-from typing import List
 from datetime import datetime
-from sqlalchemy import Column, create_engine, func, ForeignKey, select, Table
-from sqlalchemy.orm import declarative_base, mapped_column, Mapped, relationship
+from sqlalchemy import ForeignKey
+from sqlalchemy.orm import declarative_base, mapped_column, Mapped
 
 from app.db import engine
 
 Base = declarative_base()
+
 
 class User(Base):
     """Пользователи"""
@@ -14,6 +14,7 @@ class User(Base):
     login: Mapped[str]
     password: Mapped[str]
     email: Mapped[str] = mapped_column(unique=True)
+
 
 class Account(Base):
     __tablename__ = 'accounts'
@@ -40,6 +41,7 @@ def init_db():
     Вызывается только один раз при пустой базе
     """
     Base.metadata.create_all(engine)
+
 
 if __name__ == "__main__":
     init_db()

@@ -62,6 +62,7 @@ def test_duplicate_email(db_session: Session):
     login = "UserName_2"
     password = "User_Password_2"
     email = "test_unique@mail.com"
+    
     with pytest.raises(ValueError, match=f'Пользователь с email {email} уже существует'):
         create_user(db_session, login, password, email)
 

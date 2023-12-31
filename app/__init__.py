@@ -1,5 +1,6 @@
 from app.edit.edit import edit
-from flask import Flask, abort, render_template, session, redirect, url_for, request
+from flask import Flask, abort, render_template, redirect, url_for
+from flask import session, request
 from app.crud import create_user
 import os
 
@@ -45,8 +46,4 @@ def create_app():
             create_user(login=username, password=password)
         return render_template("registration.html")
 
-    
-
-    
- 
     return app
