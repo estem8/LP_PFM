@@ -23,12 +23,12 @@ Hone page
                 <div class="col-lg-6">
                     <p>Войдите в систему для начала работы </p>
                     <h4>
-                        <p><a href="login">Авторизация</a> / <a href="signup">Регистрация</a></p>
+                        <p><a href="{{ url_for('user.login') }}">Авторизация</a> / <a href="{{ url_for('user.registration') }}">Регистрация</a></p>
                     </h4>
                 </div>
 
                 <div class="col-lg-6">
-                    <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
+                    <div id="carouselExampleControls" class="carousel slide carousel-dark" data-bs-ride="carousel">
                         <div class="carousel-inner">
                             <div class="carousel-item active">
                                 <img src="https://cdn.lifehacker.ru/wp-content/uploads/2022/11/9_1673337778-630x315.jpg"

@@ -74,10 +74,26 @@ max-height: 500px;
 
 .footer {
 	background-color: #344850;
-	position: absolute;
+	/* position: absolute;
 	bottom: 0;
 	width: 100%;
-	padding-top: 35px;
+	padding-top: 35px; */
+	
+	/* test */
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	padding: 2rem;
+	/* background: purple; */
+	/* color: white; */
+	font-weight: 500;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	gap: 0.2rem;
+	/* test */
+
 }
 
 .footer h4 {
