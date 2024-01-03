@@ -1,18 +1,18 @@
+from flask import current_app
 from sqlalchemy.orm.session import Session
 import pytest
 from sqlalchemy import Engine, create_engine, select
 from sqlalchemy.orm import sessionmaker
 
-from app import config
 from app.crud import create_user, edit_transaction, edit_account
-import os
 
-from app.models import Base, User
+from app.models import Base
+from app.user.models import User
 
 
 @pytest.fixture()
 def engine():
-    engine = create_engine(config.DB_URL, echo=True)
+    engine = create_engine(current_app.config.DB_URL, echo=True)
     Base.metadata.create_all(engine)
     try:
         yield engine
