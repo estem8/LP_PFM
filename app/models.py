@@ -19,7 +19,7 @@ class User(Base, UserMixin):
     email: Mapped[str] = mapped_column(unique=True)
 
     def __repr__(self):
-        return f'user obj login = {self.login}, email = {self.email}'
+        return f'User login = {self.login}, email = {self.email}'
 
     def set_passwords(self, password):
         self.password = generate_password_hash(password)

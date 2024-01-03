@@ -2,15 +2,17 @@ from sqlalchemy.orm.session import Session
 import pytest
 from sqlalchemy import Engine, create_engine, select
 from sqlalchemy.orm import sessionmaker
+
+from app import config
 from app.crud import create_user, edit_transaction, edit_account
 import os
 
-from app.models import Base
+from app.models import Base, User
 
 
 @pytest.fixture()
 def engine():
-    engine = create_engine(os.getenv('DB_POSTGRES_URL'), echo=True)
+    engine = create_engine(config.DB_URL, echo=True)
     Base.metadata.create_all(engine)
     try:
         yield engine
@@ -65,7 +67,7 @@ def test_duplicate_email(db_session: Session):
     login = "UserName_2"
     password = "User_Password_2"
     email = "test_unique@mail.com"
-    
+
     with pytest.raises(ValueError, match=f'Пользователь с email {email} уже существует'):
         create_user(db_session, login, password, email)
 

@@ -9,6 +9,7 @@ def create_user(session, login, password, email):
         raise ValueError(f'Пользователь с email {email} уже существует')
     else:
         user = User(login=login, password=password, email=email)
+        user.set_passwords(password)
         session.add(user)
         session.commit()
 
