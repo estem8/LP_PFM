@@ -1,3 +1,26 @@
+### Деплоймент на прод
+#### CI
+##### с использованием *poetry*
+`poetry install --without dev, test --no-root`
+
+##### с использованием *pip*
+`pip install -r requirements/prod.txt`
+
+### Среда разработки
+##### с использованием *poetry*
+`poetry install --with dev --no-root`
+
+##### с использованием *pip*
+`pip install -r requirements/dev.txt`
+
+### Среда тестирования
+##### с использованием *poetry*
+`poetry install --with test --no-root`
+
+##### с использованием *pip*
+`pip install -r requirements/test.txt`
+
+
 ### Запуск сервера FLASK
 ```
 Linux, Mac и Windows: flask run --debug
@@ -11,13 +34,13 @@ python3 models.py
 
 ### Линтеры
 #### black
-`black -v --check --diff --color --config black.cfg app` - для проверки, не будет автоматом исправлять - выведет в 
+`black -v --check --diff --color app` - для проверки, не будет автоматом исправлять - выведет в 
 консоль замечания.
 
-`black --config black.cfg app` - для автоматического исправления
+`black app` - для автоматического исправления
 
 #### isort
-`isort -v --check-only --diff --color  app` - для проверки, не будет автоматом исправлять - выведет в 
+isort -v --check-only --diff --color  app - для проверки, не будет автоматом исправлять - выведет в 
 консоль замечания.
 
 `isort app` - для автоматического исправления
