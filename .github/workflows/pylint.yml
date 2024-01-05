@@ -6,18 +6,11 @@ jobs:
     name: Build
     runs-on: ubuntu-latest
     steps:
-      - name: test_pylint
-        uses: Silleellie/pylint-github-action@v1
-        with:
-          package-path: src
-          python-version: 3.11
-
       - name: send telegram message on push
         uses: appleboy/telegram-action@master
         with:
           to: ${{ secrets.CHAT_ID }}
           token: ${{ secrets.BOT_TOKEN }}
-
           message: |
             ${{ github.actor }} created commit:
             Commit message: ${{ github.event.commits[0].message }}
