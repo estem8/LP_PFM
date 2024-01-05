@@ -1,6 +1,8 @@
 ### Деплоймент на прод
 #### CI
 ##### с использованием *poetry*
+<span style="color:gray">причем *poetry* должен быть установлен с помощью **pipx**</span>
+
 `poetry install --without dev, test --no-root`
 
 ##### с использованием *pip*
