@@ -1,4 +1,4 @@
-### Запуск сервера FLASK
+### Запуск сервера FLASK 
 ```
 Linux и Mac: flask run --debug
 
