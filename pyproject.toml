@@ -1,0 +1,51 @@
+[tool.black]
+multi_line_output = 3
+include_trailing_comma = true
+line_length = 110
+ensure_newline_before_comments = true
+target-version = ['py310', 'py311', 'py312']
+exclude = ".*, */migrations/*, pycache, .venv/*"
+skip-string-normalization = true
+
+
+[tool.isort]
+profile = "black"
+
+[tool.flake8]
+exclude = [".*", "*/migrations/*", "pycache", ".venv/*"]
+accept-encodings = "utf-8"
+max-line-length = 120
+max-complexity = 6
+inline-quotes = "'"
+multiline-quotes = "'''"
+ignore = ["E203", "E501", "E704"]
+color = "always"
+
+[tool.poetry]
+name = "LP_PFM"
+version = "0.0.1"
+description = "Учебный проект курса Lerm Python. Менеджер персональных финансов"
+authors = ["Your Name <you@example.com>"]
+license = "MIT"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+Flask = "^3.0.0"
+SQLAlchemy = "^2.0.25"
+WTForms = "^3.1.1"
+Flask-WTF = "^1.2.1"
+
+[tool.poetry.group.dev.dependencies]
+Faker = "^22.0.0"
+matplotlib = "^3.8.2"
+black = "^23.12.1"
+flake8 = "^7.0.0"
+isort = "^5.13.2"
+
+[tool.poetry.group.test.dependencies]
+pytest = "^7.4.4"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

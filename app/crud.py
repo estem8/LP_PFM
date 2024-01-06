@@ -1,6 +1,8 @@
 from sqlalchemy import Transaction
-from app.db import Session
-from app.models import Account, User
+
+from db import Session
+from models import Account, User
+# from user.models import User
 
 
 def create_user(session, login, password, email):
@@ -8,25 +10,14 @@ def create_user(session, login, password, email):
     if existing_user:
         raise ValueError(f'Пользователь с email {email} уже существует')
     else:
-        user = User(login=login, password=password, email=email)
-        user.set_passwords(password)
+        user = User(login=login, email=email)
+        user.set_password(password)
         session.add(user)
         session.commit()
 
 
-def edit_account(
-    session,
-    user_id,
-    name,
-    currency,
-    symbol
-):
-    account = Account(
-        user_id=user_id,
-        name=name,
-        currency=currency,
-        symbol=symbol
-    )
+def edit_account(session, user_id, name, currency, symbol):
+    account = Account(user_id=user_id, name=name, currency=currency, symbol=symbol)
     session.add(account)
     session.commit()
 
@@ -54,6 +45,7 @@ def user_list():
     with Session() as session:
         user_list = session.query(User).all()
         return user_list
+
 
 """
 # Способ прямого управления сессией. DANGER.
