@@ -5,7 +5,7 @@ from sqlalchemy import ForeignKey
 from sqlalchemy.orm import mapped_column, Mapped
 from werkzeug.security import generate_password_hash, check_password_hash
 
-from db import Base, engine
+from app.db import Base, engine
 
 
 class User(Base, UserMixin):

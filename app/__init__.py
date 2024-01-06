@@ -1,11 +1,12 @@
 from flask_login import LoginManager
 
-from db import Session
-from user.views import blueprint as user_blueprint
-from edit.edit import edit
+from app.db import Session
+from app.user.views import blueprint as user_blueprint
+from app.edit.edit import edit
 from flask import Flask, abort, render_template
 from flask import session
 import os
+from app.models import User
 
 
 def create_app():
@@ -19,7 +20,6 @@ def create_app():
     login_manager.init_app(app)
     login_manager.login_view = 'login'
 
-    from models import User
 
     @login_manager.user_loader
     def user_loader(user_id) -> User:
