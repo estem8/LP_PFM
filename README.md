@@ -30,7 +30,7 @@ Linux, Mac и Windows: flask run --debug
 
 ### Создаем таблицы из метаданных Base.metadata.create_all(engine)
 Вызывается только один раз при пустой базе
-`python3 models.py`
+`python3 db_init.py`
 
 ### Линтеры
 #### black

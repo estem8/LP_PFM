@@ -1,30 +1,9 @@
 from datetime import datetime
 
-from flask_login import UserMixin
 from sqlalchemy import ForeignKey
 from sqlalchemy.orm import mapped_column, Mapped
-from werkzeug.security import generate_password_hash, check_password_hash
 
-from db import Base, engine
-
-
-class User(Base, UserMixin):
-    """Пользователи"""
-
-    __tablename__ = "users"
-    id: Mapped[int] = mapped_column(primary_key=True)
-    login: Mapped[str]
-    password: Mapped[str]
-    email: Mapped[str] = mapped_column(unique=True)
-
-    def __repr__(self):
-        return f'User login = {self.login}, email = {self.email}'
-
-    def set_password(self, password):
-        self.password = generate_password_hash(password)
-
-    def check_password(self, password):
-        return check_password_hash(self.password, password)
+from app.db import Base
 
 
 class Account(Base):
@@ -44,15 +23,3 @@ class Transaction(Base):
     amount: Mapped[int]
     date: Mapped[datetime]
     comment: Mapped[str]
-
-
-def init_db():
-    """
-    Создаем таблицы из метаданных Base - declarative_base
-    Вызывается только один раз при пустой базе
-    """
-    Base.metadata.create_all(engine)
-
-
-if __name__ == "__main__":
-    init_db()

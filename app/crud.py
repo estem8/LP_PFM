@@ -1,8 +1,6 @@
-from sqlalchemy import Transaction
-
-from db import Session
-from models import Account, User
-# from user.models import User
+from app.db import Session
+from app.models import Account, Transaction
+from app.user.models import User
 
 
 def create_user(session, login, password, email):
