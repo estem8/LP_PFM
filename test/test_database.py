@@ -1,16 +1,20 @@
+from datetime import datetime
+
 from sqlalchemy.orm.session import Session
 import pytest
 from sqlalchemy import Engine, create_engine, select
 from sqlalchemy.orm import sessionmaker
+
 from app.crud import create_user, edit_transaction, edit_account
-import os
 
 from app.models import Base
+from app.user.models import User
 
 
 @pytest.fixture()
 def engine():
-    engine = create_engine(os.getenv('DB_POSTGRES_URL'), echo=True)
+    from app.config import DB_URL
+    engine = create_engine(DB_URL, echo=True)
     Base.metadata.create_all(engine)
     try:
         yield engine
@@ -46,12 +50,12 @@ def test_create_user(db_session: Session):
 
     create_user(db_session, login, password, email)
 
-#из документации устаревший вариант, наверное не стоит использовать
-# user = db_session.query(User).filter_by(login=login).first()
+    #из документации устаревший вариант, наверное не стоит использовать
+    # user = db_session.query(User).filter_by(login=login).first()
     user = db_session.execute(select(User).filter(User.login == login)).scalar()
     assert user is not None, "Пользователь не был создан"
     assert user.login == login, "Неправильный логин пользователя"
-    assert user.password == password, "Неправильный пароль пользователя"
+    assert user.check_password(password), "Неправильный пароль пользователя"
     assert user.email == email, "Неправильный email пользователя"
 
 
@@ -65,7 +69,7 @@ def test_duplicate_email(db_session: Session):
     login = "UserName_2"
     password = "User_Password_2"
     email = "test_unique@mail.com"
-    
+
     with pytest.raises(ValueError, match=f'Пользователь с email {email} уже существует'):
         create_user(db_session, login, password, email)
 
@@ -82,6 +86,6 @@ def test_transaction(db_session):
     account_id = '1'
     transaction_type = 'OUT'
     amount = 100
-    date = '12-12-12'
+    date = datetime.fromisoformat('2012-12-12')
     comment = 'ЖКХ'
     edit_transaction(db_session, account_id, transaction_type, amount, date, comment)

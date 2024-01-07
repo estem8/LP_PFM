@@ -1,19 +1,9 @@
 from datetime import datetime
+
 from sqlalchemy import ForeignKey
-from sqlalchemy.orm import declarative_base, mapped_column, Mapped
+from sqlalchemy.orm import mapped_column, Mapped
 
-from app.db import engine
-
-Base = declarative_base()
-
-
-class User(Base):
-    """Пользователи"""
-    __tablename__ = "users"
-    id: Mapped[int] = mapped_column(primary_key=True)
-    login: Mapped[str]
-    password: Mapped[str]
-    email: Mapped[str] = mapped_column(unique=True)
+from app.db import Base
 
 
 class Account(Base):
@@ -33,15 +23,3 @@ class Transaction(Base):
     amount: Mapped[int]
     date: Mapped[datetime]
     comment: Mapped[str]
-
-
-def init_db():
-    """
-    Создаем таблицы из метаданных Base - declarative_base
-    Вызывается только один раз при пустой базе
-    """
-    Base.metadata.create_all(engine)
-
-
-if __name__ == "__main__":
-    init_db()

@@ -1,6 +1,0 @@
-Flask
-SQLAlchemy
-WTForms
-psycopg2-binary
-pytest
-python-dotenv

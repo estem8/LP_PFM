@@ -1,6 +1,8 @@
 from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker
+from sqlalchemy.orm import sessionmaker, declarative_base
+
 from app.config import DB_URL
+
 
 engine = create_engine(DB_URL, echo=True)
 
@@ -8,3 +10,4 @@ engine = create_engine(DB_URL, echo=True)
 что бы избавится от session = Session(bind=engine)
 """
 Session = sessionmaker(engine)
+Base = declarative_base()

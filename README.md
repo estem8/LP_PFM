@@ -1,21 +1,48 @@
-### Запуск сервера FLASK 
-```
-Linux и Mac: flask run --debug
+### Деплоймент на прод
+#### CI
+##### с использованием *poetry*
+<span style="color:gray">причем *poetry* должен быть установлен с помощью **pipx**</span>
+`poetry install --without dev, test --no-root`
 
-Windows: flask run --debug
+##### с использованием *pip*
+`pip install -r requirements/prod.txt`
+
+### Среда разработки
+##### с использованием *poetry*
+`poetry install --with dev --no-root`
+
+##### с использованием *pip*
+`pip install -r requirements/dev.txt`
+
+### Среда тестирования
+##### с использованием *poetry*
+`poetry install --with test --no-root`
+
+##### с использованием *pip*
+`pip install -r requirements/test.txt`
+
+
+### Запуск сервера FLASK
+```
+Linux, Mac и Windows: flask run --debug
 ```
 
-~~### Запуск postgres и adminer контейнеров~~
-```
-docker-compose up
-```
-~~### Создаем таблицы из метаданных Base.metadata.create_all(engine)~~
-~~Вызывается только один раз при пустой базе~~
-```
-python3 models.py
-```
-### Flask main app
-```
-python __init__.py
-```
+### Создаем таблицы из метаданных Base.metadata.create_all(engine)
+Вызывается только один раз при пустой базе
+`python3 db_init.py`
 
+### Линтеры
+#### black
+`black -v --check --diff --color app` - для проверки, не будет автоматом исправлять - выведет в 
+консоль замечания.
+
+`black app` - для автоматического исправления
+
+#### isort
+isort -v --check-only --diff --color  app - для проверки, не будет автоматом исправлять - выведет в 
+консоль замечания.
+
+`isort app` - для автоматического исправления
+
+#### flake8
+`flake8 app` - проверит код на ошибки
