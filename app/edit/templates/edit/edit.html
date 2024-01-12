@@ -35,16 +35,13 @@ Open add transaction form
             <form method="POST">
   
             <div class="mb-3">
-                <label class="form-label">{{form.account_name.label}}</label>
+                <label class="form-label">{{ form.account_name.label }}</label>
                 {{ form.account_name(class="form-control") }}
             </div>
-  
-  
             <div class="mb-3">
               <label class="form-label">{{form.currency.label}}</label>
               {{ form.currency(class="form-control") }}
             </div>
-  
   
             <div class="mb-3">
               <label class="form-label">{{form.symbol.label}}</label>
