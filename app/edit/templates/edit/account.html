@@ -11,7 +11,7 @@
 <body>
 
 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#add_account">
-Add account form
+  Add account form
 </button>
 
 <!-- ФОРМА ЧЕРЕЗ WTForm -->
@@ -24,7 +24,8 @@ Add account form
         </div>
         <div class="modal-body">
 
-            <form method="POST" action="{{ url_for('edit.test') }}"> 
+            <form method="POST" action="{{ url_for('edit.account_editor') }}">  
+            <!-- <form method="POST">  -->
               <!-- action="{{ url_for('edit.test') }}
               Как я понял используется в action что бы отправить данные в URL /edit/account взятый из функции def test() -->
             <div class="mb-3">

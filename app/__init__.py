@@ -2,7 +2,7 @@ from flask_login import LoginManager
 
 from app.db import Session
 from app.user.views import blueprint as user_blueprint
-from app.edit.edit import edit
+from app.edit.views import edit
 from flask import Flask, abort, render_template
 from flask import session
 import os
