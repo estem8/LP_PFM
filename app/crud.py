@@ -3,10 +3,16 @@ from app.models import Account, Transaction
 from app.user.models import User
 
 
+def create_in_base(fun):
+    with Session() as session:
+        session.add()
+
+        session.commit()
+        
 def create_user(session, login, password, email):
     existing_user = session.query(User).filter_by(email=email).first()
     if existing_user:
-        raise ValueError(f'Пользователь с email {email} уже существует')
+        raise ValueError(f"Пользователь с email {email} уже существует")
     else:
         user = User(login=login, email=email)
         user.set_password(password)
@@ -62,5 +68,5 @@ def create_user(login,password):
 
 """
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     pass

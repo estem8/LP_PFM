@@ -1,12 +1,13 @@
 """
 Генератор Fake данных
 """
-from faker import Faker
 from random import randrange
-from sqlalchemy import func, select
-from webapp.db import Session, engine
-from webapp.models import User, News, Outcome, Income
+
 import matplotlib.pyplot as plt
+from faker import Faker
+from sqlalchemy import func, select
+from webapp.db import Session
+from webapp.models import News, Outcome, User
 
 fake = Faker()
 
