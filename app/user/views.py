@@ -1,33 +1,38 @@
-from flask import Blueprint, render_template, redirect, url_for, flash
+from flask import Blueprint, flash, redirect, render_template, request, url_for
 from flask_login import current_user, login_user, logout_user
 
 from app import Session
 from app.user.forms import LoginForm, RegistrationForm
 from app.user.models import User
 
-
-blueprint = Blueprint('user', __name__, url_prefix='/users')
+blueprint = Blueprint("user", __name__, url_prefix="/users")
 
 
 @blueprint.route("/login")
 def login():
     if current_user.is_authenticated:
-        return redirect(url_for('index'))
+        return redirect(url_for("index"))
     title = "Вход"
     login_form = LoginForm()
     return render_template("user/login.html", page_title=title, form=login_form)
 
 
-@blueprint.route("/signup")
+@blueprint.route("/signup", method=['POST'])
 def registration():
     if current_user.is_authenticated:
-        return redirect(url_for('index'))
+        return redirect(url_for("index"))
     title = "Регистрация"
     reg_form = RegistrationForm()
+    if request.method == "POST" and reg_form.validate():
+        username = reg_form.username.data
+        password = reg_form.password.data
+        email = 'test@mail.com'
+        with Session() as session:
+            session.execute('INSERT INTO users (username, password, email) VALUES (:login, :password, :email)',(username, password, email))
     return render_template("user/registration.html", page_title=title, form=reg_form)
 
 
-@blueprint.route('/process-login', methods=['POST'])
+@blueprint.route("/process-login", methods=["POST"])
 def process_login():
     form = LoginForm()
     if form.validate_on_submit():
@@ -35,14 +40,14 @@ def process_login():
             user = session.query(User).filter_by(login=form.username.data).first()
         if user and user.check_password(form.password.data):
             login_user(user, remember=form.remember_me.data)
-            flash('Вы успешно авторизовались')
-            return redirect(url_for('index'))
+            flash("Вы успешно авторизовались")
+            return redirect(url_for("index"))
 
-    flash('Неверный логин или пароль')
-    return redirect(url_for('user.login'))
+    flash("Неверный логин или пароль")
+    return redirect(url_for("user.login"))
 
-@blueprint.route('/logout')
+@blueprint.route("/logout")
 def logout():
     logout_user()
-    flash('Вы успешно разлогинились')
-    return redirect(url_for('index'))
+    flash("Вы успешно разлогинились")
+    return redirect(url_for("index"))
