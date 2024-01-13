@@ -1,6 +1,5 @@
 from flask import Blueprint, render_template, redirect, url_for, flash, request
 from flask_login import current_user, login_user, logout_user
-
 from app import Session
 from app.user.forms import LoginForm, RegistrationForm
 from app.user.models import User
@@ -17,25 +16,29 @@ def login():
     return render_template("user/login.html", page_title=title, form=login_form)
 
 
-@blueprint.route("/signup", method=['POST'])
+@blueprint.route("/signup", methods=["POST", "GET"])
 def registration():
     match current_user.is_authenticated:
         case True:
+            print('True')
             return redirect(url_for("index"))
         case False:
             title = "Регистрация"
             reg_form = RegistrationForm()
             if request.method == "POST" and reg_form.validate():
-                username = reg_form.username.data
-                password = reg_form.password.data
-                email = 'test@mail.com'
                 with Session() as session:
-                    session.execute('INSERT INTO users (username, password, email) VALUES (:login, :password, :email)',(username, password, email))
+                    user = User(
+                        login=reg_form.username.data,
+                        password=reg_form.password.data,
+                        email=reg_form.email.data,
+                    )
+                    session.add(user)
+                    session.commit()
+                    
     return render_template("user/registration.html", page_title=title, form=reg_form)
 
 
-
-@blueprint.route('/process-login', methods=['POST'])
+@blueprint.route('/process-login', methods=['GET', 'POST'])
 def process_login():
     form = LoginForm()
     if form.validate_on_submit():
