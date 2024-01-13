@@ -3,7 +3,7 @@ from flask_login import current_user, login_user, logout_user
 from app import Session
 from app.user.forms import LoginForm, RegistrationForm
 from app.user.models import User
-
+from app.crud import add_to_database
 blueprint = Blueprint('user', __name__, url_prefix='/users')
 
 
@@ -16,25 +16,21 @@ def login():
     return render_template("user/login.html", page_title=title, form=login_form)
 
 
-@blueprint.route("/signup", methods=["POST", "GET"])
+@blueprint.route("/signup", methods=["POST", "GET"], endpoint='registration')
 def registration():
-    match current_user.is_authenticated:
-        case True:
-            print('True')
-            return redirect(url_for("index"))
-        case False:
-            title = "Регистрация"
-            reg_form = RegistrationForm()
-            if request.method == "POST" and reg_form.validate():
-                with Session() as session:
-                    user = User(
-                        login=reg_form.username.data,
-                        password=reg_form.password.data,
-                        email=reg_form.email.data,
-                    )
-                    session.add(user)
+    if current_user.is_authenticated:
+        return redirect(url_for("index"))
+    title = "Регистрация"
+    reg_form = RegistrationForm()
+    if request.method == "POST" and reg_form.validate():
+        data_user = User(
+                login=reg_form.username.data,
+                password=reg_form.password.data,
+                email=reg_form.email.data,)
+        with Session() as session:
+                    session.add(data_user)
                     session.commit()
-                    
+
     return render_template("user/registration.html", page_title=title, form=reg_form)
 
 

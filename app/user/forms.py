@@ -24,19 +24,19 @@ class LoginForm(FlaskForm):
 class RegistrationForm(FlaskForm):
     username = StringField(
         "Имя пользователя:",
-        validators=[Length(min=4, max=50)],  # TODO: required
+        validators=[Length(min=1, max=50)],  # TODO: required
         render_kw={"class": "form-control"},
     )
     email = StringField(
         "email:",
-        validators=[DataRequired(), Length(min=4, max=50)],
+        validators=[DataRequired(), Length(min=1, max=50)],
         render_kw={"class": "form-control"},
     )
     password = PasswordField(
         "Пароль:",
         validators=[
             DataRequired(),
-            Length(min=6, max=50),
+            Length(min=1, max=50),
         ],
         render_kw={"class": "form-control"},
     )
