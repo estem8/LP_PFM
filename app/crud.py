@@ -1,5 +1,8 @@
+from typing import Any
+
 from app.db import Session
-from app.models import Account, Transaction
+from app.models import Account
+from app.transactions.models import Transaction
 from app.user.models import User
 
 
@@ -20,23 +23,30 @@ def edit_account(session, user_id, name, currency, symbol):
     session.commit()
 
 
-def edit_transaction(
+def create_or_overrate_transaction(
     session,
-    account_id,
-    transaction_type,
-    amount,
-    date,
-    comment,
-):
-    item = Transaction(
-        account_id=account_id,
-        transaction_type=transaction_type,
-        amount=amount,
-        date=date,
-        comment=comment,
-    )
-    session.add(item)
+    transaction_data: dict,
+) -> Transaction:
+    """
+    Создает или обновляет транзакцию.
+
+    Обновляет(перезаписывает), если передан id записи в БД
+
+    :param session:
+    :param transaction_data: данные для создания объекта транзакции, который будет записан в БД
+    """
+    transaction = Transaction(**transaction_data)
+    session.add(transaction)
     session.commit()
+    return transaction
+
+
+def new_transaction(transaction_data: dict[str, Any]):
+    transaction = Transaction(**transaction_data)
+    with Session() as session:
+        session.add(transaction)
+        session.commit()
+        return transaction
 
 
 def user_list():

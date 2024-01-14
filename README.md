@@ -24,9 +24,9 @@
 
 
 ### Запуск сервера FLASK
-```
-Linux, Mac и Windows: flask run --debug
-```
+Linux, Mac и Windows: 
+
+`flask run --debug`
 
 ### Создаем таблицы из метаданных Base.metadata.create_all(engine)
 Вызывается только один раз при пустой базе

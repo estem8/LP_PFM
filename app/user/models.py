@@ -1,8 +1,8 @@
 from flask_login import UserMixin
-from sqlalchemy.orm import mapped_column, Mapped
-from werkzeug.security import generate_password_hash, check_password_hash
+from sqlalchemy.orm import Mapped, mapped_column
+from werkzeug.security import check_password_hash, generate_password_hash
 
-from app.models import Base
+from app.db import Base
 
 
 class User(Base, UserMixin):
@@ -13,7 +13,7 @@ class User(Base, UserMixin):
     - is_anonymous
     и метод get_id"""
 
-    __tablename__ = "users"
+    __tablename__ = 'users'
     id: Mapped[int] = mapped_column(primary_key=True)
     login: Mapped[str]
     password: Mapped[str]

@@ -1,5 +1,3 @@
-from datetime import datetime
-
 from sqlalchemy.orm.session import Session
 import pytest
 from sqlalchemy import Engine, create_engine, select
@@ -82,10 +80,13 @@ def test_account(db_session):
     edit_account(db_session, user_id, name, currency, symbol)
 
 
-def test_transaction(db_session):
-    account_id = '1'
-    transaction_type = 'OUT'
-    amount = 100
-    date = datetime.fromisoformat('2012-12-12')
-    comment = 'ЖКХ'
-    edit_transaction(db_session, account_id, transaction_type, amount, date, comment)
+def test_transaction_create(db_session, transaction_data: dict):
+    transaction = edit_transaction(db_session, transaction_data)
+    assert isinstance(transaction.id, int)
+
+
+def test_transaction_update(db_session, transaction_data: dict):
+    transaction = edit_transaction(db_session, transaction_data)
+    assert transaction.amount == transaction_data.get('amount')
+    if transaction_data.get('id'):
+        assert transaction.created_at < transaction.updated_at
