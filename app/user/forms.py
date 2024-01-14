@@ -5,43 +5,39 @@ from wtforms.validators import DataRequired, EqualTo, Length
 
 class LoginForm(FlaskForm):
     username = StringField(
-        "Имя пользователя:",
+        'Имя пользователя:',
         validators=[DataRequired(), Length(min=4, max=50)],
-        render_kw={"class": "form-control"},
+        render_kw={'class': 'form-control'},
     )
     password = PasswordField(
-        "Пароль:",
+        'Пароль:',
         validators=[DataRequired(), Length(min=6)],
-        render_kw={"class": "form-control"},
+        render_kw={'class': 'form-control'},
     )
-    submit = SubmitField("Войти", render_kw={"class": "btn btn-primary btn-lg"})
-    remember_me = BooleanField(
-        "Запомнить меня", default=True, render_kw={"class": "form-chek-input"}
-    )
+    remember_me = BooleanField('Запомнить меня', default=True, render_kw={'class': 'form-chek-input'})
+    submit = SubmitField('Войти', render_kw={'class': 'btn btn-primary btn-lg'})
 
 
 class RegistrationForm(FlaskForm):
     username = StringField(
-        "Имя пользователя:",
-        validators=[Length(min=4, max=50)],  # TODO: required
-        render_kw={"class": "form-control"},
+        'Имя пользователя:',
+        validators=[DataRequired(), Length(min=4, max=50)],
+        render_kw={'class': 'form-control'},
     )
     password = PasswordField(
-        "Пароль:",
+        'Пароль:',
         validators=[
             DataRequired(),
             Length(min=6, max=50),
         ],
-        render_kw={"class": "form-control"},
+        render_kw={'class': 'form-control'},
     )
     confirm_password = PasswordField(
-        "Повторите пароль: ",
+        'Повторите пароль: ',
         validators=[
             DataRequired(),
-            EqualTo("password"),
+            EqualTo('password'),
         ],
-        render_kw={"class": "form-control"},
+        render_kw={'class': 'form-control'},
     )
-    submit = SubmitField(
-        "Зарегистрироваться", render_kw={"class": "btn btn-primary btn-lg"}
-    )
+    submit = SubmitField('Зарегистрироваться', render_kw={'class': 'btn btn-primary btn-lg'})
