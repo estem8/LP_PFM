@@ -3,7 +3,7 @@ from flask_login import current_user, login_user, logout_user
 from app import Session
 from app.user.forms import LoginForm, RegistrationForm
 from app.user.models import User
-from app.crud import add_to_database
+from app.crud import new_user
 blueprint = Blueprint('user', __name__, url_prefix='/users')
 
 
@@ -23,14 +23,7 @@ def registration():
     title = "Регистрация"
     reg_form = RegistrationForm()
     if request.method == "POST" and reg_form.validate():
-        data_user = User(
-                login=reg_form.username.data,
-                password=reg_form.password.data,
-                email=reg_form.email.data,)
-        with Session() as session:
-                    session.add(data_user)
-                    session.commit()
-
+        new_user(reg_form.data)
     return render_template("user/registration.html", page_title=title, form=reg_form)
 
 

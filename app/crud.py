@@ -1,18 +1,32 @@
+
+from flask import flash, redirect, url_for
+from sqlalchemy import select
 from app.db import Session
 from app.models import Account, Transaction
 from app.user.models import User
+from sqlalchemy import inspect
+from sqlalchemy.orm.exc import MultipleResultsFound
+from sqlite3 import IntegrityError
+from sqlalchemy import exc
 
-
-def create_user(session, login, password, email):
-    existing_user = session.query(User).filter_by(email=email).first()
-    if existing_user:
-        raise ValueError(f'Пользователь с email {email} уже существует')
-    else:
-        user = User(login=login, email=email)
-        user.set_password(password)
-        session.add(user)
-        session.commit()
-
+def new_user(data):
+    new_user = User(data)
+    smth = select(User).where(User.login == new_user.login)
+    with Session() as session:
+        try:
+            result = session.execute(smth).one_or_none()
+            if result is None:
+                session.add(new_user)
+                session.commit()
+            else:
+                flash(f'Пользователь с логином {new_user.login} уже существует')
+                return redirect(url_for('user.registration'))    
+        except MultipleResultsFound:
+            flash(f'Пользователь с логином {new_user.login} уже существует') #скорее всего надо переписать на проверку а не исключение перехватывать
+        except exc.IntegrityError:
+            flash(f'Ошибка IntegrityError: Скорее всего пользователь с таким email уже существует')
+            return redirect(url_for('user.registration'))
+        
 
 def edit_account(session, user_id, name, currency, symbol):
     account = Account(user_id=user_id, name=name, currency=currency, symbol=symbol)

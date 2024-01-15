@@ -1,11 +1,11 @@
 from datetime import datetime
-
 from sqlalchemy import ForeignKey
-from sqlalchemy.orm import mapped_column, Mapped
+from sqlalchemy.orm import mapped_column, Mapped, DeclarativeBase
 
-from app.db import Base
-
-
+class Base(DeclarativeBase):
+    pass
+"""Правильный способ объявления класса Base
+вместо Base = declarative_base()"""
 class Account(Base):
     __tablename__ = 'accounts'
     id: Mapped[int] = mapped_column(primary_key=True)
