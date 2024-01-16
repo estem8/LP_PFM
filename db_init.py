@@ -1,6 +1,5 @@
-from app.db import Base, engine
+from app.db import engine
 from app.models import Base
-
 
 def db_init():
     """

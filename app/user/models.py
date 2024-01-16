@@ -4,7 +4,6 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from app.models import Base
 
 
-
 class User(Base, UserMixin):
     """Пользователи
     UserMixin нужен для работы flask_login. Добавляет в модель @property:
