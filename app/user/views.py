@@ -4,8 +4,9 @@ from app import Session
 from app.user.forms import LoginForm, RegistrationForm
 from app.user.models import User
 from app.crud import new_user
-blueprint = Blueprint('user', __name__, url_prefix='/users')
 
+
+blueprint = Blueprint('user', __name__, url_prefix='/users')
 
 @blueprint.route("/login")
 def login():
@@ -16,18 +17,19 @@ def login():
     return render_template("user/login.html", page_title=title, form=login_form)
 
 
-@blueprint.route("/signup", methods=["POST", "GET"], endpoint='registration')
-def registration():
+@blueprint.route("/signup", methods=["POST", "GET"], endpoint='signup')
+def signup():
     if current_user.is_authenticated:
         return redirect(url_for("index"))
     title = "Регистрация"
     reg_form = RegistrationForm()
     if request.method == "POST" and reg_form.validate():
         new_user(reg_form.data)
-    return render_template("user/registration.html", page_title=title, form=reg_form)
+        return redirect(url_for("index"))
+    return render_template("user/signup.html", page_title=title, form=reg_form)
 
 
-@blueprint.route('/process-login', methods=['GET', 'POST'])
+@blueprint.route('/process-login', methods=['POST'])
 def process_login():
     form = LoginForm()
     if form.validate_on_submit():
@@ -37,9 +39,9 @@ def process_login():
             login_user(user, remember=form.remember_me.data)
             flash('Вы успешно авторизовались')
             return redirect(url_for('index'))
-
     flash('Неверный логин или пароль')
     return redirect(url_for('user.login'))
+
 
 @blueprint.route('/logout')
 def logout():

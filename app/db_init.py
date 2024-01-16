@@ -7,8 +7,8 @@ def db_init():
     Вызывается только один раз при пустой базе
     """
     Base.metadata.create_all(engine)
-    #Я проверил по документации create_all перед созданием делает проверку на exists
-    #так что мне кажется эту функцию можно пихать в app/__init__.py на каждый запуск
+    #Из документации при создании таблицы по умолчанию стоит параметр checkfirst=True
+    #https://docs.sqlalchemy.org/en/20/core/metadata.html#sqlalchemy.schema.MetaData.create_all
 
 if __name__ == "__main__":
     db_init()
