@@ -17,7 +17,7 @@ def login():
     return render_template("user/login.html", page_title=title, form=login_form)
 
 
-@blueprint.route("/signup", methods=["POST"], endpoint='signup')
+@blueprint.route("/signup", methods=["GET", "POST"], endpoint='signup')
 def signup():
     if current_user.is_authenticated:
         return redirect(url_for("index"))
@@ -34,7 +34,7 @@ def process_login():
     form = LoginForm()
     if form.validate_on_submit():
         with Session() as session:
-            user = session.query(User).filter_by(login=form.username.data).first()
+            user = session.query(User).filter_by(login=form.login.data).first()
         if user and user.check_password(form.password.data):
             login_user(user, remember=form.remember_me.data)
             flash('Вы успешно авторизовались')
