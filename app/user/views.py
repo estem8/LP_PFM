@@ -17,7 +17,7 @@ def login():
     return render_template("user/login.html", page_title=title, form=login_form)
 
 
-@blueprint.route("/signup", methods=["POST", "GET"], endpoint='signup')
+@blueprint.route("/signup", methods=["POST"], endpoint='signup')
 def signup():
     if current_user.is_authenticated:
         return redirect(url_for("index"))
