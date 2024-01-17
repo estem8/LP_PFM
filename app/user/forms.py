@@ -4,7 +4,7 @@ from wtforms.validators import DataRequired, EqualTo, Length
 
 
 class LoginForm(FlaskForm):
-    username = StringField(
+    login = StringField(
         "Имя пользователя:",
         validators=[DataRequired(), Length(min=4, max=50)],
         render_kw={"class": "form-control"},
@@ -14,6 +14,7 @@ class LoginForm(FlaskForm):
         validators=[DataRequired(), Length(min=6)],
         render_kw={"class": "form-control"},
     )
+
     submit = SubmitField("Войти", render_kw={"class": "btn btn-primary btn-lg"})
     remember_me = BooleanField(
         "Запомнить меня", default=True, render_kw={"class": "form-chek-input"}
@@ -21,16 +22,21 @@ class LoginForm(FlaskForm):
 
 
 class RegistrationForm(FlaskForm):
-    username = StringField(
+    login = StringField(
         "Имя пользователя:",
-        validators=[Length(min=4, max=50)],  # TODO: required
+        validators=[Length(min=1, max=50)],  # TODO: required
+        render_kw={"class": "form-control"},
+    )
+    email = StringField(
+        "email:",
+        validators=[DataRequired(), Length(min=1, max=50)],
         render_kw={"class": "form-control"},
     )
     password = PasswordField(
         "Пароль:",
         validators=[
             DataRequired(),
-            Length(min=6, max=50),
+            Length(min=1, max=50),
         ],
         render_kw={"class": "form-control"},
     )

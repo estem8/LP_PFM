@@ -1,7 +1,6 @@
 from flask_login import UserMixin
 from sqlalchemy.orm import mapped_column, Mapped
 from werkzeug.security import generate_password_hash, check_password_hash
-
 from app.models import Base
 
 
@@ -27,3 +26,8 @@ class User(Base, UserMixin):
 
     def check_password(self, password):
         return check_password_hash(self.password, password)
+
+    def __init__(self, data : dict[str, str]):
+        super().__init__()
+        for key, value in data.items():
+            setattr(self, key, value)

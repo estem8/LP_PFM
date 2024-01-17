@@ -1,6 +1,6 @@
 from flask_login import LoginManager
-
 from app.db import Session
+from app.db_init import db_init
 from app.user.views import blueprint as user_blueprint
 from app.edit.edit import edit
 from flask import Flask, abort, render_template
@@ -9,6 +9,7 @@ import os
 
 
 def create_app():
+    db_init()
     app = Flask(__name__)
     app.config.from_pyfile("config.py")
     app.secret_key = os.urandom(32)
