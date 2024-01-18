@@ -10,7 +10,6 @@ def new_user(data):
     with Session() as session:
         try:
             user = User(data)
-            user.set_password(data['password'])
             session.add(user)
             session.commit()
         except Exception as e:

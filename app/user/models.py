@@ -30,4 +30,6 @@ class User(Base, UserMixin):
     def __init__(self, data : dict[str, str]):
         super().__init__()
         for key, value in data.items():
+            if key == 'password':
+                value = generate_password_hash(value)
             setattr(self, key, value)
