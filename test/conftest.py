@@ -1,7 +1,6 @@
 from datetime import date, timedelta
 
 import pytest
-from sqlalchemy.exc import IntegrityError
 
 from app.models import Transaction
 

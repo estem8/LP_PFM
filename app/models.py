@@ -1,8 +1,8 @@
-from datetime import datetime, date
+from datetime import datetime
 from typing import Optional
 
 from flask_login import UserMixin
-from sqlalchemy import ForeignKey, DateTime
+from sqlalchemy import DateTime, ForeignKey
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
 from werkzeug.security import check_password_hash, generate_password_hash
 

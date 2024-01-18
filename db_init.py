@@ -7,7 +7,7 @@ def db_init():
     Создаем таблицы из метаданных Base - declarative_base
     Вызывается только один раз при пустой базе
     """
-    from app.models import Account, Transaction, User
+    from app.models import Account, Transaction, User  # noqa F401
     Base.metadata.create_all(engine)
 
 

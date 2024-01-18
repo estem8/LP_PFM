@@ -4,7 +4,7 @@ from sqlalchemy.orm import sessionmaker
 from sqlalchemy.orm.session import Session
 
 from app.crud import edit_account
-from app.models import Base, User, Transaction
+from app.models import Base, Transaction, User
 
 
 @pytest.fixture(scope='module')  # вызывается единожды при загрузке модуля для всего модуля доступна всегда
