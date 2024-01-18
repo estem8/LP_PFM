@@ -1,4 +1,5 @@
-from app.db import Base, engine
+from app.db import engine
+from app.models import Base
 
 
 def db_init():
@@ -6,9 +7,7 @@ def db_init():
     Создаем таблицы из метаданных Base - declarative_base
     Вызывается только один раз при пустой базе
     """
-    from app.models import Account
-    from app.transactions.models import Transaction
-    from app.user.models import User
+    from app.models import Account, Transaction, User
     Base.metadata.create_all(engine)
 
 

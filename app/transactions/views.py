@@ -1,7 +1,8 @@
 from flask import Blueprint, flash, render_template, request
 from flask_login import login_required
+from sqlalchemy.exc import DatabaseError
 
-from app.crud import new_transaction
+from app.crud import create_transaction
 from app.transactions.forms import TransactionForm
 
 blueprint = Blueprint(
@@ -19,10 +20,11 @@ def add():
     if not form.validate():
         flash('Невалидная форма')
         return render_template('transactions/add.html', form=form)
-    transaction = new_transaction(form.data)
-    if not transaction.id:
-        raise Exception('не удалось записать в БД')
-    return
+    try:
+        create_transaction(form.data)
+    except DatabaseError:
+        flash('Ошибка создания транзакции')
+    return  # TODO придумать, куда переводить пользователя
 
 
 @login_required

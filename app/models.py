@@ -1,8 +1,8 @@
-from datetime import datetime
+from datetime import datetime, date
 from typing import Optional
 
 from flask_login import UserMixin
-from sqlalchemy import ForeignKey
+from sqlalchemy import ForeignKey, DateTime
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
 from werkzeug.security import check_password_hash, generate_password_hash
 
@@ -53,8 +53,12 @@ class Transaction(Base):
     account_id_to: Mapped[Optional[int]] = mapped_column(ForeignKey('accounts.id'), nullable=True)
     transaction_type: Mapped[str]
     amount: Mapped[int]
-    date: Mapped[datetime]
+    date: Mapped[datetime] = mapped_column(DateTime(timezone=True))
     comment: Mapped[str] = mapped_column(default='')
     created_at: Mapped[datetime] = mapped_column(default=datetime.utcnow)
-    updated_at: Mapped[datetime] = mapped_column(default=created_at, onupdate=datetime.utcnow)
+    updated_at: Mapped[datetime] = mapped_column(default=datetime.utcnow, onupdate=datetime.utcnow)
     is_deleted: Mapped[bool] = mapped_column(default=False)
+
+    def __repr__(self):
+        return (f'{self.__class__} id={self.id}, transaction_type=={self.transaction_type}, amount={self.amount}'
+                f'date={self.date} created_at={self.created_at} is_deleted={self.is_deleted}')

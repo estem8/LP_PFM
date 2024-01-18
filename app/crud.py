@@ -2,51 +2,53 @@ import logging
 from typing import Any
 
 from flask import flash
+from sqlalchemy.exc import DatabaseError
 
 from app.db import Session
 from app.models import Account, Transaction, User
 
 
-def new_user(data):
+def new_user(data: dict) -> User:
     with Session() as session:
         try:
-            session.add(User(**data))
+            user = User(login=data['login'], email=data['email'])
+            user.set_password(data['password'])
+            session.add(user)
             session.commit()
-        except Exception as e:
+            return user
+        except DatabaseError as e:
             logging.exception(e)
             flash(f'Пользователь с логином {data["login"]} или почтой {data["email"]} уже существует')
 
 
-def edit_account(session, user_id, name, currency, symbol):
+def edit_account(session, user_id, name, currency, symbol) -> Account:
     account = Account(user_id=user_id, name=name, currency=currency, symbol=symbol)
     session.add(account)
     session.commit()
+    return account
 
 
-def create_or_overrate_transaction(
-    session,
-    transaction_data: dict,
-) -> Transaction:
+def create_transaction(transaction_data: dict[str, Any]) -> Transaction:
     """
-    Создает или обновляет транзакцию.
+    Создает транзакцию.
 
-    Обновляет(перезаписывает), если передан id записи в БД
-
-    :param session:
     :param transaction_data: данные для создания объекта транзакции, который будет записан в БД
     """
-    transaction = Transaction(**transaction_data)
-    session.add(transaction)
-    session.commit()
-    return transaction
 
-
-def new_transaction(transaction_data: dict[str, Any]):
-    transaction = Transaction(**transaction_data)
     with Session() as session:
+        transaction = Transaction(**transaction_data)
         session.add(transaction)
         session.commit()
         return transaction
+
+
+def update_transaction(transaction_data: dict[str, Any]) -> int:
+    with Session() as session:
+        tr_id = transaction_data.pop('id')
+        session.query(Transaction).filter_by(id=tr_id).first()
+        row_count = session.query(Transaction).filter(Transaction.id == tr_id
+                                                      ).update(**transaction_data, synchronize_session='evaluate')
+        return row_count
 
 
 def user_list():
