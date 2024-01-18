@@ -36,6 +36,13 @@ class User(Base, UserMixin):
     def check_password(self, password):
         return check_password_hash(self.password, password)
 
+    def __init__(self, data: dict[str, str]):
+        super().__init__()
+        for key, value in data.items():
+            if key == 'password':
+                value = generate_password_hash(value)
+            setattr(self, key, value)
+
 
 class Account(Base):
     __tablename__ = 'accounts'

@@ -11,8 +11,7 @@ from app.models import Account, Transaction, User
 def new_user(data: dict) -> User:
     with Session() as session:
         try:
-            user = User(login=data['login'], email=data['email'])
-            user.set_password(data['password'])
+            user = User(data)
             session.add(user)
             session.commit()
             return user

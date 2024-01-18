@@ -42,7 +42,7 @@ def test_create_user(db_session: Session):
         "email": "test@mail"
     }
 
-    user = User(**user_data)
+    user = User(user_data)
     db_session.add(user)
     db_session.commit()
 
