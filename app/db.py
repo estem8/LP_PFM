@@ -1,5 +1,5 @@
 from sqlalchemy import create_engine
-from sqlalchemy.orm import declarative_base, sessionmaker
+from sqlalchemy.orm import sessionmaker
 
 from app import config
 
@@ -9,4 +9,3 @@ engine = create_engine(config.DB_URL, echo=True, pool_size=config.DB_POOL_SIZE)
 что бы избавится от session = Session(bind=engine)
 """
 Session = sessionmaker(engine)
-Base = declarative_base()

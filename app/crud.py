@@ -1,20 +1,20 @@
+import logging
 from typing import Any
 
+from flask import flash
+
 from app.db import Session
-from app.models import Account
-from app.transactions.models import Transaction
-from app.user.models import User
+from app.models import Account, Transaction, User
 
 
-def create_user(session, login, password, email):
-    existing_user = session.query(User).filter_by(email=email).first()
-    if existing_user:
-        raise ValueError(f'Пользователь с email {email} уже существует')
-    else:
-        user = User(login=login, email=email)
-        user.set_password(password)
-        session.add(user)
-        session.commit()
+def new_user(data):
+    with Session() as session:
+        try:
+            session.add(User(**data))
+            session.commit()
+        except Exception as e:
+            logging.exception(e)
+            flash(f'Пользователь с логином {data["login"]} или почтой {data["email"]} уже существует')
 
 
 def edit_account(session, user_id, name, currency, symbol):

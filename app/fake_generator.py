@@ -5,6 +5,7 @@
 
 import matplotlib.pyplot as plt
 from faker import Faker
+
 # from sqlalchemy import func, select
 from app.db import Session
 from app.user.models import User
@@ -19,18 +20,6 @@ def generate_user(num):
         profile["password"] = fake.password(length=12)
         profiles.append(profile)
     return profiles
-
-
-# def create_news(num):
-#     with Session() as session:
-#         for _ in range(num):
-#             news = News(
-#                 title=fake.sentence(nb_words=5),
-#                 text=fake.sentence(nb_words=50),
-#                 date=fake.date(),
-#             )
-#             session.add(news)
-#             session.commit()
 
 
 def create_user_in_db(num):

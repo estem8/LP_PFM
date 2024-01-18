@@ -1,9 +1,10 @@
-from flask import Blueprint, flash, redirect, render_template, url_for
+from flask import Blueprint, flash, redirect, render_template, request, url_for
 from flask_login import current_user, login_user, logout_user
 
 from app import Session
+from app.crud import new_user
 from app.user.forms import LoginForm, RegistrationForm
-from app.user.models import User
+from app.models import User
 
 blueprint = Blueprint('user', __name__, url_prefix='/users')
 
@@ -17,13 +18,16 @@ def login():
     return render_template('user/login.html', page_title=title, form=login_form)
 
 
-@blueprint.route('/signup')
-def registration():
+@blueprint.route("/signup", methods=["GET", "POST"], endpoint='signup')
+def signup():
     if current_user.is_authenticated:
-        return redirect(url_for('index'))
-    title = 'Регистрация'
+        return redirect(url_for("index"))
+    title = "Регистрация"
     reg_form = RegistrationForm()
-    return render_template('user/registration.html', page_title=title, form=reg_form)
+    if request.method == "POST" and reg_form.validate():
+        new_user(reg_form.data)
+        return redirect(url_for("index"))
+    return render_template("user/signup.html", page_title=title, form=reg_form)
 
 
 @blueprint.route('/process-login', methods=['POST'])
@@ -31,12 +35,11 @@ def process_login():
     form = LoginForm()
     if form.validate_on_submit():
         with Session() as session:
-            user = session.query(User).filter_by(login=form.username.data).first()
+            user = session.query(User).filter_by(login=form.login.data).first()
         if user and user.check_password(form.password.data):
             login_user(user, remember=form.remember_me.data)
             flash('Вы успешно авторизовались')
             return redirect(url_for('index'))
-
     flash('Неверный логин или пароль')
     return redirect(url_for('user.login'))
 

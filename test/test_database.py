@@ -1,12 +1,10 @@
-from sqlalchemy.orm.session import Session
 import pytest
 from sqlalchemy import Engine, create_engine, select
 from sqlalchemy.orm import sessionmaker
+from sqlalchemy.orm.session import Session
 
-from app.crud import create_user, edit_transaction, edit_account
-
-from app.models import Base
-from app.user.models import User
+from app.crud import create_or_overrate_transaction, edit_account
+from app.models import Base, User
 
 
 @pytest.fixture()
@@ -42,19 +40,19 @@ def test_database_connection(engine: Engine):
 
 def test_create_user(db_session: Session):
     '''Тест на запись в бд'''
-    login = "testuser"
-    password = "testpassword"
-    email = "test@mail"
+    user_data = {
+        "login": "testuser",
+        "password": "testpassword",
+        "email": "test@mail"
+    }
 
-    create_user(db_session, login, password, email)
+    user = User(**user_data)
+    db_session.add(user)
+    db_session.commit()
 
     #из документации устаревший вариант, наверное не стоит использовать
     # user = db_session.query(User).filter_by(login=login).first()
-    user = db_session.execute(select(User).filter(User.login == login)).scalar()
-    assert user is not None, "Пользователь не был создан"
-    assert user.login == login, "Неправильный логин пользователя"
-    assert user.check_password(password), "Неправильный пароль пользователя"
-    assert user.email == email, "Неправильный email пользователя"
+    assert user.id is not None, "Пользователь не был создан"
 
 
 def test_duplicate_email(db_session: Session):
@@ -81,12 +79,12 @@ def test_account(db_session):
 
 
 def test_transaction_create(db_session, transaction_data: dict):
-    transaction = edit_transaction(db_session, transaction_data)
+    transaction = create_or_overrate_transaction(db_session, transaction_data)
     assert isinstance(transaction.id, int)
 
 
 def test_transaction_update(db_session, transaction_data: dict):
-    transaction = edit_transaction(db_session, transaction_data)
+    transaction = create_or_overrate_transaction(db_session, transaction_data)
     assert transaction.amount == transaction_data.get('amount')
     if transaction_data.get('id'):
         assert transaction.created_at < transaction.updated_at

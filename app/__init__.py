@@ -4,7 +4,9 @@ from flask import Flask, abort, render_template, session
 from flask_login import LoginManager
 
 from app.db import Session
+from app.db_init import db_init
 from app.edit.edit import edit
+from app.edit.views import edit
 from app.transactions.views import blueprint as transaction_blueprint
 from app.user.views import blueprint as user_blueprint
 
