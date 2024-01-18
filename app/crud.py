@@ -5,11 +5,13 @@ from app.models import Account, Transaction
 from app.user.models import User
 import logging
 
-      
+
 def new_user(data):
     with Session() as session:
         try:
-            session.add(User(data))
+            user = User(data)
+            user.set_password(data['password'])
+            session.add(user)
             session.commit()
         except Exception as e:
             logging.exception(e)
