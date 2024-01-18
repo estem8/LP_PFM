@@ -1,8 +1,14 @@
 repos:
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    #При первом запуске скачивает из репозитория ruff
-    #можно использовать repo: local
     rev: v0.1.13
     hooks:
       - id: ruff
       - id: ruff-format
+# repos:
+# -   repo: local
+#     hooks:
+#     - id: ruff
+#       name: ruff
+#       description: "Run 'ruff' for extremely fast Python linting"
+#       entry: ruff check .
+#       language: python
