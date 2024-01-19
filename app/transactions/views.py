@@ -15,16 +15,14 @@ blueprint = Blueprint(
 def add():
     page_title = 'Добавление Транзакции'
     form = TransactionForm()
-    if request.method == 'GET':
-        return render_template('transactions/add.html', page_title=page_title, form=form)
-    if not form.validate():
+    if form.validate_on_submit():
+        try:
+            create_transaction(form.data)
+        except DatabaseError:
+            flash('Ошибка создания транзакции')
+    else:
         flash('Невалидная форма')
-        return render_template('transactions/add.html', form=form)
-    try:
-        create_transaction(form.data)
-    except DatabaseError:
-        flash('Ошибка создания транзакции')
-    return  # TODO придумать, куда переводить пользователя
+    return render_template('transactions/add.html', page_title=page_title, form=form)
 
 
 @login_required
