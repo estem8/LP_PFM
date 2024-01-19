@@ -1,4 +1,4 @@
-from flask import Blueprint, flash, render_template, request
+from flask import Blueprint, flash, render_template
 from flask_login import login_required
 from sqlalchemy.exc import DatabaseError
 

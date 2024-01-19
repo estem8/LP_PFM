@@ -1,9 +1,9 @@
 import pytest
-from sqlalchemy import Engine, create_engine
+from sqlalchemy import Engine, create_engine, select
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.orm.session import Session
 
-from app.crud import edit_account
+from app.crud import edit_account, update_transaction
 from app.models import Base, Transaction, User
 
 
@@ -26,7 +26,7 @@ def db_session(engine: Engine):
 
 
 def test_database_connection(engine: Engine):
-    '''Тест на доступность базы'''
+    """Тест на доступность базы"""
     try:
         connection = engine.connect()
         connection.close()
@@ -35,7 +35,7 @@ def test_database_connection(engine: Engine):
 
 
 def test_create_user(db_session: Session):
-    '''Тест на запись в бд'''
+    """Тест на запись в бд"""
     user_data = {
         "login": "testuser",
         "password": "testpassword",
@@ -80,3 +80,11 @@ def test_transaction_create(transaction_data_create: dict, db_session: Session):
     db_session.add(transaction)
     db_session.commit()
     assert transaction.id, 'Транзакция не создана'
+
+
+def test_transaction_update(db_session: Session):
+    transaction = db_session.execute(select(Transaction)).first()[0]
+    old_id = transaction.id
+    old_comment = transaction.comment
+    updated_transaction = update_transaction(transaction.id, {'comment': 'Updated'}, db_session)
+    assert updated_transaction.id == old_id and old_comment != updated_transaction.comment

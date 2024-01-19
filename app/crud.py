@@ -4,6 +4,7 @@ from typing import Any
 from flask import flash
 from sqlalchemy.exc import DatabaseError
 
+from app.common import DoesNotExist
 from app.db import Session
 from app.models import Account, Transaction, User
 
@@ -41,13 +42,18 @@ def create_transaction(transaction_data: dict[str, Any]) -> Transaction:
         return transaction
 
 
-def update_transaction(transaction_data: dict[str, Any]) -> int:
-    with Session() as session:
-        tr_id = transaction_data.pop('id')
-        session.query(Transaction).filter_by(id=tr_id).first()
-        row_count = session.query(Transaction).filter(Transaction.id == tr_id
-                                                      ).update(**transaction_data, synchronize_session='evaluate')
-        return row_count
+def update_transaction(
+    tr_id: int, transaction_data: dict[str, Any], db_session: Session = None
+) -> Transaction:
+    if not db_session:
+        db_session = Session()
+    with db_session:
+        transaction = db_session.get(Transaction, tr_id)
+        if not transaction:
+            raise DoesNotExist(f"Транзакция с id={tr_id} не найдена")
+        for key, value in transaction_data.items():
+            setattr(transaction, key, value)
+        return db_session.get(Transaction, tr_id)
 
 
 def user_list():
