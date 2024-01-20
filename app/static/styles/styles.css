@@ -9,6 +9,10 @@ body {
 	color: #000;
 	background-color: #fff;
 	min-width: 320px;
+	position: relative;
+  	height: 100vh;
+  	display: flex;
+  	flex-direction: column;
 }
 
 img {
@@ -19,6 +23,8 @@ img {
 section {
 	padding: 20px 0;
 	margin: 10px;
+	flex-grow: 1;
+	flex-shrink: 0;
 }
 
 a {
@@ -72,29 +78,23 @@ max-height: 500px;
 
 /* Footer */
 
-.footer {
+ .footer {
 	background-color: #344850;
-	position: absolute;
-	bottom: 0;
 	width: 100%;
-	padding-top: 35px;
-	
-	/* test */
-	position: absolute;
-	bottom: 0;
+	padding-top: 25px;
+
 	left: 0;
 	right: 0;
 	padding: 2rem;
-	/* background: purple; */
-	/* color: white; */
+	background: #344850;
+	color: white;
 	font-weight: 500;
-	display: flex;
 	justify-content: center;
 	align-items: center;
 	gap: 0.2rem;
-	/* test */
 
-}
+} 
+
 
 .footer h4 {
 	color: #ccc;
