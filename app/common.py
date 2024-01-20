@@ -1,4 +1,4 @@
-class DtaBaseUniqError(Exception):
+class DataBaseUniqError(Exception):
     pass
 
 
