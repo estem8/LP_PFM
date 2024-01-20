@@ -29,7 +29,7 @@ def create_app():
 
     @app.route("/")
     def index():
-        return render_template("home.html")
+        return render_template("index.html")
 
     @app.route("/profile/<username>")
     def profile(username):

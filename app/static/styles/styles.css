@@ -74,10 +74,10 @@ max-height: 500px;
 
 .footer {
 	background-color: #344850;
-	/* position: absolute;
+	position: absolute;
 	bottom: 0;
 	width: 100%;
-	padding-top: 35px; */
+	padding-top: 35px;
 	
 	/* test */
 	position: absolute;
