@@ -1,16 +1,16 @@
+import os
+
+from flask import Flask, abort, render_template, session
 from flask_login import LoginManager
 
 from app.db import Session
-from app.user.views import blueprint as user_blueprint
 from app.edit.edit import edit
-from flask import Flask, abort, render_template
-from flask import session
-import os
+from app.user.views import blueprint as user_blueprint
 
 
 def create_app():
     app = Flask(__name__)
-    app.config.from_pyfile("config.py")
+    app.config.from_pyfile('config.py')
     app.secret_key = os.urandom(32)
     app.register_blueprint(user_blueprint)
     app.register_blueprint(edit, url_prefix='/edit')
@@ -26,15 +26,15 @@ def create_app():
         with Session() as db_session:
             return db_session.query(User).get({'id': user_id})
 
-    @app.route("/")
+    @app.route('/')
     def index():
-        return render_template("home.html")
+        return render_template('home.html')
 
-    @app.route("/profile/<username>")
+    @app.route('/profile/<username>')
     def profile(username):
         print(session)
-        if "userLogged" not in session or session["userLogged"] != username:
+        if 'userLogged' not in session or session['userLogged'] != username:
             abort(401)
-        return f"Профиль {username}"
+        return f'Профиль {username}'
 
     return app

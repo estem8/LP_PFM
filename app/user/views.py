@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, redirect, url_for, flash
+from flask import Blueprint, flash, redirect, render_template, url_for
 from flask_login import current_user, login_user, logout_user
 
 from app import Session
@@ -9,22 +9,22 @@ from app.user.models import User
 blueprint = Blueprint('user', __name__, url_prefix='/users')
 
 
-@blueprint.route("/login")
+@blueprint.route('/login')
 def login():
     if current_user.is_authenticated:
         return redirect(url_for('index'))
-    title = "Вход"
+    title = 'Вход'
     login_form = LoginForm()
-    return render_template("user/login.html", page_title=title, form=login_form)
+    return render_template('user/login.html', page_title=title, form=login_form)
 
 
-@blueprint.route("/signup")
+@blueprint.route('/signup')
 def registration():
     if current_user.is_authenticated:
         return redirect(url_for('index'))
-    title = "Регистрация"
+    title = 'Регистрация'
     reg_form = RegistrationForm()
-    return render_template("user/registration.html", page_title=title, form=reg_form)
+    return render_template('user/registration.html', page_title=title, form=reg_form)
 
 
 @blueprint.route('/process-login', methods=['POST'])
@@ -40,6 +40,7 @@ def process_login():
 
     flash('Неверный логин или пароль')
     return redirect(url_for('user.login'))
+
 
 @blueprint.route('/logout')
 def logout():

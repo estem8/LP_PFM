@@ -1,4 +1,3 @@
-from app.db import Session
 from app.models import Account, Transaction
 from app.user.models import User
 
@@ -7,11 +6,10 @@ def create_user(session, login, password, email):
     existing_user = session.query(User).filter_by(email=email).first()
     if existing_user:
         raise ValueError(f'Пользователь с email {email} уже существует')
-    else:
-        user = User(login=login, email=email)
-        user.set_password(password)
-        session.add(user)
-        session.commit()
+    user = User(login=login, email=email)
+    user.set_password(password)
+    session.add(user)
+    session.commit()
 
 
 def edit_account(session, user_id, name, currency, symbol):
@@ -37,12 +35,6 @@ def edit_transaction(
     )
     session.add(item)
     session.commit()
-
-
-def user_list():
-    with Session() as session:
-        user_list = session.query(User).all()
-        return user_list
 
 
 """
