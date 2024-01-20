@@ -1,26 +1,35 @@
-from flask_login import LoginManager
-from app.db import Session
-from app.db_init import db_init
-from app.user.views import blueprint as user_blueprint
-from app.edit.views import edit
-from flask import Flask, abort, render_template
-from flask import session
 import os
 
+from flask import Flask, abort, render_template, session
+from flask_login import LoginManager
 
-def create_app():
-    db_init()
+from app.db import Session
+from app.edit.edit import edit
+from app.edit.views import edit
+from app.transactions.views import blueprint as transaction_blueprint
+from app.user.views import blueprint as user_blueprint
+
+
+def create_app(test_config=None):
     app = Flask(__name__)
-    app.config.from_pyfile("config.py")
+
+    if test_config is None:
+        # load the instance config, if it exists, when not testing
+        app.config.from_pyfile('config.py', silent=True)
+    else:
+        # load the test config if passed in
+        app.config.from_mapping(test_config)
+
     app.secret_key = os.urandom(32)
     app.register_blueprint(user_blueprint)
     app.register_blueprint(edit, url_prefix='/edit')
+    app.register_blueprint(transaction_blueprint)
 
     login_manager = LoginManager()
     login_manager.init_app(app)
     login_manager.login_view = 'login'
 
-    from app.user.models import User
+    from app.models import User
 
     @login_manager.user_loader
     def user_loader(user_id) -> User:

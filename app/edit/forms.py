@@ -15,8 +15,9 @@ class TransactionDetail(Form):
     comment = StringField("comment", [validators.Length(min=4, max=25)])
     submit = SubmitField("Submit")
 
+
 class AccountSelect(Form):
-    select_account = StringField("select account", [validators.Length(min=4, max=25)])
-    currency = StringField("currency", [validators.Length(min=4, max=25)])
-    symbol = StringField("symbol", [validators.Length(min=4, max=25)])
-    submit = SubmitField("Submit")
+    select_account = StringField('select account', [validators.Length(min=4, max=25)])
+    currency = StringField('currency', [validators.Length(min=4, max=25)])
+    symbol = StringField('symbol', [validators.Length(min=4, max=25)])
+    submit = SubmitField('Submit')

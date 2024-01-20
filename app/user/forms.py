@@ -2,7 +2,6 @@ from flask_wtf import FlaskForm
 from wtforms import BooleanField, PasswordField, StringField, SubmitField
 from wtforms.validators import DataRequired, EqualTo, Length
 
-
 MAX_LOGIN_LENGTH = 50
 MIN_LOGIN_LENGTH = 4
 MIN_PASSWORD_LENGTH = 6
@@ -27,8 +26,7 @@ class LoginForm(BaseLoginForm):
 
     submit = SubmitField("Войти", render_kw={"class": "btn btn-primary btn-lg"})
     remember_me = BooleanField(
-        "Запомнить меня", default=True, render_kw={"class": "form-chek-input"}
-    )
+        "Запомнить меня", default=True, render_kw={"class": "form-chek-input"})
 
 
 class RegistrationForm(BaseLoginForm):
@@ -38,13 +36,11 @@ class RegistrationForm(BaseLoginForm):
         render_kw={"class": "form-control"},
     )
     confirm_password = PasswordField(
-        "Повторите пароль: ",
+        'Повторите пароль: ',
         validators=[
             DataRequired(),
-            EqualTo("password"),
+            EqualTo('password'),
         ],
-        render_kw={"class": "form-control"},
+        render_kw={'class': 'form-control'},
     )
-    submit = SubmitField(
-        "Зарегистрироваться", render_kw={"class": "btn btn-primary btn-lg"}
-    )
+    submit = SubmitField('Зарегистрироваться', render_kw={'class': 'btn btn-primary btn-lg'})

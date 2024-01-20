@@ -3,22 +3,21 @@ multi_line_output = 3
 include_trailing_comma = true
 line_length = 110
 ensure_newline_before_comments = true
-target-version = ['py310', 'py311', 'py312']
+target_version = ['py310', 'py311', 'py312']
 exclude = ".*, */migrations/*, pycache, .venv/*"
-skip-string-normalization = true
-
+skip_string_normalization = true
 
 [tool.isort]
 profile = "black"
 
 [tool.flake8]
-exclude = [".*", "*/migrations/*", "pycache", ".venv/*"]
+#exclude = [".*", "*/migrations/*", "pycache", ".venv/*"]
 accept-encodings = "utf-8"
 max-line-length = 120
 max-complexity = 6
 inline-quotes = "'"
 multiline-quotes = "'''"
-ignore = ["E203", "E501", "E704"]
+#ignore = ["E203", "E501", "E704"]
 color = "always"
 
 [tool.poetry]
