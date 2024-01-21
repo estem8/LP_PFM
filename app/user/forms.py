@@ -2,6 +2,7 @@ from flask_wtf import FlaskForm
 from wtforms import BooleanField, PasswordField, StringField, SubmitField
 from wtforms.validators import DataRequired, EqualTo, Length
 
+
 MAX_LOGIN_LENGTH = 50
 MIN_LOGIN_LENGTH = 4
 MIN_PASSWORD_LENGTH = 6
@@ -11,29 +12,27 @@ MAX_EMAIL_LENGTH = 50
 
 class BaseLoginForm(FlaskForm):
     login = StringField(
-        "Имя пользователя:",
+        'Имя пользователя:',
         validators=[DataRequired(), Length(min=MIN_LOGIN_LENGTH, max=MAX_LOGIN_LENGTH)],
-        render_kw={"class": "form-control"},
+        render_kw={'class': 'form-control'},
     )
     password = PasswordField(
-        "Пароль:",
+        'Пароль:',
         validators=[DataRequired(), Length(min=MIN_PASSWORD_LENGTH)],
-        render_kw={"class": "form-control"},
+        render_kw={'class': 'form-control'},
     )
 
 
 class LoginForm(BaseLoginForm):
-
-    submit = SubmitField("Войти", render_kw={"class": "btn btn-primary btn-lg"})
-    remember_me = BooleanField(
-        "Запомнить меня", default=True, render_kw={"class": "form-chek-input"})
+    submit = SubmitField('Войти', render_kw={'class': 'btn btn-primary btn-lg'})
+    remember_me = BooleanField('Запомнить меня', default=True, render_kw={'class': 'form-chek-input'})
 
 
 class RegistrationForm(BaseLoginForm):
     email = StringField(
-        "email:",
+        'email:',
         validators=[DataRequired(), Length(min=MIN_EMAIL_LENGTH, max=MAX_EMAIL_LENGTH)],
-        render_kw={"class": "form-control"},
+        render_kw={'class': 'form-control'},
     )
     confirm_password = PasswordField(
         'Повторите пароль: ',

@@ -6,6 +6,7 @@ from app.crud import new_user
 from app.models import User
 from app.user.forms import LoginForm, RegistrationForm
 
+
 blueprint = Blueprint('user', __name__, url_prefix='/users')
 
 
@@ -18,16 +19,16 @@ def login():
     return render_template('user/login.html', page_title=title, form=login_form)
 
 
-@blueprint.route("/signup", methods=["GET", "POST"], endpoint='signup')
+@blueprint.route('/signup', methods=['GET', 'POST'], endpoint='signup')
 def signup():
     if current_user.is_authenticated:
-        return redirect(url_for("index"))
-    title = "Регистрация"
+        return redirect(url_for('index'))
+    title = 'Регистрация'
     reg_form = RegistrationForm()
-    if request.method == "POST" and reg_form.validate():
+    if request.method == 'POST' and reg_form.validate():
         new_user(reg_form.data)
-        return redirect(url_for("index"))
-    return render_template("user/signup.html", page_title=title, form=reg_form)
+        return redirect(url_for('index'))
+    return render_template('user/signup.html', page_title=title, form=reg_form)
 
 
 @blueprint.route('/process-login', methods=['POST'])

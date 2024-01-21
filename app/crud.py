@@ -1,4 +1,5 @@
 import logging
+
 from typing import Any
 
 from flask import flash
@@ -42,15 +43,13 @@ def create_transaction(transaction_data: dict[str, Any]) -> Transaction:
         return transaction
 
 
-def update_transaction(
-    tr_id: int, transaction_data: dict[str, Any], db_session: Session = None
-) -> Transaction:
+def update_transaction(tr_id: int, transaction_data: dict[str, Any], db_session: Session = None) -> Transaction:
     if not db_session:
         db_session = Session()
     with db_session:
         transaction = db_session.get(Transaction, tr_id)
         if not transaction:
-            raise DoesNotExist(f"Транзакция с id={tr_id} не найдена")
+            raise DoesNotExist(f'Транзакция с id={tr_id} не найдена')
         for key, value in transaction_data.items():
             setattr(transaction, key, value)
         return db_session.get(Transaction, tr_id)
@@ -59,7 +58,7 @@ def update_transaction(
 def user_list():
     with Session() as session:
         user_list = session.query(User).all()
-        return user_list
+        return user_list  # noqa: RET504
 
 
 """

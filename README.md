@@ -1,49 +1,17 @@
-### Деплоймент на прод
-#### CI
-##### с использованием *poetry*
-<span style="color:gray">причем *poetry* должен быть установлен с помощью **pipx**</span>
+## Installation poetry
+Windows
+```power shell
+    (Invoke-WebRequest -Uri https://install.python-poetry.org -UseBasicParsing).Content | py -
+```
+Other os
+[Instruction](https://python-poetry.org/docs/#installation)
 
-`poetry install --without dev, test --no-root`
-
-##### с использованием *pip*
-`pip install -r requirements/prod.txt`
-
-### Среда разработки
-##### с использованием *poetry*
-`poetry install --with dev --no-root`
-
-##### с использованием *pip*
-`pip install -r requirements/dev.txt`
-
-### Среда тестирования
-##### с использованием *poetry*
-`poetry install --with test --no-root`
-
-##### с использованием *pip*
-`pip install -r requirements/test.txt`
-
+## Инициализация проекта
+```shell
+poetry install
+```
 
 ### Запуск сервера FLASK
-Linux, Mac и Windows: 
-
-`flask run --debug`
-
-### Создаем таблицы из метаданных Base.metadata.create_all(engine)
-Вызывается только один раз при пустой базе
-`python3 db_init.py`
-
-### Линтеры
-#### black
-`black -v --check --diff --color app` - для проверки, не будет автоматом исправлять - выведет в 
-консоль замечания.
-
-`black app` - для автоматического исправления
-
-#### isort
-isort -v --check-only --diff --color  app - для проверки, не будет автоматом исправлять - выведет в 
-консоль замечания.
-
-`isort app` - для автоматического исправления
-
-#### flake8
-`flake8 app` - проверит код на ошибки
+```shell
+flask run --debug
+```

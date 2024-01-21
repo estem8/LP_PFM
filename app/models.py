@@ -57,7 +57,7 @@ class Transaction(Base):
     __tablename__ = 'transactions'
     id: Mapped[int] = mapped_column(primary_key=True)
     account_id_from: Mapped[int] = mapped_column(ForeignKey('accounts.id'))
-    account_id_to: Mapped[Optional[int]] = mapped_column(ForeignKey('accounts.id'), nullable=True)
+    account_id_to: Mapped[Optional[int]] = mapped_column(ForeignKey('accounts.id'), nullable=True)  # noqa: UP007
     transaction_type: Mapped[str]
     amount: Mapped[int]
     date: Mapped[datetime] = mapped_column(DateTime(timezone=True))
@@ -67,5 +67,7 @@ class Transaction(Base):
     is_deleted: Mapped[bool] = mapped_column(default=False)
 
     def __repr__(self):
-        return (f'{self.__class__} id={self.id}, transaction_type=={self.transaction_type}, amount={self.amount}'
-                f'date={self.date} created_at={self.created_at} is_deleted={self.is_deleted}')
+        return (
+            f'{self.__class__} id={self.id}, transaction_type=={self.transaction_type}, amount={self.amount}'
+            f'date={self.date} created_at={self.created_at} is_deleted={self.is_deleted}'
+        )

@@ -1,25 +1,3 @@
-[tool.black]
-multi_line_output = 3
-include_trailing_comma = true
-line_length = 110
-ensure_newline_before_comments = true
-target_version = ['py310', 'py311', 'py312']
-exclude = ".*, */migrations/*, pycache, .venv/*"
-skip_string_normalization = true
-
-[tool.isort]
-profile = "black"
-
-[tool.flake8]
-#exclude = [".*", "*/migrations/*", "pycache", ".venv/*"]
-accept-encodings = "utf-8"
-max-line-length = 120
-max-complexity = 6
-inline-quotes = "'"
-multiline-quotes = "'''"
-#ignore = ["E203", "E501", "E704"]
-color = "always"
-
 [tool.poetry]
 name = "LP_PFM"
 version = "0.0.1"
@@ -35,18 +13,44 @@ SQLAlchemy = "^2.0.25"
 WTForms = "^3.1.1"
 Flask-WTF = "^1.2.1"
 flask-login = "^0.6.3"
-ruff = "^0.1.13"
+pre-commit = "^3.6.0"
 
 [tool.poetry.group.dev.dependencies]
-Faker = "^22.0.0"
-matplotlib = "^3.8.2"
-black = "^23.12.1"
-flake8 = "^7.0.0"
-isort = "^5.13.2"
-
-[tool.poetry.group.test.dependencies]
-pytest = "^7.4.4"
+ruff = "^0.1.13"
 
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
+
+[tool.ruff]
+line-length = 120
+target-version = "py310"
+select = [
+  "F",   # pyflakes
+  "A",   # flake8-builtins
+  "E",   # pycodestyle
+  "W",   # pycodestyle
+  "N",   # pep8-naming
+  "UP",  # pyupgrade,
+  "I",   # isort
+  "B",   # flake8-bugbear
+  "RET", # flake8-return
+]
+
+fix = false
+show-fixes = true
+show-source = true
+
+[tool.ruff.format]
+quote-style = "single"
+
+[tool.ruff.lint.flake8-quotes]
+docstring-quotes = "double"
+
+[tool.ruff.lint.isort]
+lines-between-types = 1
+lines-after-imports = 2
+
+[tool.ruff.lint.mccabe]
+# Flag errors (`C901`) whenever the complexity level exceeds 6.
+max-complexity = 6

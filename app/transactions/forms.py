@@ -8,6 +8,7 @@ from wtforms.validators import DataRequired, ValidationError
 
 from app.config import OPER_TYPE_CARD_DEPT
 
+
 # from app.db import Base, Session
 # from app.models import Account
 
@@ -47,7 +48,7 @@ def validate_date(form, field):
     try:
         datetime.date.fromisoformat(field.data)
     except Exception:
-        raise ValidationError('Недопустимая дата или некорректный формат')
+        raise ValidationError('Недопустимая дата или некорректный формат')  # noqa: B904
 
 
 class TransactionForm(Form):

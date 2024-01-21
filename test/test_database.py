@@ -1,15 +1,17 @@
 import pytest
+
 from sqlalchemy import Engine, create_engine, select
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.orm.session import Session
 
-from app.crud import edit_account, update_transaction, new_user
+from app.crud import edit_account, new_user, update_transaction
 from app.models import Base, Transaction, User
 
 
 @pytest.fixture
 def engine():
     from app.config import DB_URL
+
     engine = create_engine(f'{DB_URL[:-3]}_test.db', echo=True)
     Base.metadata.create_all(engine)
     yield engine
@@ -18,7 +20,7 @@ def engine():
 
 @pytest.fixture
 def db_session(engine: Engine):
-    Session = sessionmaker(bind=engine)
+    Session = sessionmaker(bind=engine)  # noqa: N806
     session = Session()
     yield session
     session.rollback()
@@ -31,17 +33,13 @@ def test_database_connection(engine: Engine):
         connection = engine.connect()
         connection.close()
     except Exception as e:
-        pytest.fail(f"Unexpected error to connect database: {e}")
+        pytest.fail(f'Unexpected error to connect database: {e}')
 
 
 @pytest.fixture
 def test_create_user(db_session: Session):
     """Тест на запись в бд"""
-    user_data = {
-        "login": "testuser",
-        "password": "testpassword",
-        "email": "test@mail"
-    }
+    user_data = {'login': 'testuser', 'password': 'testpassword', 'email': 'test@mail'}
 
     user = User(user_data)
     db_session.add(user)
@@ -49,22 +47,18 @@ def test_create_user(db_session: Session):
 
     # из документации устаревший вариант, наверное не стоит использовать
     # user = db_session.query(User).filter_by(login=login).first()
-    assert user.id is not None, "Пользователь не был создан"
+    assert user.id is not None, 'Пользователь не был создан'
 
 
 @pytest.mark.skipif
 def test_duplicate_email(db_session: Session):
-    '''Тестирование создания пользователя с дублирующимся email'''
-    user_data = {
-        'login': "UserName_1",
-        'password': "User_Password_1",
-        'email': "test_unique@mail.com"
-    }
+    """Тестирование создания пользователя с дублирующимся email"""
+    user_data = {'login': 'UserName_1', 'password': 'User_Password_1', 'email': 'test_unique@mail.com'}
     new_user(user_data, db_session)
 
-    login = "UserName_2"
-    password = "User_Password_2"
-    email = "test_unique@mail.com"
+    login = 'UserName_2'  # noqa: F841
+    password = 'User_Password_2'  # noqa: F841
+    email = 'test_unique@mail.com'
 
     with pytest.raises(ValueError, match=f'Пользователь с email {email} уже существует'):
         new_user(user_data, db_session)

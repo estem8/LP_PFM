@@ -5,6 +5,7 @@ from sqlalchemy.exc import DatabaseError
 from app.crud import create_transaction
 from app.transactions.forms import TransactionForm
 
+
 blueprint = Blueprint(
     'transactions', __name__, url_prefix='/transactions', template_folder='templates', static_folder='static'
 )
