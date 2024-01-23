@@ -1,4 +1,4 @@
-<nav class="navbar navbar-dark navbar-expand-lg" style="background-color: #344850;">
+<nav class="navbar navbar-dark navbar-expand-lg  justify-content-center" style="background-color: #344850;">
     <div class="container-fluid">
         <a class="navbar-brand" href="#">
             <img src="img/LOGO2.png" alt="Тут логотип" width="45">
@@ -10,9 +10,15 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0 top-menu">
+                {% if current_user.is_authenticated %}
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Профиль</a>
+                </li>
+                {% else %}
                 <li class="nav-item">
                     <a class="nav-link" href="/">Домашняя</a>
                 </li>
+                {% endif %}
                 <li class="nav-item">
                     <a class="nav-link" href="news/index.html">Новости</a>
                 </li>
@@ -23,8 +29,12 @@
                     <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#"><i
                             class="far fa-user"></i></a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <li><a class="dropdown-item" href="{{ url_for('user.signup') }}">Регистрация</a></li>
-                        <li><a class="dropdown-item" href="{{ url_for('user.login') }}">Авторизация</a></li>
+                        {% if current_user.is_authenticated %}
+                            <li><a class="dropdown-item" href="{{ url_for('user.logout') }}">Выйти из профиля</a></li>
+                        {% else %}
+                            <li><a class="dropdown-item" href="{{ url_for('user.signup') }}">Регистрация</a></li>
+                            <li><a class="dropdown-item" href="{{ url_for('user.login') }}">Авторизация</a></li>
+                        {% endif %}
                     </ul>
                 </li>
             </ul>
