@@ -3,7 +3,7 @@ import os
 from flask import Flask, abort, render_template, session
 from flask_login import LoginManager
 
-from app.db import Session
+from app.database import db
 from app.edit.edit import edit
 from app.transactions.views import blueprint as transaction_blueprint
 from app.user.views import blueprint as user_blueprint
@@ -20,6 +20,9 @@ def create_app(test_config=None):
         app.config.from_mapping(test_config)
 
     app.secret_key = os.urandom(32)
+
+    db.init_app(app)
+
     app.register_blueprint(user_blueprint)
     app.register_blueprint(edit, url_prefix='/edit')
     app.register_blueprint(transaction_blueprint)
@@ -32,8 +35,7 @@ def create_app(test_config=None):
 
     @login_manager.user_loader
     def user_loader(user_id) -> User:
-        with Session() as db_session:
-            return db_session.query(User).get({'id': user_id})
+        return db.get_or_404(User, user_id)
 
     @app.route('/')
     def index():

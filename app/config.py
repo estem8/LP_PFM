@@ -1,10 +1,9 @@
-import os
-
 from datetime import timedelta
+from pathlib import Path
 
 
-basedir = os.path.abspath(os.path.dirname(__file__))
-DB_URL = 'sqlite:///' + os.path.join(basedir, '..', 'webapp.db')
+BASEDIR = Path(__file__).parent.parent
+SQLALCHEMY_DATABASE_URI = f'sqlite:///{Path(BASEDIR, "webapp.db")}'
 DB_POOL_SIZE = 20
 
 OPER_TYPE_CARD_DEPT = 'dept'  # код расходной операции. т.к. в БД нет таблицы с типами операций, то оно живет тут
