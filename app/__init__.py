@@ -20,9 +20,9 @@ def create_app(test_config=None):
         app.config.from_mapping(test_config)
 
     app.secret_key = os.urandom(32)
-    app.register_blueprint(user_blueprint)
-    app.register_blueprint(edit, url_prefix='/edit')
+    app.register_blueprint(edit)
     app.register_blueprint(transaction_blueprint)
+    app.register_blueprint(user_blueprint)
 
     login_manager = LoginManager()
     login_manager.init_app(app)
@@ -37,7 +37,7 @@ def create_app(test_config=None):
 
     @app.route('/')
     def index():
-        return render_template("index.html")
+        return render_template('index.html')
 
     @app.route('/profile/<username>')
     def profile(username):
