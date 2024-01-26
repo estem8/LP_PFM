@@ -3,8 +3,6 @@ from flask_login import login_required
 from sqlalchemy.exc import DatabaseError
 
 from app.crud import create_transaction
-
-# from app.crud import create_transaction
 from app.transactions.forms import TransactionForm
 
 
@@ -23,8 +21,8 @@ def add():
             create_transaction(form.data)
         except DatabaseError:
             flash('Ошибка создания транзакции')
-        else:
-            flash('Невалидная форма')
+    else:
+        flash('Невалидная форма')
     return render_template('transactions/add.html', page_title=page_title, form=form)
 
 
