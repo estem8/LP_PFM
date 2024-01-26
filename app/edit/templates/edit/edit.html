@@ -1,25 +1,31 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Modal with Form</title>
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css" rel="stylesheet">
-</head>
-<body>
+{% extends 'base.html' %}
 
-<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#add_account">
-Add account form
-</button>
+{% block title %}
+Transaction page
+{% endblock %}
 
-<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#account_select">
-Open select account form   
-</button>
+{% block content %}
+  <div class="container">
+    <div class="row text-md-center">
+      <div class="d-grid gap-2 col-4 mx-auto">
+          <button type="button" class="btn btn-primary btn-lg" data-bs-toggle="modal" data-bs-target="#add_account">
+          Add account form
+          </button>
+      </div>  
 
-<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#transaction">
-Open add transaction form
-</button>
+      <div class="d-grid gap-2 col-4 mx-auto">
+          <button type="button" class="btn btn-primary btn-lg" data-bs-toggle="modal" data-bs-target="#account_select">
+          Open select account form   
+          </button>
+      </div>
+
+      <div class="d-grid gap-2 col-4 mx-auto">
+          <button type="button" class="btn btn-primary btn-lg" data-bs-toggle="modal" data-bs-target="#transaction">
+          Open add transaction form
+          </button>
+      </div>
+    </div>
+  </div>
 
 
 <!-- ФОРМА ЧЕРЕЗ WTForm -->
@@ -135,8 +141,4 @@ Open add transaction form
       </div>
     </div>
   </div>
-
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
-
-</body>
-</html>
+{% endblock %}
