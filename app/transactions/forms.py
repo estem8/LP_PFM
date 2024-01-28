@@ -1,7 +1,9 @@
 import datetime
 
+from flask_wtf import FlaskForm
+
 # from sqlalchemy import and_
-from wtforms import Form, StringField, SubmitField, validators
+from wtforms import StringField, SubmitField, validators
 from wtforms.fields.datetime import DateField
 from wtforms.fields.numeric import FloatField, IntegerField
 from wtforms.validators import DataRequired, ValidationError
@@ -51,7 +53,7 @@ def validate_date(form, field):
         raise ValidationError('Недопустимая дата или некорректный формат')  # noqa: B904
 
 
-class TransactionForm(Form):
+class TransactionForm(FlaskForm):
     account_id_from = IntegerField(
         # TODO передавать в форму на фронт список счетов юзверя и брать из формы id account
         'Счет',

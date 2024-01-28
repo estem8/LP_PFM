@@ -1,19 +1,14 @@
 from datetime import datetime
-from typing import Optional
 
 from flask_login import UserMixin
 from sqlalchemy import DateTime, ForeignKey
-from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
+from sqlalchemy.orm import Mapped, mapped_column
 from werkzeug.security import check_password_hash, generate_password_hash
 
-
-class Base(DeclarativeBase):
-    # Правильный способ объявления класса Base
-    # вместо Base = declarative_base()
-    pass
+from app import db
 
 
-class User(Base, UserMixin):
+class User(db.Model, UserMixin):
     """Пользователи
     UserMixin нужен для работы flask_login. Добавляет в модель @property:
     - is_active
@@ -21,9 +16,8 @@ class User(Base, UserMixin):
     - is_anonymous
     и метод get_id"""
 
-    __tablename__ = 'users'
     id: Mapped[int] = mapped_column(primary_key=True)
-    login: Mapped[str]
+    login: Mapped[str] = mapped_column(unique=True)
     password: Mapped[str]
     email: Mapped[str] = mapped_column(unique=True)
 
@@ -44,20 +38,18 @@ class User(Base, UserMixin):
             setattr(self, key, value)
 
 
-class Account(Base):
-    __tablename__ = 'accounts'
+class Account(db.Model):
     id: Mapped[int] = mapped_column(primary_key=True)
-    user_id: Mapped[int] = mapped_column(ForeignKey('users.id'))
+    user_id: Mapped[int] = mapped_column(ForeignKey(User.id))
     name: Mapped[str]
     currency: Mapped[str]
     symbol: Mapped[str]
 
 
-class Transaction(Base):
-    __tablename__ = 'transactions'
+class Transaction(db.Model):
     id: Mapped[int] = mapped_column(primary_key=True)
-    account_id_from: Mapped[int] = mapped_column(ForeignKey('accounts.id'))
-    account_id_to: Mapped[Optional[int]] = mapped_column(ForeignKey('accounts.id'), nullable=True)  # noqa: UP007
+    account_id_from: Mapped[int] = mapped_column(ForeignKey(Account.id))
+    account_id_to: Mapped[int | None] = mapped_column(ForeignKey(Account.id), nullable=True)
     transaction_type: Mapped[str]
     amount: Mapped[int]
     date: Mapped[datetime] = mapped_column(DateTime(timezone=True))

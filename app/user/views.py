@@ -1,8 +1,9 @@
 from flask import Blueprint, flash, redirect, render_template, request, url_for
 from flask_login import current_user, login_user, logout_user
 
-from app import Session
-from app.crud import new_user
+from app import db
+from app.common import UserAlreadyExistsError
+from app.crud import create_user
 from app.models import User
 from app.user.forms import LoginForm, RegistrationForm
 
@@ -26,7 +27,13 @@ def signup():
     title = 'Регистрация'
     reg_form = RegistrationForm()
     if request.method == 'POST' and reg_form.validate():
-        new_user(reg_form.data)
+        try:
+            user = create_user(reg_form.data)
+        except UserAlreadyExistsError:
+            flash('Пользователь с таким именем или email уже существует')
+            return render_template('user/signup.html', page_title=title, form=reg_form)
+        login_user(user)
+        flash('Вы успешно зарегистрировались')
         return redirect(url_for('index'))
     return render_template('user/signup.html', page_title=title, form=reg_form)
 
@@ -35,8 +42,7 @@ def signup():
 def process_login():
     form = LoginForm()
     if form.validate_on_submit():
-        with Session() as session:
-            user = session.query(User).filter_by(login=form.login.data).first()
+        user = db.session.execute(db.select(User).filter_by(login=form.login.data)).scalar()
         if user and user.check_password(form.password.data):
             login_user(user, remember=form.remember_me.data)
             flash('Вы успешно авторизовались')

@@ -1,64 +1,47 @@
-import logging
-
+from operator import or_
 from typing import Any
 
-from flask import flash
-from sqlalchemy.exc import DatabaseError
+from flask_sqlalchemy import SQLAlchemy
 
-from app.common import DoesNotExist
-from app.db import Session
+from app.common import UserAlreadyExistsError
+from app.database import db
 from app.models import Account, Transaction, User
 
 
-def new_user(data: dict) -> User:
-    with Session() as session:
-        try:
-            user = User(data)
-            session.add(user)
-            session.commit()
-            return user
-        except DatabaseError as e:
-            logging.exception(e)
-            flash(f'Пользователь с логином {data["login"]} или почтой {data["email"]} уже существует')
+def create_user(data: dict[str, Any]) -> User:
+    user = db.session.execute(db.select(User).where(or_(User.login == data['login'], User.email == data['email'])))
+    if user.first():
+        raise UserAlreadyExistsError
+    user = User(data)
+    db.session.add(user)
+    db.session.commit()
+    return user
 
 
-def edit_account(session, user_id, name, currency, symbol) -> Account:
-    account = Account(user_id=user_id, name=name, currency=currency, symbol=symbol)
-    session.add(account)
-    session.commit()
+def creat_account(data: dict[str, Any]) -> Account:
+    account = Account(**data)
+    db.session.add(account)
+    db.session.commit()
     return account
 
 
 def create_transaction(transaction_data: dict[str, Any]) -> Transaction:
-    """
-    Создает транзакцию.
-
-    :param transaction_data: данные для создания объекта транзакции, который будет записан в БД
-    """
-
-    with Session() as session:
-        transaction = Transaction(**transaction_data)
-        session.add(transaction)
-        session.commit()
-        return transaction
+    transaction = Transaction(**transaction_data)
+    db.session.add(transaction)
+    db.session.commit()
+    return transaction
 
 
-def update_transaction(tr_id: int, transaction_data: dict[str, Any], db_session: Session = None) -> Transaction:
-    if not db_session:
-        db_session = Session()
-    with db_session:
-        transaction = db_session.get(Transaction, tr_id)
-        if not transaction:
-            raise DoesNotExist(f'Транзакция с id={tr_id} не найдена')
-        for key, value in transaction_data.items():
-            setattr(transaction, key, value)
-        return db_session.get(Transaction, tr_id)
+def update_transaction(tr_id: int, transaction_data: dict[str, Any]) -> Transaction:
+    transaction = db.get_or_404(Transaction, tr_id)
+    for key, value in transaction_data.items():
+        setattr(transaction, key, value)
+    db.session.commit()
+    return transaction
 
 
-def user_list():
-    with Session() as session:
-        user_list = session.query(User).all()
-        return user_list  # noqa: RET504
+def user_list(database: SQLAlchemy):
+    return database.session.execute(db.select(User).order_by(User.username)).scalars()
 
 
 """
@@ -77,6 +60,3 @@ def create_user(login,password):
         session.close() #закрыли сессию
 
 """
-
-if __name__ == '__main__':
-    pass

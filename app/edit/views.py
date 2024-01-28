@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, request
 
-from app.db import Session
+from app.database import Session
 from app.edit.forms import AccountDetail
 from app.models import Account
 
