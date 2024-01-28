@@ -7,7 +7,3 @@ class Base(DeclarativeBase):
 
 
 db = SQLAlchemy(model_class=Base)
-
-
-class DtaBaseUniqError(Exception):
-    pass

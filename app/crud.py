@@ -1,23 +1,16 @@
 from typing import Any
 
 from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy.exc import DatabaseError
 
-from app.database import DtaBaseUniqError, db
+from app.database import db
 from app.models import Account, Transaction, User
 
 
 def create_user(data: dict[str, Any]) -> User:
-    try:
-        user = User(data)
-        db.session.add(user)
-        db.session.commit()
-        return user
-    except DatabaseError as e:
-        if 'UNIQUE constraint failed' in e.args[0]:
-            field = e.args[0].split()[-1].split('.')[-1]
-            raise DtaBaseUniqError(f'Пользователь с таким {field} уже существует') from e
-        raise
+    user = User(data)
+    db.session.add(user)
+    db.session.commit()
+    return user
 
 
 def creat_account(data: dict[str, Any]) -> Account:
