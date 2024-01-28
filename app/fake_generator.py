@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 
 from faker import Faker
 
-from app.crud import new_user
+from app.crud import create_user
 
 
 fake = Faker()
@@ -23,7 +23,7 @@ def generate_user(num):
 
 def create_user_in_db(num):
     for profile in generate_user(num):
-        new_user(
+        create_user(
             {
                 'first_name': profile['name'],
                 'login': profile['username'],
