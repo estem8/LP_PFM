@@ -1,7 +1,7 @@
 import pytest
 
+from app.common import UserAlreadyExistsError
 from app.crud import creat_account, create_transaction, create_user, update_transaction
-from app.database import DtaBaseUniqError
 
 
 def test_create_user(user_data_create: dict) -> None:
@@ -14,7 +14,7 @@ def test_duplicate_email(user_data_create_double: list[dict]) -> None:
     """Тестирование создания пользователя с дублирующимся email"""
     create_user(user_data_create_double[0])
 
-    with pytest.raises(DtaBaseUniqError):
+    with pytest.raises(UserAlreadyExistsError):
         create_user(user_data_create_double[1])
 
 

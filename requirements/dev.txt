@@ -1,7 +1,0 @@
--r prod.txt
-faker
-matplotlib
-black
-flake8
-isort
-colorama
