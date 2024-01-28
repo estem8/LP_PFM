@@ -1,12 +1,17 @@
+from operator import or_
 from typing import Any
 
 from flask_sqlalchemy import SQLAlchemy
 
+from app.common import UserAlreadyExistsError
 from app.database import db
 from app.models import Account, Transaction, User
 
 
 def create_user(data: dict[str, Any]) -> User:
+    user = db.session.execute(db.select(User).where(or_(User.login == data['login'], User.email == data['email'])))
+    if user.first():
+        raise UserAlreadyExistsError
     user = User(data)
     db.session.add(user)
     db.session.commit()

@@ -2,5 +2,9 @@ class DataBaseUniqError(Exception):
     pass
 
 
-class DoesNotExist(Exception):  # noqa: N818
+class DoesNotExistsError(Exception):
+    pass
+
+
+class UserAlreadyExistsError(Exception):
     pass
