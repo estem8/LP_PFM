@@ -8,6 +8,6 @@ DB_POOL_SIZE = 20
 
 OPER_TYPE_CARD_DEPT = 'dept'  # код расходной операции. т.к. в БД нет таблицы с типами операций, то оно живет тут
 
-SECRET_KEY = "developer_secret_key"
+SECRET_KEY = 'developer_secret_key'
 
-REMEMBER_COOKIE_DURATION = timedelta(days=14)
+REMEMBER_COOKIE_DURATION = timedelta(days=140)

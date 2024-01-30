@@ -1,13 +1,12 @@
 from datetime import date, timedelta
-from pathlib import Path
 
 import pytest
 
-from app import config, create_app, db
+from app import create_app, db
 from app.models import Transaction
 
 
-SQLALCHEMY_DATABASE_URI = f'sqlite:///{Path(config.BASEDIR, "webapp_test.db")}'
+SQLALCHEMY_DATABASE_URI = 'sqlite://'
 
 
 @pytest.fixture(scope='session')

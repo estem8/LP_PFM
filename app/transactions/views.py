@@ -1,4 +1,4 @@
-from flask import Blueprint, flash, render_template
+from flask import Blueprint, flash, render_template, request
 from flask_login import login_required
 from sqlalchemy.exc import DatabaseError
 
@@ -11,11 +11,13 @@ blueprint = Blueprint(
 )
 
 
-# @login_required
+@login_required
 @blueprint.route('/add', methods=['GET', 'POST'])
 def add():
     page_title = 'Добавление Транзакции'
     form = TransactionForm()
+    if request.method == 'GET':
+        return render_template('transactions/add.html', page_title=page_title, form=form)
     if form.validate_on_submit():
         try:
             create_transaction(form.data)

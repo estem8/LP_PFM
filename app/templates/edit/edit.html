@@ -4,25 +4,27 @@
 Transaction page
 {% endblock %}
 
-{% block content %}
+{% block overview %}
   <div class="container">
     <div class="row text-md-center">
       <div class="d-grid gap-2 col-4 mx-auto">
           <button type="button" class="btn btn-primary btn-lg" data-bs-toggle="modal" data-bs-target="#add_account">
           Add account form
           </button>
-      </div>  
+      </div>
 
       <div class="d-grid gap-2 col-4 mx-auto">
           <button type="button" class="btn btn-primary btn-lg" data-bs-toggle="modal" data-bs-target="#account_select">
-          Open select account form   
+          Open select account form
           </button>
       </div>
 
       <div class="d-grid gap-2 col-4 mx-auto">
+        {% if accounts %}
           <button type="button" class="btn btn-primary btn-lg" data-bs-toggle="modal" data-bs-target="#transaction">
           Open add transaction form
           </button>
+        {% endif %}
       </div>
     </div>
   </div>
@@ -38,17 +40,17 @@ Transaction page
         </div>
         <div class="modal-body">
 
-            <form method="POST">
-  
+            <form method="POST" action="{{ url_for("account.account_create") }}">
+
             <div class="mb-3">
-                <label class="form-label">{{ form.account_name.label }}</label>
-                {{ form.account_name(class="form-control") }}
+                <label class="form-label">{{ form.name.label }}</label>
+                {{ form.name(class="form-control") }}
             </div>
             <div class="mb-3">
               <label class="form-label">{{form.currency.label}}</label>
               {{ form.currency(class="form-control") }}
             </div>
-  
+
             <div class="mb-3">
               <label class="form-label">{{form.symbol.label}}</label>
               {{ form.symbol(class="form-control") }}
@@ -59,8 +61,6 @@ Transaction page
       </div>
     </div>
   </div>
-
-
 
 
 <div class="modal fade" id="account_select" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -113,9 +113,9 @@ Transaction page
             <div class="mb-3">
                 <label>select account</label>
                 <select class="form-control">
-                    <option>Bank</option>
-                    <option>Cash</option>
-                    <option>Заначка</option>
+                  {% for account in accounts %}
+                    <option value={{ account.id }}>{{ account.name }}</option>
+                  {% endfor %}
                 </select>
               </div>
             <div class="mb-3">

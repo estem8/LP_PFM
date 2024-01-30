@@ -19,20 +19,20 @@ Add account form page
         </div>
         <div class="modal-body">
 
-            <form method="POST" action="{{ url_for('edit.account_editor') }}">  
+            <form method="POST" action="{{ url_for('edit.get_edit_page') }}">
             <!-- <form method="POST">  -->
               <!-- action="{{ url_for('edit.test') }}
               Как я понял используется в action что бы отправить данные в URL /edit/account взятый из функции def test() -->
             <div class="mb-3">
-                {{ form.account_name.label(class="form-label") }}
-                {{ form.account_name(class="form-control") }}
+                {{ form.name.label(class="form-label") }}
+                {{ form.name(class="form-control") }}
             </div>
 
             <div class="mb-3">
               {{form.currency.label(class="form-label")}}
               {{ form.currency(class="form-control") }}
             </div>
-  
+
             <div class="mb-3">
               {{form.symbol.label(class="form-label")}}
               {{ form.symbol(class="form-control") }}
