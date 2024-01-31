@@ -10,9 +10,9 @@ body {
 	background-color: #FFFAFA;
 	min-width: 320px;
 	position: relative;
-  	height: 100vh;
-  	display: flex; 
-  	flex-direction: column;
+  height: 100vh;
+  display: flex; 
+  flex-direction: column;
 }
 
 img {

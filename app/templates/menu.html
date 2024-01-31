@@ -39,14 +39,25 @@
             <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#">
-                        <img src="{{ url_for('static', filename='svgs/user.svg') }}" alt="Отчёты" width="20">
+                        {% if current_user.is_authenticated %}
+                        <i class="bi bi-person-down"></i>
+                        {% else %}
+                        <i class="bi bi-person-plus-fill"></i>
+                        {% endif %}
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                         {% if current_user.is_authenticated %}
-                            <li><a class="dropdown-item" href="{{ url_for('user.logout') }}">Выйти из профиля</a></li>
+                        <li><a class="dropdown-item" href="#">
+                            <i class="bi bi-person-badge-fill"></i>
+                            Профиль:{{ current_user.login }}</a></li>
+                        <li>
+                            <a class="dropdown-item" href="{{ url_for('user.logout') }}">
+                                <i class="bi bi-box-arrow-right"></i>
+                                Выйти</a>
+                            </li>
                         {% else %}
-                            <li><a class="dropdown-item" href="{{ url_for('user.signup') }}">Регистрация</a></li>
-                            <li><a class="dropdown-item" href="{{ url_for('user.login') }}">Авторизация</a></li>
+                        <li><a class="dropdown-item" href="{{ url_for('user.login') }}">Авторизация</a></li>
+                        <li><a class="dropdown-item" href="{{ url_for('user.signup') }}">Регистрация</a></li>
                         {% endif %}
                     </ul>
                 </li>

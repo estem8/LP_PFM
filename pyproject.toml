@@ -14,9 +14,16 @@ WTForms = "^3.1.1"
 Flask-WTF = "^1.2.1"
 flask-login = "^0.6.3"
 pre-commit = "^3.6.0"
+flask-sqlalchemy = "^3.1.1"
 
 [tool.poetry.group.dev.dependencies]
 ruff = "^0.1.13"
+faker = "^22.5.1"
+matplotlib = "^3.8.2"
+
+
+[tool.poetry.group.test.dependencies]
+pytest = "^7.4.4"
 
 [build-system]
 requires = ["poetry-core"]
