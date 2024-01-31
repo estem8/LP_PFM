@@ -34,7 +34,7 @@
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                         {% if current_user.is_authenticated %}
-                        <li><a class="dropdown-item" href="#">
+                        <li><a class="dropdown-item" href="{{ url_for('user.profile') }}">
                             <i class="bi bi-person-badge-fill"></i>
                             Профиль:{{ current_user.login }}</a></li>
                         <li>

@@ -1,5 +1,5 @@
 from flask import Flask, redirect, render_template, url_for
-from flask_login import LoginManager, current_user, login_required
+from flask_login import LoginManager, current_user
 
 from app.account.views import blueprint as account_blueprint
 from app.database import db
@@ -42,10 +42,5 @@ def create_app(test_config=None):
         if current_user.is_authenticated:
             return redirect(url_for('lk.get_lk_page'))
         return render_template('index.html')
-
-    @app.route('/profile/')
-    @login_required
-    def profile():
-        return f'Профиль {current_user.login}'
 
     return app

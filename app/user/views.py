@@ -1,6 +1,7 @@
 import flask_login
 
 from flask import Blueprint, flash, redirect, render_template, request, url_for
+from flask_login import current_user, login_required
 
 from app import db
 from app.common import UserAlreadyExistsError
@@ -58,3 +59,9 @@ def process_login():
 def logout():
     flask_login.logout_user()
     return redirect(url_for('index'))
+
+
+@blueprint.route('/profile/')
+@login_required
+def profile():
+    return f'Профиль {current_user.login}'
