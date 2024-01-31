@@ -17,7 +17,6 @@ def create_app(test_config=None):
         # load the test config if passed in
         app.config.from_mapping(test_config)
 
-    app.secret_key = app.config['SECRET_KEY']
     app.register_blueprint(edit)
     app.register_blueprint(transaction_blueprint)
     app.register_blueprint(user_blueprint)
@@ -41,6 +40,6 @@ def create_app(test_config=None):
     @app.route('/profile/')
     @login_required
     def profile():
-        return f'Профиль {current_user.__dict__} {dir(current_user)}'
+        return f'Профиль {current_user.login}'
 
     return app
