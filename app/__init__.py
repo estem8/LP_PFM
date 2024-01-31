@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, redirect, render_template, url_for
 from flask_login import LoginManager, current_user, login_required
 
 from app.database import db
@@ -35,6 +35,8 @@ def create_app(test_config=None):
 
     @app.route('/')
     def index():
+        if current_user.is_authenticated:
+            return redirect(url_for('user.dashboard'))
         return render_template('index.html')
 
     @app.route('/profile/')

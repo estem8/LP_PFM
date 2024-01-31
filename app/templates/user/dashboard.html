@@ -18,9 +18,9 @@ Dashboard page
                                     <h5 class="mb-3">Вы находитесь в панели управления , LP_PFM</h5>
                                 </div>
                             </div>
-                            <div class="col-md-4 align-self-end text-end">
-                                <img src="{{ url_for('static', filename='img/customer-support.jpg') }}" img-fluid illustration-img"
-                                    alt="">
+                            <div class="col-md-4">
+                                <img src="{{ url_for('static', filename='img/customer-support.jpg') }}"
+                                    class="img-fluid rounded float-end illustration-img" alt="">
                             </div>
                         </div>
                     </div>
@@ -53,31 +53,33 @@ Dashboard page
             </div>
             {% if accounts %}
             <div class="card-body">
-                <table class="table table-hover">
-                    <thead>
-                        <tr>
-                            <th scope="col">№</th>
-                            <th scope="col">Название</th>
-                            <th scope="col">Валюта</th>
-                            <th scope="col">Баланс</th>
-                        </tr>
-                    </thead>
-                    <tbody class="table-group-divider table-light">
-                            {% for account in accounts %}
-                                <tr>
-                                    <th scope="row">{{ loop.index }}</th>
-                                    <td>{{ account.name }}</td>
-                                    <td>{{ account.currency }}</td>
-                                    <td>{{ account.symbol }}</td>
-                                </tr>
-                            {% endfor %}    
-                        {% else %}
-                        <tr>
-                            <h4 class="m-3 text-warning">Счет не создан</h4>
-                        </tr>
-                        {% endif %}
-                    </tbody>
-                </table>
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th scope="col">№</th>
+                                <th scope="col">Название</th>
+                                <th scope="col">Валюта</th>
+                                <th scope="col">Баланс</th>
+                            </tr>
+                        </thead>
+                        <tbody class="table-group-divider table-light">
+                                {% for account in accounts %}
+                                    <tr>
+                                        <th scope="row">{{ loop.index }}</th>
+                                        <td>{{ account.name }}</td>
+                                        <td>{{ account.currency }}</td>
+                                        <td>{{ account.symbol }}</td>
+                                    </tr>
+                                {% endfor %}    
+                            {% else %}
+                            <tr>
+                                <h4 class="m-3 text-warning">Счет не создан</h4>
+                            </tr>
+                            {% endif %}
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
