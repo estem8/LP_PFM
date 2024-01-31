@@ -1,7 +1,5 @@
-import os
-
-from flask import Flask, abort, render_template, session
-from flask_login import LoginManager
+from flask import Flask, render_template
+from flask_login import LoginManager, current_user, login_required
 
 from app.database import db
 from app.edit.views import edit
@@ -19,7 +17,7 @@ def create_app(test_config=None):
         # load the test config if passed in
         app.config.from_mapping(test_config)
 
-    app.secret_key = os.urandom(32)
+    app.secret_key = app.config['SECRET_KEY']
     app.register_blueprint(edit)
     app.register_blueprint(transaction_blueprint)
     app.register_blueprint(user_blueprint)
@@ -28,7 +26,7 @@ def create_app(test_config=None):
 
     login_manager = LoginManager()
     login_manager.init_app(app)
-    login_manager.login_view = 'login'
+    login_manager.login_view = 'user.login'
 
     from app.models import User
 
@@ -40,11 +38,9 @@ def create_app(test_config=None):
     def index():
         return render_template('index.html')
 
-    @app.route('/profile/<username>')
-    def profile(username):
-        print(session)
-        if 'userLogged' not in session or session['userLogged'] != username:
-            abort(401)
-        return f'Профиль {username}'
+    @login_required
+    @app.route('/profile/')
+    def profile():
+        return f'Профиль {current_user.__dict__} {dir(current_user)}'
 
     return app
