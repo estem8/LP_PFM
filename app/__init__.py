@@ -38,8 +38,8 @@ def create_app(test_config=None):
     def index():
         return render_template('index.html')
 
-    @login_required
     @app.route('/profile/')
+    @login_required
     def profile():
         return f'Профиль {current_user.__dict__} {dir(current_user)}'
 
