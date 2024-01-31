@@ -1,8 +1,8 @@
 from flask import Blueprint, flash, redirect, render_template, request, url_for
-from flask_login import current_user,login_required, login_user, logout_user
+from flask_login import current_user, login_required, login_user, logout_user
 from sqlalchemy import select
 
-from app import db, Session
+from app import db
 from app.common import UserAlreadyExistsError
 from app.crud import create_user
 from app.models import Account, User
@@ -62,7 +62,6 @@ def logout():
 @blueprint.route('/dashboard')
 @login_required
 def dashboard():
-    with Session() as session:
-        query = select(Account).where(Account.user_id == current_user.id)
-        accounts = session.execute(query).scalars().all()
-        return render_template('user/dashboard.html', accounts=accounts)
+    query = select(Account).where(Account.user_id == current_user.id)
+    accounts = db.session.execute(query).scalars().all()
+    return render_template('user/dashboard.html', accounts=accounts)
