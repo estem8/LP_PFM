@@ -1,7 +1,7 @@
 <nav class="navbar navbar-dark navbar-expand-lg  justify-content-center" style="background-color: #344850;">
     <div class="container-fluid">
         <a class="navbar-brand" href="#">
-            <img src="img/LOGO2.png" alt="Тут логотип" width="45">
+            <img src="{{ url_for('static', filename='img/LOGO2.png') }}" alt="Тут логотип" width="45">
         </a>
         <button class="navbar-toggler" type="button" data-bs-toggle=""
             data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
@@ -12,22 +12,35 @@
             <ul class="navbar-nav me-auto mb-2 mb-lg-0 top-menu">
                 {% if current_user.is_authenticated %}
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Профиль</a>
+                    <a class="nav-link" href="{{ url_for('user.dashboard') }}">
+                        <img src="{{ url_for('static', filename='svgs/house-chimney-user.svg') }}" alt="Профиль" width="20"> 
+                        Мой профиль
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">
+                        <img src="{{ url_for('static', filename='svgs/chart-bar.svg') }}" alt="Транзакции" width="20">
+                    Транзакции
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">
+                        <img src="{{ url_for('static', filename='svgs/chart-pie.svg') }}" alt="Отчёты" width="20">
+                    Отчёты
+                    </a>
                 </li>
                 {% else %}
                 <li class="nav-item">
                     <a class="nav-link" href="/">Домашняя</a>
                 </li>
                 {% endif %}
-                <li class="nav-item">
-                    <a class="nav-link" href="news/index.html">Новости</a>
-                </li>
             </ul>
 
             <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#"><i
-                            class="far fa-user"></i></a>
+                    <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#">
+                        <img src="{{ url_for('static', filename='svgs/user.svg') }}" alt="Отчёты" width="20">
+                    </a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                         {% if current_user.is_authenticated %}
                             <li><a class="dropdown-item" href="{{ url_for('user.logout') }}">Выйти из профиля</a></li>

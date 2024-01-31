@@ -1,0 +1,85 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Dashboard page
+{% endblock %}
+
+{% block content_title %}
+<section>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12 col-md-6 d-flex">
+                <div class="card flex-fill border-0 illustration">
+                    <div class="card-body p-0 d-flex flex-fill">
+                        <div class="row g-0 w-100">
+                            <div class="col-md-8">
+                                <div class="p-3 m-1">
+                                    <h4 class="mb-3">Добро пожаловать, {{  current_user.login  }}</h4>
+                                    <h5 class="mb-3">Вы находитесь в панели управления , LP_PFM</h5>
+                                </div>
+                            </div>
+                            <div class="col-md-4 align-self-end text-end">
+                                <img src=""img-fluid illustration-img"
+                                    alt="">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-md-6 d-flex">
+                <div class="card flex-fill border-0">
+                    <div class="card-body py-4">
+                        <div class="d-flex align-items-start">
+                            <div class="flex-grow-1">
+                                <h4 class="mb-3">
+                                    Баланс
+                                </h4>
+                                <p class="mb-2">
+                                    <h4 class="mb-2 text-success">
+                                        ТУТ ТЕКУЩИЙ БАЛАНС
+                                    </h4>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card border-0">
+            <div class="card-header">
+                <h5 class="card-title">
+                    Информация о счетах
+                </h5>
+            </div>
+            {% if accounts %}
+            <div class="card-body">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th scope="col">№</th>
+                            <th scope="col">Название</th>
+                            <th scope="col">Валюта</th>
+                            <th scope="col">Баланс</th>
+                        </tr>
+                    </thead>
+                    <tbody class="table-group-divider table-light">
+                            {% for account in accounts %}
+                                <tr>
+                                    <th scope="row">{{ loop.index }}</th>
+                                    <td>{{ account.name }}</td>
+                                    <td>{{ account.currency }}</td>
+                                    <td>{{ account.symbol }}</td>
+                                </tr>
+                            {% endfor %}    
+                        {% else %}
+                        <tr>
+                            <h4 class="m-3 text-warning">Счет не создан</h4>
+                        </tr>
+                        {% endif %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

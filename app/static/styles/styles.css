@@ -7,8 +7,12 @@ body {
 	font-size: 16px;
 	font-weight: 400;
 	color: #000;
-	background-color: #fff;
+	background-color: #FFFAFA;
 	min-width: 320px;
+	position: relative;
+  	height: 100vh;
+  	display: flex; 
+  	flex-direction: column;
 }
 
 img {
@@ -19,6 +23,8 @@ img {
 section {
 	padding: 20px 0;
 	margin: 10px;
+	flex-grow: 1;
+	flex-shrink: 0;
 }
 
 a {
@@ -58,6 +64,22 @@ a:hover {
 
 /* Body */
 
+.card {
+	font-size: 16px;
+	color: #c8c8c8;
+	background-color: #344850;
+	margin-right: 0px;
+	margin-top: 5px;
+	margin-bottom: 5px;
+
+}
+
+
+.illustration-img {
+    max-width: 150px;
+    width: 100%;
+}
+
 .carousel-inner{
 display: flex;
 max-height: 500px;
@@ -68,33 +90,32 @@ max-height: 500px;
 	margin-top: 5px;
 	margin-bottom: 5px;
 }
+
+.image-svg {
+	fill: #FFFAFA;
+}
+
 /* Body */
 
 /* Footer */
 
-.footer {
+ .footer {
 	background-color: #344850;
-	/* position: absolute;
-	bottom: 0;
 	width: 100%;
-	padding-top: 35px; */
-	
-	/* test */
-	position: absolute;
-	bottom: 0;
+	padding-top: 25px;
+
 	left: 0;
 	right: 0;
 	padding: 2rem;
-	/* background: purple; */
-	/* color: white; */
+	background: #344850;
+	color: white;
 	font-weight: 500;
-	display: flex;
 	justify-content: center;
 	align-items: center;
 	gap: 0.2rem;
-	/* test */
 
-}
+} 
+
 
 .footer h4 {
 	color: #ccc;
