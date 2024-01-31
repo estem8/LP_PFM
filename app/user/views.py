@@ -10,7 +10,7 @@ from app.models import User
 from app.user.forms import LoginForm, RegistrationForm
 
 
-blueprint = Blueprint('user', __name__, url_prefix='/users', template_folder='templates', static_folder='static')
+blueprint = Blueprint('user', __name__, url_prefix='/users')
 
 
 @blueprint.route('/login')

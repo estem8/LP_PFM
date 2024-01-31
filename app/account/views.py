@@ -6,7 +6,7 @@ from app.account.forms import AccountForm
 from app.crud import creat_account, fetch_account, fetch_accounts
 
 
-blueprint = Blueprint('account', __name__, url_prefix='/account', template_folder='templates', static_folder='static')
+blueprint = Blueprint('account', __name__, url_prefix='/account')
 
 
 @flask_login.login_required

@@ -41,19 +41,20 @@
 
     <div class="container">
       <div class="row">
-        {% if current_user.is_authenticated %}
-          <h6>You are logged in as: {{ current_user.login }}</h6>
+        <h3>
+          {% if current_user.is_authenticated %}
+            <h6>You are logged in as: {{ current_user.login }}</h6>
+          {% endif %}
 
           {% block overview %}
           {% endblock %}
 
-        {% else %}
           {% block content_title %}
           {% endblock %}
 
           {% block content %}
           {% endblock %}
-        {% endif %}
+        </h3>
       </div>
     </div>
   </div>
