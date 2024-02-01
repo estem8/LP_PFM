@@ -14,8 +14,8 @@ Dashboard page
                         <div class="row g-0 w-100">
                             <div class="col-md-8">
                                 <div class="p-3 m-1">
-                                    <h4 class="mb-3">Добро пожаловать, {{  current_user.login  }}</h4>
-                                    <h5 class="mb-3">Вы находитесь в панели управления , LP_PFM</h5>
+                                    <h5 class="mb-3 text-wrap">Добро пожаловать, {{  current_user.login  }}</h5>
+                                    <!-- <h6 class="mb-3">Вы находитесь в панели управления , LP_PFM</h6> -->
                                 </div>
                             </div>
                             <div class="col-md-4">
@@ -36,7 +36,9 @@ Dashboard page
                                 </h4>
                                 <p class="mb-2">
                                     <h4 class="mb-2 text-success">
-                                        ТУТ ТЕКУЩИЙ БАЛАНС
+                                        {% if accounts %}
+                                         {{ account.get_balance }}
+                                         {% endif %}
                                     </h4>
                                 </p>
                             </div>
