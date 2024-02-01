@@ -45,6 +45,11 @@ class Account(db.Model):
     currency: Mapped[str]
     symbol: Mapped[str]
 
+    @property
+    def get_balance(self, balance = 0):
+        self.balance = balance
+        return self.balance
+
 
 class Transaction(db.Model):
     id: Mapped[int] = mapped_column(primary_key=True)
