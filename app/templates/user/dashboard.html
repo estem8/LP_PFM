@@ -37,7 +37,7 @@ Dashboard page
                                     <p class="mb-2">
                                         <h4 class="mb-2 text-success">
                                             {% if accounts %}
-                                                {{ accounts[0].get_balance }} {{ accounts[0].currency}}
+                                                {{ accounts[0].balance }} {{ accounts[0].currency}}
                                             {% else %}
                                                 Нет созданных счетов
                                             {% endif %}
@@ -82,7 +82,7 @@ Dashboard page
                                     </th>
                                     <td>{{ account.name }}</td>
                                     <td>{{ account.currency }}</td>
-                                    <td>{{ account.get_balance }}</td>
+                                    <td>{{ account.balance }}</td>
                                     </tr>
                                 {% endfor %}    
                             {% else %}
