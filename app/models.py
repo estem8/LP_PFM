@@ -46,8 +46,9 @@ class Account(db.Model):
     symbol: Mapped[str]
 
     @property
-    def get_balance(self):
-        return 0
+    def get_balance(self, balance = 0):
+        self.balance = balance
+        return self.balance
 
 
 class Transaction(db.Model):
