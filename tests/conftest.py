@@ -2,7 +2,10 @@ from datetime import date, timedelta
 
 import pytest
 
+from flask.testing import FlaskClient
+
 from app import create_app, db
+from app.crud import create_user, delete_obj
 from app.models import Transaction
 
 
@@ -11,7 +14,17 @@ SQLALCHEMY_DATABASE_URI = 'sqlite://'
 
 @pytest.fixture(scope='session')
 def app():
-    return create_app({'SQLALCHEMY_DATABASE_URI': SQLALCHEMY_DATABASE_URI})
+    return create_app(
+        {
+            'SQLALCHEMY_DATABASE_URI': SQLALCHEMY_DATABASE_URI,
+            'TESTING': True,
+            'DEBUG': True,
+            'SERVER_NAME': '0.0.0.0:5000',
+            'SECRET_KEY': 'test_secret_key',
+            'WTF_CSRF_ENABLED': False,
+            'REMEMBER_COOKIE_DURATION': timedelta(days=1),
+        }
+    )
 
 
 @pytest.fixture(autouse=True)
@@ -28,7 +41,6 @@ def app_ctx(app):
     params=[
         {'login': 'testuser', 'password': 'testpassword', 'email': 'test@mail'},
         {'login': 'testuser1', 'password': 'testpassword', 'email': 'test@mail'},
-        {'login': 'testuser', 'password': 'testpassword', 'email': 'test1@mail'},
     ]
 )
 def user_data_create(request) -> dict:
@@ -81,3 +93,16 @@ def transaction_data_create(request) -> dict:
 )
 def transaction_data_update(request) -> dict:
     return request.param
+
+
+@pytest.fixture()
+def user_data(app, user_data_create):
+    user = create_user(user_data_create)
+    yield user, user_data_create
+    delete_obj(user)
+
+
+@pytest.fixture()
+def client(app) -> FlaskClient:
+    with app.test_client() as app_client:
+        yield app_client

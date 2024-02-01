@@ -1,7 +1,7 @@
-<nav class="navbar navbar-dark navbar-expand-lg" style="background-color: #344850;">
+<nav class="navbar navbar-dark navbar-expand-lg  justify-content-center" style="background-color: #344850;">
     <div class="container-fluid">
-        <a class="navbar-brand" href="{{ url_for('index') }}">
-            <img src="/static/img/LOGO2.png" alt="логотип" width="45">
+        <a class="navbar-brand" href="#">
+            <img src="{{ url_for('static', filename='img/LOGO2.png') }}" alt="Тут логотип" width="45">
         </a>
         <button class="navbar-toggler" type="button" data-bs-toggle=""
             data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
@@ -18,8 +18,32 @@
             <ul class="navbar-nav me-auto mb-2 mb-lg-0 top-menu">
                 {% if current_user.is_authenticated %}
                 <li class="nav-item">
+
                     <a class="nav-link" href="{{ url_for('account.get_create_page') }}">Управление балансом</a></li>
+                    <a class="nav-link" href="{{ url_for('user.dashboard') }}">
+                        <img src="{{ url_for('static', filename='svgs/house-chimney-user.svg') }}" alt="Профиль" width="20">
+                        Мой профиль
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">
+                        <img src="{{ url_for('static', filename='svgs/chart-bar.svg') }}" alt="Транзакции" width="20">
+                    Транзакции
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">
+                        <img src="{{ url_for('static', filename='svgs/chart-pie.svg') }}" alt="Отчёты" width="20">
+                    Отчёты
+                    </a>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link" href="{{ url_for('edit.account_editor') }}">Редактирование</a>
+                </li>
+                {% else %}
+                <li class="nav-item">
+                    <a class="nav-link" href="/">Домашняя</a>
+                </li>
                 {% endif %}
             </ul>
 
@@ -46,7 +70,6 @@
                         <li><a class="dropdown-item" href="{{ url_for('user.login') }}">Авторизация</a></li>
                         <li><a class="dropdown-item" href="{{ url_for('user.signup') }}">Регистрация</a></li>
                         {% endif %}
-
                     </ul>
                 </li>
             </ul>

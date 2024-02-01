@@ -40,7 +40,7 @@ def create_app(test_config=None):
     @app.route('/')
     def index():
         if current_user.is_authenticated:
-            return redirect(url_for('lk.get_lk_page'))
+            return redirect(url_for('user.dashboard'))
         return render_template('index.html')
 
     return app

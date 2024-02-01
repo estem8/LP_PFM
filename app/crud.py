@@ -10,13 +10,19 @@ from app.models import Account, Transaction, User
 
 
 def create_user(data: dict[str, Any]) -> User:
-    user = db.session.execute(db.select(User).where(or_(User.login == data['login'], User.email == data['email'])))
+    user = db.session.execute(select(User).where(or_(User.login == data['login'], User.email == data['email'])))
     if user.first():
         raise UserAlreadyExistsError
     user = User(data)
     db.session.add(user)
     db.session.commit()
     return user
+
+
+def delete_obj(obj: db.Model) -> None:
+    db.session.delete(obj)
+    db.session.commit()
+    return
 
 
 def fetch_accounts(user: User) -> list[Account]:

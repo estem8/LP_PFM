@@ -7,12 +7,12 @@ body {
 	font-size: 16px;
 	font-weight: 400;
 	color: #000;
-	background-color: #fff;
+	background-color: #FFFAFA;
 	min-width: 320px;
 	position: relative;
-  	height: 100vh;
-  	display: flex;
-  	flex-direction: column;
+  height: 100vh;
+  display: flex; 
+  flex-direction: column;
 }
 
 img {
@@ -64,6 +64,22 @@ a:hover {
 
 /* Body */
 
+.card {
+	font-size: 16px;
+	color: #c8c8c8;
+	background-color: #344850;
+	margin-right: 0px;
+	margin-top: 5px;
+	margin-bottom: 5px;
+
+}
+
+
+.illustration-img {
+    max-width: 150px;
+    width: 100%;
+}
+
 .carousel-inner{
 display: flex;
 max-height: 500px;
@@ -74,6 +90,11 @@ max-height: 500px;
 	margin-top: 5px;
 	margin-bottom: 5px;
 }
+
+.image-svg {
+	fill: #FFFAFA;
+}
+
 /* Body */
 
 /* Footer */
