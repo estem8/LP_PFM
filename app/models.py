@@ -44,11 +44,11 @@ class Account(db.Model):
     name: Mapped[str]
     currency: Mapped[str]
     symbol: Mapped[str]
+    _balance = 0
 
     @property
-    def get_balance(self, balance = 0):
-        self.balance = balance
-        return self.balance
+    def balance(self):
+        return self._balance
 
 
 class Transaction(db.Model):
