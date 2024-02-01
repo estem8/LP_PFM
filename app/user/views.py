@@ -15,7 +15,7 @@ blueprint = Blueprint('user', __name__, url_prefix='/users')
 @blueprint.route('/login')
 def login():
     if current_user.is_authenticated:
-        return redirect(url_for('index'))
+        return redirect(url_for('user.dashboard'))
     title = 'Вход'
     login_form = LoginForm()
     return render_template('user/login.html', page_title=title, form=login_form)

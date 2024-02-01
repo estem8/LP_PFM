@@ -3,23 +3,15 @@
         <a class="navbar-brand" href="#">
             <img src="{{ url_for('static', filename='img/LOGO2.png') }}" alt="Тут логотип" width="45">
         </a>
-        <button class="navbar-toggler" type="button" data-bs-toggle=""
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
             data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
             aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>Редактирование
-        </button>
-        <button class="navbar-toggler" type="button" data-bs-toggle=""
-            data-bs-target="#navbarSupportedContentEdit" aria-controls="navbarSupportedContentEdit"
-                aria-expanded="false"
-            aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>Управление балансом
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0 top-menu">
                 {% if current_user.is_authenticated %}
                 <li class="nav-item">
-
-                    <a class="nav-link" href="{{ url_for('account.get_create_page') }}">Управление балансом</a></li>
                     <a class="nav-link" href="{{ url_for('user.dashboard') }}">
                         <img src="{{ url_for('static', filename='svgs/house-chimney-user.svg') }}" alt="Профиль" width="20">
                         Мой профиль
@@ -28,7 +20,7 @@
                 <li class="nav-item">
                     <a class="nav-link" href="#">
                         <img src="{{ url_for('static', filename='svgs/chart-bar.svg') }}" alt="Транзакции" width="20">
-                    Транзакции
+                    Счета
                     </a>
                 </li>
                 <li class="nav-item">
@@ -38,7 +30,10 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ url_for('edit.account_editor') }}">Редактирование</a>
+                    <a class="nav-link" href="{{ url_for('account.get_create_page') }}">
+                    <img src="{{ url_for('static', filename='svgs/file-circle-plus.svg') }}" alt="Отчёты" width="20">
+                    Редактирование
+                    </a>
                 </li>
                 {% else %}
                 <li class="nav-item">
@@ -58,7 +53,7 @@
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                         {% if current_user.is_authenticated %}
-                        <li><a class="dropdown-item" href="{{ url_for('user.profile') }}">
+                        <li><a class="dropdown-item" href="{{ url_for('user.dashboard') }}">
                             <i class="bi bi-person-badge-fill"></i>
                             Профиль:{{ current_user.login }}</a></li>
                         <li>

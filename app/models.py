@@ -1,3 +1,4 @@
+from decimal import Decimal
 from datetime import datetime
 
 from flask_login import UserMixin
@@ -38,12 +39,24 @@ class User(db.Model, UserMixin):
             setattr(self, key, value)
 
 
+class Currency(db.Model):
+    id: Mapped[int] = mapped_column(primary_key=True)
+    currency: Mapped[str]
+    abbreviation: Mapped[str]
+    symbol: Mapped[str]
+
+
+
 class Account(db.Model):
     id: Mapped[int] = mapped_column(primary_key=True)
     user_id: Mapped[int] = mapped_column(ForeignKey(User.id))
     name: Mapped[str]
-    currency: Mapped[str]
-    symbol: Mapped[str]
+    currency: Mapped[int] = mapped_column(ForeignKey(Currency.id))
+    _balance = 0
+
+    @property
+    def balance(self):
+        return self._balance
 
 
 class Transaction(db.Model):
@@ -51,7 +64,7 @@ class Transaction(db.Model):
     account_id_from: Mapped[int] = mapped_column(ForeignKey(Account.id))
     account_id_to: Mapped[int | None] = mapped_column(ForeignKey(Account.id), nullable=True)
     transaction_type: Mapped[str]
-    amount: Mapped[int]
+    amount: Mapped[Decimal]
     date: Mapped[datetime] = mapped_column(DateTime(timezone=True))
     comment: Mapped[str] = mapped_column(default='')
     created_at: Mapped[datetime] = mapped_column(default=datetime.utcnow)

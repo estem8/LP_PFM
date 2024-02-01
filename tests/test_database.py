@@ -1,7 +1,7 @@
 import pytest
 
 from app.common import UserAlreadyExistsError
-from app.crud import creat_account, create_transaction, create_user, update_transaction
+from app.crud import create_account, create_transaction, create_user, update_transaction
 
 
 def test_create_user(user_data_create: dict) -> None:
@@ -21,7 +21,7 @@ def test_duplicate_email(user_data_create_double: list[dict]) -> None:
 def test_account(user_data_create: dict, account_data_create: dict) -> None:
     user = create_user(user_data_create)
     account_data_create['user_id'] = user.id
-    account = creat_account(account_data_create)
+    account = create_account(account_data_create)
     assert account.id, 'Счет не был создан'
 
 
@@ -32,7 +32,7 @@ def test_transaction_create(
 ) -> None:
     user = create_user(user_data_create)
     account_data_create['user_id'] = user.id
-    account = creat_account(account_data_create)
+    account = create_account(account_data_create)
     transaction_data_create['account_id_from'] = account.id
     transaction = create_transaction(transaction_data_create)
     assert transaction.id, 'Транзакция не создана'
@@ -45,7 +45,7 @@ def test_transaction_update(
 ) -> None:
     user = create_user(user_data_create)
     account_data_create['user_id'] = user.id
-    account = creat_account(account_data_create)
+    account = create_account(account_data_create)
     transaction_data_create['account_id_from'] = account.id
     transaction = create_transaction(transaction_data_create)
     old_id = transaction.id
