@@ -29,8 +29,8 @@ def fetch_accounts(user: User) -> list[Account]:
     return db.session.execute(select(Account).where(Account.user_id == user.id)).scalars().all()
 
 
-def creat_account(data: dict[str, Any]) -> Account:
-    account = Account(**data)
+def create_account(data: dict[str, Any], user_id) -> Account:
+    account = Account(**data, user_id=user_id)
     db.session.add(account)
     db.session.commit()
     return account
