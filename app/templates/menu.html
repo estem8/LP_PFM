@@ -13,26 +13,26 @@
                 {% if current_user.is_authenticated %}
                 <li class="nav-item">
                     <a class="nav-link" href="{{ url_for('user.dashboard') }}">
-                        <img src="{{ url_for('static', filename='svgs/house-chimney-user.svg') }}" alt="Профиль" width="20"> 
+                        <i class="bi bi-person-badge-fill fs-5"></i>
                         Мой профиль
                     </a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#">
-                        <img src="{{ url_for('static', filename='svgs/chart-bar.svg') }}" alt="Транзакции" width="20">
-                    Счета
+                        <i class="bi bi-currency-exchange fs-5"></i> 
+                        Счета
                     </a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#">
-                        <img src="{{ url_for('static', filename='svgs/chart-pie.svg') }}" alt="Отчёты" width="20">
-                    Отчёты
+                        <i class="bi bi-pie-chart-fill fs-5"></i>
+                        Отчёты
                     </a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{{ url_for('edit.account_editor') }}">
-                    <img src="{{ url_for('static', filename='svgs/file-circle-plus.svg') }}" alt="Отчёты" width="20">
-                    Редактирование
+                        <i class="bi bi-pencil-square fs-5"></i>
+                        Редактирование
                     </a>    
                 </li>
                 {% else %}
@@ -46,19 +46,19 @@
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#">
                         {% if current_user.is_authenticated %}
-                        <i class="bi bi-person-down"></i>
+                        <i class="bi bi-person-down fs-5"></i>
                         {% else %}
-                        <i class="bi bi-person-plus-fill"></i>
+                        <i class="bi bi-person-plus-fill fs-5"></i>
                         {% endif %}
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                         {% if current_user.is_authenticated %}
                         <li><a class="dropdown-item" href="{{ url_for('user.dashboard') }}">
-                            <i class="bi bi-person-badge-fill"></i>
+                            <i class="bi bi-person-badge-fill fs-5"></i>
                             Профиль:{{ current_user.login }}</a></li>
                         <li>
                             <a class="dropdown-item" href="{{ url_for('user.logout') }}">
-                                <i class="bi bi-box-arrow-right"></i>
+                                <i class="bi bi-box-arrow-right fs-5"></i>
                                 Выйти</a>
                             </li>
                         {% else %}

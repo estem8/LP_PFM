@@ -75,8 +75,8 @@ a:hover {
 
 
 .illustration-img {
-	max-width: 150px;
-    /* width: 100%; */
+	max-width: 120px;
+    width: 100%;
 }
 
 .carousel-inner{
