@@ -39,20 +39,12 @@ class User(db.Model, UserMixin):
             setattr(self, key, value)
 
 
-class Currency(db.Model):
-    id: Mapped[int] = mapped_column(primary_key=True)
-    currency: Mapped[str]
-    abbreviation: Mapped[str]
-    symbol: Mapped[str]
-
-
-
 class Account(db.Model):
     id: Mapped[int] = mapped_column(primary_key=True)
     user_id: Mapped[int] = mapped_column(ForeignKey(User.id))
     name: Mapped[str]
-    currency: Mapped[int] = mapped_column(ForeignKey(Currency.id))
-    _balance = 0
+    currency: Mapped[str]
+    symbol: Mapped[str]
 
     @property
     def balance(self):

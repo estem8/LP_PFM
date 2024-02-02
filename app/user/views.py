@@ -43,7 +43,7 @@ def signup():
 def process_login():
     form = LoginForm()
     if form.validate_on_submit():
-        user = db.session.execute(db.select(User).filter_by(login=form.login.data)).scalar()
+        user = db.session.execute(select(User).filter_by(login=form.login.data)).scalar()
         if user and user.check_password(form.password.data):
             login_user(user, remember=form.remember_me.data, duration=current_app.config['REMEMBER_COOKIE_DURATION'])
             flash('Вы успешно авторизовались')

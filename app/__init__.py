@@ -5,7 +5,6 @@ from flask_login import LoginManager, current_user
 from app.account.views import blueprint as account_blueprint
 from app.database import db
 from app.edit.views import edit
-from app.lk.views import blueprint as lk_blueprint
 from app.transactions.views import blueprint as transaction_blueprint
 from app.user.views import blueprint as user_blueprint
 
@@ -22,7 +21,6 @@ def create_app(test_config=None):
 
     app.register_blueprint(account_blueprint)
     app.register_blueprint(edit)
-    app.register_blueprint(lk_blueprint)
     app.register_blueprint(transaction_blueprint)
     app.register_blueprint(user_blueprint)
 

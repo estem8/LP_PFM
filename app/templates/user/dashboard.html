@@ -9,6 +9,55 @@ Dashboard page
     <div class="container-fluid">
         <div class="row">
             <div class="col-12 col-md-6 d-flex">
+
+{#  +++++++   модальное окно для добавления транзакции ++++++++         #}
+           <div class="modal fade" id="transaction" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Enter Transaction Details</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+
+          <form>
+            <div class="mb-3">
+                <label>select account</label>
+                <select class="form-control">
+                  {% for account in accounts %}
+                    <option value={{ account.id }}>{{ account.name }}</option>
+                  {% endfor %}
+                </select>
+              </div>
+            <div class="mb-3">
+                <label>transaction type</label>
+                <select class="form-control">
+                <option>OUT</option>
+                <option>IN</option>
+                </select>
+              </div>
+            <div class="mb-3">
+                <label class="form-label">amount</label>
+                <input type="text" class="form-control" required>
+            </div>
+            <div class="mb-3">
+              <label for="accountName" class="form-label">comment</label>
+              <input type="text" class="form-control" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+
+
+    </div>
+      </div>
+    </div>
+  </div>
+
+{#  +++++++ конец модального окна добавления транзакции +++++++            #}
+
+
+
+
                 <div class="card flex-fill border-0 illustration">
                     <div class="card-body p-0 d-flex flex-fill">
                         <div class="row g-0 w-100">
@@ -69,22 +118,32 @@ Dashboard page
                                 <th scope="col">Название</th>
                                 <th scope="col">Валюта</th>
                                 <th scope="col">Баланс</th>
+                                <th scope="col">Кнопки добавления транзакций</th>
                             </tr>
                         </thead>
                          <tbody class="table-group-divider table-light">
                                 {% for account in accounts %}
                                     <tr>
                                     <th scope="row">
-                                        <a href="{{ url_for('edit.account_editor') }}"
-                                            style="position: absolute; width: 100%; left: 0px; height: 1.5em;">
-                                        </a>
+{#                                        <a href="{{ url_for('edit.account_editor') }}"#}
+{#                                            style="position: absolute; width: 100%; left: 0px; height: 1.5em;">#}
+{#                                        </a>#}
                                         {{ loop.index }}
                                     </th>
                                     <td>{{ account.name }}</td>
                                     <td>{{ account.currency }}</td>
                                     <td>{{ account.balance }}</td>
+                                    <td>
+{#      ++++++++   начало кнопки добавления транзакций +++++++++          #}
+                                            <div class="d-grid gap-2 col-4 mx-auto">
+          <button type="button" class="btn btn-primary btn-lg" data-bs-toggle="modal" data-bs-target="#transaction">
+          Open add transaction form
+          </button>
+      </div>
+{#      ++++++++   конец кнопки добавления транзакций +++++++++          #}
+                                    </td>
                                     </tr>
-                                {% endfor %}    
+                                {% endfor %}
                             {% else %}
                             <tr>
                                 <h4 class="m-3 text-warning">Счет не создан</h4>
