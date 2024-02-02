@@ -1,7 +1,6 @@
 from operator import or_
 from typing import Any
 
-from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import and_, select
 
 from app.common import UserAlreadyExistsError
@@ -31,6 +30,7 @@ def fetch_accounts(user: User) -> list[Account]:
 
 def create_account(name: str, user_id: int, currency: str, symbol=str,) -> Account:
     account = Account(name=name, user_id=user_id, currency=currency, symbol=symbol)
+
     db.session.add(account)
     db.session.commit()
     return account

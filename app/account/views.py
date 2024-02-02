@@ -6,6 +6,7 @@ from flask_login import current_user
 from app.account.forms import AccountForm
 from app.crud import create_account, fetch_account
 
+
 blueprint = Blueprint('account', __name__, url_prefix='/account')
 
 
@@ -27,11 +28,13 @@ def account_create():
     if account_exists.id:
         flash('The account already exists')
     else:
+
         create_account(
             name=account_form.name.data,
             user_id=current_user.id,
             currency=account_form.currency.data,
             symbol=account_form.symbol.data,
         )
+
         flash('The account has been successfully added')
     return redirect(url_for('account.get_create_page'))
