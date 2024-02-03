@@ -1,0 +1,21 @@
+{% extends 'user/modal_add_tr_forms/base_form_add.html' %}
+
+{% block modal_id %}
+<div class="modal fade" id="transaction_income" tabindex="-1" aria-labelledby="exampleModalLabel">
+{% endblock %}
+
+{% block form_add_title %}
+  Enter Income Transaction Details
+{% endblock %}
+
+{% block transaction_type %}
+  <input type="hidden" class="form-control" value="{{ transactions_type.INCOME.value }}" id="transaction_type"
+         name="transaction_type">
+{% endblock %}
+
+{% block amount %}
+  <label class="form-label" for="amount" style="color: {{ transaction_type_color.INCOME.value }}">income amount</label>
+  <input type="number" class="form-control" id="amount" name="amount" required min="0.01" step="0.01"
+         style="color: {{ transaction_type_color.INCOME.value }}">
+{% endblock %}
+

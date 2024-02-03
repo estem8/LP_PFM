@@ -1,6 +1,10 @@
-from flask import Flask, redirect, render_template, url_for
-from flask_login import LoginManager, current_user, login_required
+from datetime import date
 
+from flask import Flask, redirect, render_template, url_for
+from flask_login import LoginManager, current_user
+
+
+from app.account.views import blueprint as account_blueprint
 from app.database import db
 from app.edit.views import edit
 from app.transactions.views import blueprint as transaction_blueprint
@@ -17,6 +21,7 @@ def create_app(test_config=None):
         # load the test config if passed in
         app.config.from_mapping(test_config)
 
+    app.register_blueprint(account_blueprint)
     app.register_blueprint(edit)
     app.register_blueprint(transaction_blueprint)
     app.register_blueprint(user_blueprint)
@@ -26,6 +31,10 @@ def create_app(test_config=None):
     login_manager = LoginManager()
     login_manager.init_app(app)
     login_manager.login_view = 'user.login'
+
+    @app.context_processor
+    def inject_today_date():
+        return {'today_date': date.today()}
 
     from app.models import User
 
@@ -38,10 +47,5 @@ def create_app(test_config=None):
         if current_user.is_authenticated:
             return redirect(url_for('user.dashboard'))
         return render_template('index.html')
-
-    @app.route('/profile/')
-    @login_required
-    def profile():
-        return f'Профиль {current_user.login}'
 
     return app

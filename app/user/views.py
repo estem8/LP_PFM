@@ -1,11 +1,13 @@
-from flask import Blueprint, flash, redirect, render_template, request, url_for
+from flask import Blueprint, current_app, flash, redirect, render_template, request, url_for
 from flask_login import current_user, login_required, login_user, logout_user
 from sqlalchemy import select
 
 from app import db
-from app.common import UserAlreadyExistsError
+from app.common import UserAlreadyExistsError, TransactionsType
+from app.config import TransactionTypeColor
 from app.crud import create_user
 from app.models import Account, User
+from app.transactions.forms import TransactionForm
 from app.user.forms import LoginForm, RegistrationForm
 
 
@@ -35,7 +37,7 @@ def signup():
             return render_template('user/signup.html', page_title=title, form=reg_form)
         login_user(user)
         flash('Вы успешно зарегистрировались')
-        return redirect(url_for('index'))
+        return redirect(url_for('user.dashboard'))
     return render_template('user/signup.html', page_title=title, form=reg_form)
 
 
@@ -43,9 +45,9 @@ def signup():
 def process_login():
     form = LoginForm()
     if form.validate_on_submit():
-        user = db.session.execute(db.select(User).filter_by(login=form.login.data)).scalar()
+        user = db.session.execute(select(User).filter_by(login=form.login.data)).scalar()
         if user and user.check_password(form.password.data):
-            login_user(user, remember=form.remember_me.data)
+            login_user(user, remember=form.remember_me.data, duration=current_app.config['REMEMBER_COOKIE_DURATION'])
             flash('Вы успешно авторизовались')
             return redirect(url_for('user.dashboard'))
     flash('Неверный логин или пароль')
@@ -55,8 +57,13 @@ def process_login():
 @blueprint.route('/logout')
 def logout():
     logout_user()
-    flash('Вы успешно разлогинились')
     return redirect(url_for('index'))
+
+
+@blueprint.route('/profile/')
+@login_required
+def profile():
+    return f'Профиль {current_user.login}'
 
 
 @blueprint.route('/dashboard')
@@ -64,4 +71,11 @@ def logout():
 def dashboard():
     query = select(Account).where(Account.user_id == current_user.id)
     accounts = db.session.execute(query).scalars().all()
-    return render_template('user/dashboard.html', accounts=accounts)
+    transaction_form = TransactionForm()
+    return render_template(
+        'user/dashboard.html',
+        accounts=accounts,
+        transactions_type=TransactionsType,
+        form=transaction_form,
+        transaction_type_color=TransactionTypeColor,
+    )

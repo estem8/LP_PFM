@@ -1,3 +1,6 @@
+from enum import Enum
+
+
 class DataBaseUniqError(Exception):
     pass
 
@@ -8,3 +11,9 @@ class DoesNotExistsError(Exception):
 
 class UserAlreadyExistsError(Exception):
     pass
+
+
+class TransactionsType(Enum):
+    COSTS = '-'
+    INCOME = '+'
+    TRANSFER = '->'
