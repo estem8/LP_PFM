@@ -2,10 +2,11 @@ from decimal import Decimal
 from datetime import datetime
 
 from flask_login import UserMixin
-from sqlalchemy import DateTime, ForeignKey
+from sqlalchemy import DateTime, ForeignKey, Enum
 from sqlalchemy.orm import Mapped, mapped_column
 from werkzeug.security import check_password_hash, generate_password_hash
 
+from app.common import TransactionsType
 from app.database import db
 
 
@@ -55,7 +56,7 @@ class Transaction(db.Model):
     id: Mapped[int] = mapped_column(primary_key=True)
     account_id_from: Mapped[int] = mapped_column(ForeignKey(Account.id))
     account_id_to: Mapped[int | None] = mapped_column(ForeignKey(Account.id), nullable=True)
-    transaction_type: Mapped[str]
+    transaction_type: Mapped[Enum] = mapped_column(Enum(TransactionsType, native_enum=False, create_constraint=False))
     amount: Mapped[Decimal]
     date: Mapped[datetime] = mapped_column(DateTime(timezone=True))
     comment: Mapped[str] = mapped_column(default='')

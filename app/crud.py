@@ -1,6 +1,7 @@
 from operator import or_
 from typing import Any
 
+from flask_login import current_user
 from sqlalchemy import and_, select
 
 from app.common import UserAlreadyExistsError
@@ -36,25 +37,42 @@ def create_account(name: str, user_id: int, currency: str, symbol=str,) -> Accou
     return account
 
 
-def fetch_account(name: str, currency: str, user: User) -> Account:
-    account = Account(
-        name=name,
-        currency=currency,
-        user_id=user.id,
-    )
-    db.session.execute(
-        select(Account).where(
-            and_(
-                Account.user_id == user.id,
-                Account.name == name,
+def fetch_account(
+    account_name: str | None = None,
+    account_id: int | None = None,
+    user: User | None = None
+) -> Account:
+    if not any((account_id, account_name)):
+        raise Exception('account_id or account_name require')
+    user = user if user else current_user
+    if account_name:
+        return db.session.execute(
+            select(Account).where(
+                and_(
+                    Account.user_id == user.id,
+                    Account.name == account_name,
+                )
             )
-        )
-    )
-    return account
+        ).scalars().first()
+    return db.session.execute(
+            select(Account).where(
+                and_(
+                    Account.user_id == user.id,
+                    Account.id == account_id,
+                )
+            )
+        ).scalars().first()
 
 
 def create_transaction(transaction_data: dict[str, Any]) -> Transaction:
-    transaction = Transaction(**transaction_data)
+    transaction = Transaction(
+        account_id_from=transaction_data.get('account_id_from'),
+        account_id_to=transaction_data.get('account_id_to'),
+        transaction_type=transaction_data.get('transaction_type'),
+        amount=transaction_data.get('amount'),
+        date=transaction_data.get('date'),
+        comment=transaction_data.get('comment'),
+    )
     db.session.add(transaction)
     db.session.commit()
     return transaction

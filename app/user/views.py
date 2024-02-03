@@ -3,9 +3,11 @@ from flask_login import current_user, login_required, login_user, logout_user
 from sqlalchemy import select
 
 from app import db
-from app.common import UserAlreadyExistsError
+from app.common import UserAlreadyExistsError, TransactionsType
+from app.config import TransactionTypeColor
 from app.crud import create_user
 from app.models import Account, User
+from app.transactions.forms import TransactionForm
 from app.user.forms import LoginForm, RegistrationForm
 
 
@@ -69,4 +71,11 @@ def profile():
 def dashboard():
     query = select(Account).where(Account.user_id == current_user.id)
     accounts = db.session.execute(query).scalars().all()
-    return render_template('user/dashboard.html', accounts=accounts)
+    transaction_form = TransactionForm()
+    return render_template(
+        'user/dashboard.html',
+        accounts=accounts,
+        transactions_type=TransactionsType,
+        form=transaction_form,
+        transaction_type_color=TransactionTypeColor,
+    )

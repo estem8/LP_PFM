@@ -24,8 +24,8 @@ def account_create():
     if not account_form.validate():
         flash('Invalid input.')
         return redirect(url_for('account.get_create_page'))
-    account_exists = fetch_account(account_form.name.data, account_form.currency.data, current_user)
-    if account_exists.id:
+    account_exists = fetch_account(account_form.name.data)
+    if account_exists and account_exists.id:
         flash('The account already exists')
     else:
 

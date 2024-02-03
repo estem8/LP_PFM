@@ -1,159 +1,122 @@
 {% extends 'base.html' %}
 
+{% include 'user/modal_add_tr_forms/form_add_costs.html' %}
+{% include 'user/modal_add_tr_forms/form_add_income.html' %}
+{% include 'user/modal_add_tr_forms/form_add_transfer.html' %}
+
 {% block title %}
-Dashboard page
+  Dashboard page
 {% endblock %}
 
 {% block content_title %}
-<section>
+  <section>
     <div class="container-fluid">
-        <div class="row">
-            <div class="col-12 col-md-6 d-flex">
-
-{#  +++++++   модальное окно для добавления транзакции ++++++++         #}
-           <div class="modal fade" id="transaction" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title">Enter Transaction Details</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      <div class="row">
+        <div class="col-12 col-md-6 d-flex">
+          <div class="card flex-fill border-0 illustration">
+            <div class="card-body p-0 d-flex flex-fill">
+              <div class="row g-0 w-100">
+                <div class="col-md-8">
+                  <div class="p-3 m-1">
+                    <h5 class="mb-3 text-wrap">Добро пожаловать, {{ current_user.login }}</h5>
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <img src="{{ url_for('static', filename='img/man-user-color-icon.svg') }}"
+                       class="m-2 img-fluid rounded float-end illustration-img" alt="">
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
-        <div class="modal-body">
-
-          <form>
-            <div class="mb-3">
-                <label>select account</label>
-                <select class="form-control">
-                  {% for account in accounts %}
-                    <option value={{ account.id }}>{{ account.name }}</option>
-                  {% endfor %}
-                </select>
+        <div class="col-12 col-md-6 d-flex">
+          <div class="card flex-fill border-0 illustration">
+            <div class="card-body p-0 d-flex flex-fill">
+              <div class="row g-0 w-100">
+                <div class="col-md-8">
+                  <div class="p-3 m-1">
+                    <h4 class="mb-3">
+                      Баланс
+                    </h4>
+                    <p class="mb-2">
+                    <h4 class="mb-2 text-success">
+                      {% if accounts %}
+                        {{ accounts[0].balance }} {{ accounts[0].currency }}
+                      {% else %}
+                        Нет созданных счетов
+                      {% endif %}
+                    </h4>
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <img src="{{ url_for('static', filename='img/cash_icon-icons.com_51090.png') }}"
+                       class="img-fluid rounded float-end illustration-img" alt="">
+                </div>
               </div>
-            <div class="mb-3">
-                <label>transaction type</label>
-                <select class="form-control">
-                <option>OUT</option>
-                <option>IN</option>
-                </select>
-              </div>
-            <div class="mb-3">
-                <label class="form-label">amount</label>
-                <input type="text" class="form-control" required>
             </div>
-            <div class="mb-3">
-              <label for="accountName" class="form-label">comment</label>
-              <input type="text" class="form-control" required>
-            </div>
-            <button type="submit" class="btn btn-primary">Submit</button>
-        </form>
-
-
-    </div>
+          </div>
+        </div>
       </div>
-    </div>
-  </div>
-
-{#  +++++++ конец модального окна добавления транзакции +++++++            #}
-
-
-
-
-                <div class="card flex-fill border-0 illustration">
-                    <div class="card-body p-0 d-flex flex-fill">
-                        <div class="row g-0 w-100">
-                            <div class="col-md-8">
-                                <div class="p-3 m-1">
-                                    <h5 class="mb-3 text-wrap">Добро пожаловать, {{  current_user.login  }}</h5>
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <img src="{{ url_for('static', filename='img/man-user-color-icon.svg') }}"
-                                    class="m-2 img-fluid rounded float-end illustration-img" alt="">
-                            </div>
-                        </div>
-                    </div>
-                </div>
+      <div class="card border-0">
+        <div class="card-header">
+          <div class="row">
+            <div class="col-auto me-auto">
+              <h5 class="card-title">
+                Информация о счетах
+              </h5>
             </div>
-            <div class="col-12 col-md-6 d-flex">
-                <div class="card flex-fill border-0 illustration">
-                    <div class="card-body p-0 d-flex flex-fill">
-                        <div class="row g-0 w-100">
-                            <div class="col-md-8">
-                                <div class="p-3 m-1">
-                                    <h4 class="mb-3">
-                                        Баланс
-                                    </h4>
-                                    <p class="mb-2">
-                                        <h4 class="mb-2 text-success">
-                                            {% if accounts %}
-                                                {{ accounts[0].balance }} {{ accounts[0].currency}}
-                                            {% else %}
-                                                Нет созданных счетов
-                                            {% endif %}
-                                        </h4>
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <img src="{{ url_for('static', filename='img/cash_icon-icons.com_51090.png') }}"
-                                    class="img-fluid rounded float-end illustration-img" alt="">
-                            </div>
-                        </div>
-                    </div>
-                </div>
+            <div class="col-auto">
+              {#      ++++++++   начало кнопки добавления транзакций+++++++++          #}
+              <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal"
+                      data-bs-target="#transaction_costs">
+                Add costs transaction
+              </button>
+              <button type="button" class="btn btn-success btn-sm" data-bs-toggle="modal"
+                      data-bs-target="#transaction_income">
+                Add income transaction
+              </button>
+              <button type="button" class="btn btn-light btn-sm" data-bs-toggle="modal"
+                      data-bs-target="#transaction_transfer">
+                Add transfer transaction
+              </button>
+              {#      ++++++++   конец кнопки добавления транзакций +++++++++          #}
             </div>
-        </div>
-        <div class="card border-0">
-            <div class="card-header">
-                <h5 class="card-title">
-                    Информация о счетах
-                </h5>
-            </div>
-            {% if accounts %}
+          </div>
+
+          {% if accounts %}
             <div class="card-body">
-                <div class="table-responsive">
-                    <table class="table table-hover">
-                        <thead>
-                            <tr>
-                                <th scope="col">№</th>
-                                <th scope="col">Название</th>
-                                <th scope="col">Валюта</th>
-                                <th scope="col">Баланс</th>
-                                <th scope="col">Кнопки добавления транзакций</th>
-                            </tr>
-                        </thead>
-                         <tbody class="table-group-divider table-light">
-                                {% for account in accounts %}
-                                    <tr>
-                                    <th scope="row">
-{#                                        <a href="{{ url_for('edit.account_editor') }}"#}
-{#                                            style="position: absolute; width: 100%; left: 0px; height: 1.5em;">#}
-{#                                        </a>#}
-                                        {{ loop.index }}
-                                    </th>
-                                    <td>{{ account.name }}</td>
-                                    <td>{{ account.currency }}</td>
-                                    <td>{{ account.balance }}</td>
-                                    <td>
-{#      ++++++++   начало кнопки добавления транзакций +++++++++          #}
-                                            <div class="d-grid gap-2 col-4 mx-auto">
-          <button type="button" class="btn btn-primary btn-lg" data-bs-toggle="modal" data-bs-target="#transaction">
-          Open add transaction form
-          </button>
-      </div>
-{#      ++++++++   конец кнопки добавления транзакций +++++++++          #}
-                                    </td>
-                                    </tr>
-                                {% endfor %}
-                            {% else %}
-                            <tr>
-                                <h4 class="m-3 text-warning">Счет не создан</h4>
-                            </tr>
-                            {% endif %}
-                        </tbody>
-                    </table>
-                </div>
-            </div>
+            <div class="table-responsive">
+            <table class="table table-hover">
+            <thead>
+            <tr>
+              <th scope="col">№</th>
+              <th scope="col">Название</th>
+              <th scope="col">Валюта</th>
+              <th scope="col">Баланс</th>
+            </tr>
+            </thead>
+            <tbody class="table-group-divider table-light">
+            {% for account in accounts %}
+              <tr>
+                <th scope="row">
+                  {{ loop.index }}
+                </th>
+                <td>{{ account.name }}</td>
+                <td>{{ account.currency }}</td>
+                <td>{{ account.balance }}</td>
+
+              </tr>
+            {% endfor %}
+          {% else %}
+            <tr>
+              <h4 class="m-3 text-warning">Счет не создан</h4>
+            </tr>
+          {% endif %}
+          </tbody>
+          </table>
+          </div>
+          </div>
         </div>
-    </div>
-</section>
+      </div>
+  </section>
 {% endblock %}
