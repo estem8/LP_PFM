@@ -1,8 +1,8 @@
-from decimal import Decimal
 from datetime import datetime
+from decimal import Decimal
 
 from flask_login import UserMixin
-from sqlalchemy import DateTime, ForeignKey, Enum
+from sqlalchemy import DateTime, Enum, ForeignKey
 from sqlalchemy.orm import Mapped, mapped_column
 from werkzeug.security import check_password_hash, generate_password_hash
 

@@ -1,11 +1,14 @@
 from datetime import date, timedelta
+from http import HTTPStatus
 
 import pytest
+
 from flask.testing import FlaskClient
 
 from app import create_app, db
 from app.crud import create_user, delete_obj
 from app.models import Transaction
+
 
 SQLALCHEMY_DATABASE_URI = 'sqlite://'
 
@@ -33,10 +36,27 @@ def app_ctx(app):
             db.drop_all()
 
 
+@pytest.fixture
+def valid_user():
+    return {'login': 'testuser1', 'password': 'testpassword', 'email': 'test@test.com'}
+
+
+@pytest.fixture
+def invalid_user():
+    return {'login': 'testuser1', 'password': 'testpassword', 'email': 'test@test.test'}
+
+
 @pytest.fixture(
     params=[
-        {'login': 'testuser', 'password': 'testpassword', 'email': 'test@mail'},
-        {'login': 'testuser1', 'password': 'testpassword', 'email': 'test@mail'},
+        {
+            'sign_up_data': {'login': 'testuser1', 'password': 'testpassword', 'email': 'test@test.test'},
+            'result': {'status_code': HTTPStatus.OK, 'html_content': 'Invalid email address.'}
+        },
+        {
+            'sign_up_data': {'login': 'testuser1', 'password': 'testpassword', 'email': 'test@test.com'},
+            'result': {'status_code': HTTPStatus.FOUND,
+                       'html_content': '<a href="/users/dashboard">/users/dashboard</a>'}
+        }
     ]
 )
 def user_data_create(request) -> dict:
@@ -92,9 +112,9 @@ def transaction_data_update(request) -> dict:
 
 
 @pytest.fixture()
-def user_data(app, user_data_create):
-    user = create_user(user_data_create)
-    yield user, user_data_create
+def valid_user_data(app, valid_user):
+    user = create_user(valid_user)
+    yield user, valid_user
     delete_obj(user)
 
 

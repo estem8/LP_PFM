@@ -1,14 +1,9 @@
-import datetime
-
 from flask_wtf import FlaskForm
-from sqlalchemy import Enum
-
 from wtforms import StringField, SubmitField, validators
 from wtforms.fields.datetime import DateField
 from wtforms.fields.numeric import FloatField, IntegerField
 from wtforms.validators import DataRequired, ValidationError
 
-from app.common import TransactionsType
 from app.crud import fetch_account
 
 
@@ -26,7 +21,6 @@ def validate_account_exists_by_account_id(form, field):
     instance = fetch_account(account_id=field.data)
     if not instance:
         raise ValidationError('Не найден счет у текущего пользователя')
-
 
 
 class TransactionForm(FlaskForm):
