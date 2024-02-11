@@ -3,7 +3,7 @@ from flask_login import current_user, login_required, login_user, logout_user
 from sqlalchemy import select
 
 from app import db
-from app.common import UserAlreadyExistsError, TransactionsType
+from app.common import TransactionsType, UserAlreadyExistsError
 from app.config import TransactionTypeColor
 from app.crud import create_user
 from app.models import Account, User
