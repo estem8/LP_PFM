@@ -23,7 +23,8 @@ def test_post_signup(client, user_data_create):
             'password': sign_up_data['password'],
             'confirm_password': sign_up_data['password'],
             'email': sign_up_data['email'],
-        })
+        },
+    )
     assert response.status_code == user_data_create['result']['status_code']
     assert user_data_create['result']['html_content'] in response.data.decode('utf-8')
 
@@ -41,6 +42,7 @@ def test_post_login(client, valid_user_data):
         data={
             'login': user_data_dict['login'],
             'password': user_data_dict['password'],
-        })
+        },
+    )
     assert response.status_code == 302
     assert url_for('user.dashboard') in response.data.decode('utf-8')

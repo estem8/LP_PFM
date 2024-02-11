@@ -1,0 +1,34 @@
+<div class="modal fade" id="add_transaction" tabindex="-1" aria-labelledby="exampleModalLabel">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-body">
+        <form action="{{ url_for('transactions.add') }}" method="POST">
+          Enter Transaction Details
+          {{ form.hidden_tag() }}
+          <div class="mb-3">
+            <label class="form-label">{{ form.transaction_type.label }}</label>
+            {{ form.transaction_type(class="form-control") }}
+          </div>
+          <div class="mb-3">
+            <label class="form-label">{{ form.account_id.label }}</label>
+            {{ form.account_id(class="form-control") }}
+          </div>
+          <div class="mb-3">
+            <label class="form-label">{{ form.amount.label }}</label>
+            {{ form.amount(class="form-control")}}
+          </div>
+          <div class="mb-3">
+            <label class="form-label">{{ form.date.label }}</label>
+            {{ form.date(class="form-control") }}
+          </div>
+          <div class="mb-3">
+            <label class="form-label">{{ form.comment.label }}</label>
+            {{ form.comment(class="form-control") }}
+          </div>
+          {{ form.submit(class="btn btn-primary") }}
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+

@@ -1,8 +1,8 @@
 from flask import Blueprint, flash, redirect, url_for
-from flask_login import login_required
+from flask_login import current_user, login_required
 from sqlalchemy.exc import DatabaseError
 
-from app.crud import create_transaction
+from app.crud import create_transaction, fetch_accounts
 from app.transactions.forms import TransactionForm
 
 
@@ -13,6 +13,7 @@ blueprint = Blueprint('transactions', __name__, url_prefix='/transactions')
 @blueprint.post('/add')
 def add():
     form = TransactionForm()
+    form.account_id.choices = [(acc.id, acc.name) for acc in fetch_accounts(current_user)]
     if form.validate_on_submit():
         try:
             create_transaction(form.data)

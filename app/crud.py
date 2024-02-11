@@ -29,7 +29,12 @@ def fetch_accounts(user: User) -> list[Account]:
     return db.session.execute(select(Account).where(Account.user_id == user.id)).scalars().all()
 
 
-def create_account(name: str, user_id: int, currency: str, symbol=str,) -> Account:
+def create_account(
+    name: str,
+    user_id: int,
+    currency: str,
+    symbol=str,
+) -> Account:
     account = Account(name=name, user_id=user_id, currency=currency, symbol=symbol)
 
     db.session.add(account)
@@ -37,37 +42,40 @@ def create_account(name: str, user_id: int, currency: str, symbol=str,) -> Accou
     return account
 
 
-def fetch_account(
-    account_name: str | None = None,
-    account_id: int | None = None,
-    user: User | None = None
-) -> Account:
+def fetch_account(account_name: str | None = None, account_id: int | None = None, user: User | None = None) -> Account:
     if not any((account_id, account_name)):
         raise Exception('account_id or account_name require')
     user = user if user else current_user
     if account_name:
-        return db.session.execute(
-            select(Account).where(
-                and_(
-                    Account.user_id == user.id,
-                    Account.name == account_name,
+        return (
+            db.session.execute(
+                select(Account).where(
+                    and_(
+                        Account.user_id == user.id,
+                        Account.name == account_name,
+                    )
                 )
             )
-        ).scalars().first()
-    return db.session.execute(
+            .scalars()
+            .first()
+        )
+    return (
+        db.session.execute(
             select(Account).where(
                 and_(
                     Account.user_id == user.id,
                     Account.id == account_id,
                 )
             )
-        ).scalars().first()
+        )
+        .scalars()
+        .first()
+    )
 
 
 def create_transaction(transaction_data: dict[str, Any]) -> Transaction:
     transaction = Transaction(
-        account_id_from=transaction_data.get('account_id_from'),
-        account_id_to=transaction_data.get('account_id_to'),
+        account_id=transaction_data.get('account_id'),
         transaction_type=transaction_data.get('transaction_type'),
         amount=transaction_data.get('amount'),
         date=transaction_data.get('date'),

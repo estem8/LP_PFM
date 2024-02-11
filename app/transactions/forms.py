@@ -1,9 +1,11 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField, validators
+from wtforms.fields.choices import SelectField
 from wtforms.fields.datetime import DateField
-from wtforms.fields.numeric import FloatField, IntegerField
+from wtforms.fields.numeric import FloatField
 from wtforms.validators import DataRequired, ValidationError
 
+from app.common import TransactionsType
 from app.crud import fetch_account
 
 
@@ -24,20 +26,12 @@ def validate_account_exists_by_account_id(form, field):
 
 
 class TransactionForm(FlaskForm):
-    account_id_from = IntegerField(
-        'Счет',
-        [validate_account_exists_by_account_id],
-        render_kw={'class': 'form-control'},
-    )
-    account_id_to = IntegerField(
-        'Счет',
-        [validate_account_exists_by_account_id],
-        render_kw={'class': 'form-control'}
-    )
-    transaction_type = StringField(
+    account_id = SelectField('Счет', render_kw={'class': 'form-control'}, coerce=int)
+    transaction_type = SelectField(
         'Тип операции',
         [DataRequired()],
-        render_kw={'class': 'form-control'},
+        choices=[(tr.value, tr.name) for tr in TransactionsType],
+        render_kw={'class': 'form-control hidden'},
     )
     amount = FloatField('Сумма', [DataRequired()], render_kw={'class': 'form-control'})
     date = DateField('Дата операции', [DataRequired()], render_kw={'class': 'form-control'})

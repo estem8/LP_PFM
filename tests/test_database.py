@@ -33,7 +33,7 @@ def test_transaction_create(
     user = create_user(user_data_create)
     account_data_create['user_id'] = user.id
     account = create_account(account_data_create)
-    transaction_data_create['account_id_from'] = account.id
+    transaction_data_create['account_id'] = account.id
     transaction = create_transaction(transaction_data_create)
     assert transaction.id, 'Транзакция не создана'
 
@@ -46,7 +46,7 @@ def test_transaction_update(
     user = create_user(user_data_create)
     account_data_create['user_id'] = user.id
     account = create_account(account_data_create)
-    transaction_data_create['account_id_from'] = account.id
+    transaction_data_create['account_id'] = account.id
     transaction = create_transaction(transaction_data_create)
     old_id = transaction.id
     old_comment = transaction.comment
