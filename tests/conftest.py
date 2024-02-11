@@ -15,15 +15,17 @@ SQLALCHEMY_DATABASE_URI = 'sqlite://'
 
 @pytest.fixture(scope='session')
 def app():
-    return create_app({
-        'SQLALCHEMY_DATABASE_URI': SQLALCHEMY_DATABASE_URI,
-        'TESTING': True,
-        'DEBUG': True,
-        'SERVER_NAME': '0.0.0.0:5000',
-        'SECRET_KEY': 'test_secret_key',
-        'WTF_CSRF_ENABLED': False,
-        'REMEMBER_COOKIE_DURATION': timedelta(days=1),
-    })
+    return create_app(
+        {
+            'SQLALCHEMY_DATABASE_URI': SQLALCHEMY_DATABASE_URI,
+            'TESTING': True,
+            'DEBUG': True,
+            'SERVER_NAME': '0.0.0.0:5000',
+            'SECRET_KEY': 'test_secret_key',
+            'WTF_CSRF_ENABLED': False,
+            'REMEMBER_COOKIE_DURATION': timedelta(days=1),
+        }
+    )
 
 
 @pytest.fixture(autouse=True)
@@ -50,13 +52,15 @@ def invalid_user():
     params=[
         {
             'sign_up_data': {'login': 'testuser1', 'password': 'testpassword', 'email': 'test@test.test'},
-            'result': {'status_code': HTTPStatus.OK, 'html_content': 'Invalid email address.'}
+            'result': {'status_code': HTTPStatus.OK, 'html_content': 'Invalid email address.'},
         },
         {
             'sign_up_data': {'login': 'testuser1', 'password': 'testpassword', 'email': 'test@test.com'},
-            'result': {'status_code': HTTPStatus.FOUND,
-                       'html_content': '<a href="/users/dashboard">/users/dashboard</a>'}
-        }
+            'result': {
+                'status_code': HTTPStatus.FOUND,
+                'html_content': '<a href="/users/dashboard">/users/dashboard</a>',
+            },
+        },
     ]
 )
 def user_data_create(request) -> dict:
@@ -122,4 +126,3 @@ def valid_user_data(app, valid_user):
 def client(app) -> FlaskClient:
     with app.test_client() as app_client:
         yield app_client
-

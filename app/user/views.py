@@ -5,8 +5,8 @@ from sqlalchemy import select
 from app import db
 from app.common import TransactionsType, UserAlreadyExistsError
 from app.config import TransactionTypeColor
-from app.crud import create_user
-from app.models import Account, User
+from app.crud import create_user, fetch_accounts
+from app.models import User
 from app.transactions.forms import TransactionForm
 from app.user.forms import LoginForm, RegistrationForm
 
@@ -69,9 +69,9 @@ def profile():
 @blueprint.route('/dashboard')
 @login_required
 def dashboard():
-    query = select(Account).where(Account.user_id == current_user.id)
-    accounts = db.session.execute(query).scalars().all()
+    accounts = fetch_accounts(current_user)
     transaction_form = TransactionForm()
+    transaction_form.account_id.choices = [(acc.id, acc.name) for acc in accounts]
     return render_template(
         'user/dashboard.html',
         accounts=accounts,

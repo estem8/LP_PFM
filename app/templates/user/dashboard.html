@@ -1,8 +1,6 @@
 {% extends 'base.html' %}
 
-{% include 'user/modal_add_tr_forms/form_add_costs.html' %}
-{% include 'user/modal_add_tr_forms/form_add_income.html' %}
-{% include 'user/modal_add_tr_forms/form_add_transfer.html' %}
+{% include 'user/form_add_transaction.html' %}
 
 {% block title %}
   Dashboard page
@@ -66,20 +64,10 @@
               </h5>
             </div>
             <div class="col-auto">
-              {#      ++++++++   начало кнопки добавления транзакций+++++++++          #}
               <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal"
-                      data-bs-target="#transaction_costs">
-                Add costs transaction
+                      data-bs-target="#add_transaction">
+                Add transaction
               </button>
-              <button type="button" class="btn btn-success btn-sm" data-bs-toggle="modal"
-                      data-bs-target="#transaction_income">
-                Add income transaction
-              </button>
-              <button type="button" class="btn btn-light btn-sm" data-bs-toggle="modal"
-                      data-bs-target="#transaction_transfer">
-                Add transfer transaction
-              </button>
-              {#      ++++++++   конец кнопки добавления транзакций +++++++++          #}
             </div>
           </div>
 

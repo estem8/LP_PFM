@@ -54,8 +54,7 @@ class Account(db.Model):
 
 class Transaction(db.Model):
     id: Mapped[int] = mapped_column(primary_key=True)
-    account_id_from: Mapped[int] = mapped_column(ForeignKey(Account.id))
-    account_id_to: Mapped[int | None] = mapped_column(ForeignKey(Account.id), nullable=True)
+    account_id: Mapped[int] = mapped_column(ForeignKey(Account.id))
     transaction_type: Mapped[Enum] = mapped_column(Enum(TransactionsType, native_enum=False, create_constraint=False))
     amount: Mapped[Decimal]
     date: Mapped[datetime] = mapped_column(DateTime(timezone=True))

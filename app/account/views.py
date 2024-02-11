@@ -28,7 +28,6 @@ def account_create():
     if account_exists and account_exists.id:
         flash('The account already exists')
     else:
-
         create_account(
             name=account_form.name.data,
             user_id=current_user.id,

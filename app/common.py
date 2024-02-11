@@ -16,4 +16,3 @@ class UserAlreadyExistsError(Exception):
 class TransactionsType(Enum):
     COSTS = '-'
     INCOME = '+'
-    TRANSFER = '->'
